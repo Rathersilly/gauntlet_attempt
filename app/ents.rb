@@ -109,8 +109,9 @@ end
 
 class Ent
   attr_accessor :x,:y, :destx,:desty,:speed
-  def initialize(x,y,image =  'sprites/circle/blue.png', destx=nil,desty=nil,speed=4)
-    @image = image
+  #def initialize(x,y,image =  'sprites/circle/blue.png', destx=nil,desty=nil,speed=4)
+  def initialize(x,y,path = 'sprites/misc/dragon-0.png', destx=nil,desty=nil,speed=4)
+    @path = path
     @x = x
     @y = y
     @speed = speed
@@ -127,13 +128,27 @@ class Ent
     end
       @angle ||= [@x,@y].angle_to([@destx,@desty])
   end
+  def set_angle angle
+    # not needed?
+    # thought i might need to set dest here
+    #@angle = angle
+  end
   def calc
   end
 
   def draw args
-    args.outputs.sprites << [x,y,20,20,@image]
+    if @angle > 270 || @angle < 90
+      flip_v = false
+    else
+      flip_v = true
+    end
+    args.outputs.sprites << {x:@x,y:@y,w:20,h:20,path: @path, flip_v: flip_v}
 
   end
+end
+
+class Dragon < Ent
+
 end
 
 class Bullet < Ent
@@ -147,7 +162,19 @@ class Bullet < Ent
   end
 
   def draw args
-    args.outputs.sprites << [@x,@y,50,50,@image]
+    if @angle > 270 || @angle < 90
+      flip_v = false
+    else
+      flip_v = true
+    end
+    if @angle > 270 || @angle < 90
+      flip_h = true
+    else
+      flip_h = false
+    end
+    #args.outputs.sprites << [@x,@y,50,50,@path, @angle]
+    args.outputs.sprites << {x:@x,y:@y,w:50,h:50,path: @path, angle: @angle, flip_vertically: flip_v}
   end
 end
+
 

@@ -10,6 +10,7 @@ Green = colorhex('2a9d8f')
 Yellow = colorhex('e9c46a')
 Orange = colorhex('f4a261')
 Red = colorhex('e76f51')
+Colors = [Darkblue,Green,Yellow,Orange,Red]
 
 Gsize = 80        # size of squares in game grid
 
