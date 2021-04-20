@@ -4,29 +4,35 @@ class Game
   attr_accessor :args, :grid, :inputs, :outputs, :state
   def defaults
     state.guy ||= Ent.new(x:200,y: 720/2,w:80,h:80,
-                          path: 'sprites/misc/dragon-0.png', speed: 10)
+                          path: 'sprites/sylph.png', speed: 10)
     state.enemy ||= Ent.new(x:1100,y: 720/2,w:150,h:150,
-                            path: 'sprites/hexagon/green.png')
-    state.ents ||= []
+                            path: 'sprites/fire-dragon.png',
+                            flip_h: true)
+    state.bad_ents ||= []
+    state.good_ents ||= []
+    state.explosions ||= []
     state.burst_timer_max ||= 60
     state.burst_timer ||= 120
-    state.background_color ||= [200,100,100]#[0,0,0]
+    state.background_color ||= [200,100,100]
     state.new_background_color ||= [0,0,0]
+    state.invincible_length ||= 60
   end
-;
+
   def tick
     defaults
     render
     calc
     cleanup
     input
-
+s
   end
 
   def render
     render_background
     render_guys
 
+    outputs.labels << [300,680,"HITPOINTS: #{state.guy.hp}",5]
+    outputs.labels << [300,640,"STATUS: #{state.guy.status}",5]
   end
   def render_background
     while state.new_background_color == state.background_color
@@ -46,11 +52,20 @@ class Game
   def render_guys
     state.guy.draw args
     state.enemy.draw args
-    state.ents.each {|ent| ent.draw args}
+    state.bad_ents.each {|ent| ent.draw args}
+    state.good_ents.each {|ent| ent.draw args}
+    state.explosions.each do |exp|
+      exp[:path] =  "sprites/fire-burst-small-#{exp[:age].floor}.png"
+      outputs.sprites << exp
+    end
 
   end
   def calc
-    state.ents.each {|ent| ent.calc}
+    state.bad_ents.each {|ent| ent.calc}
+    state.good_ents.each {|ent| ent.calc}
+    state.explosions.each do |exp|
+      exp[:age] += 0.25
+    end
     state.guy.calc
     if state.burst_timer == 0
       state.burst_timer = state.burst_timer_max
@@ -58,13 +73,36 @@ class Game
     else
       state.burst_timer -= 1
     end
+    check_collision
     
+  end
+  def check_collision
+    state.bad_ents.each do |ent|
+      if ent.rect.intersect_rect? state.guy.hitbox
+        if state.guy.status == :normal
+          state.guy.hp -= 1
+          state.guy.status = :invincible
+        end
+
+        state.guy.invincible_timer = state.invincible_length
+        ent.status = :remove
+        state.explosions << {x:ent.x,y:ent.y,w:30,h:30,path: "sprites/fire-burst-small-1.png",age:1}
+      end
+
+    end
   end
 
   def cleanup
-    state.ents = state.ents.reject do |ent|
-      ent.x < 0 || ent.x > 1280 ||ent.y < 0 || ent.y > 720
+    state.bad_ents = state.bad_ents.reject do |ent|
+      ent.x < 0 || ent.x > 1280 ||ent.y < 0 || ent.y > 720 || ent.status == :remove
     end
+    state.good_ents = state.good_ents.reject do |ent|
+      ent.x < 0 || ent.x > 1280 ||ent.y < 0 || ent.y > 720|| ent.status == :remove
+    end
+    state.explosions.reject! do |exp|
+      exp[:age] > 8
+    end
+
   end
 
   def burst
@@ -72,18 +110,18 @@ class Game
      angle = i*22.5 + 90 + rand(22)
 
 
-     new_bullet = Bullet.new({x:state.enemy.x,y: state.enemy.y})
+     new_bullet = Bullet.new({x:state.enemy.x,y: state.enemy.y, path: 'sprites/fire-burst-small-2.png'})
      new_bullet.angle = angle
 
-     state.ents << new_bullet
+     state.bad_ents << new_bullet
    end
   end
 
   def input
     if inputs.mouse.down
-      new_bullet = Bullet.new(x:state.guy.x,y:state.guy.y)
+      new_bullet = Bullet.new(x:state.guy.x,y:state.guy.y,path: 'sprites/icemissile-ne-2.png' )
       new_bullet.set_dest(*inputs.mouse.point)
-      state.ents << new_bullet
+      state.good_ents << new_bullet
       #state.ents << Bullet.new(*inputs.mouse.down.point)
       #puts state.ents
       #puts inputs.mouse.down.point
