@@ -3,17 +3,17 @@ require '/app/ents.rb'
 class Game
   attr_accessor :args, :grid, :inputs, :outputs, :state
   def defaults
-    state.guy ||= Guy.new(position: {x:1,y: 4},
-                          name: "Boris",sprite: 'sprites/misc/dragon-0.png')
-    state.enemy ||= Guy.new(position: {x:12,y: 4},
-                            name: "fhjksdfhaj",sprite: 'sprites/hexagon/green.png')
+    state.guy ||= Ent.new(x:200,y: 720/2,w:80,h:80,
+                          path: 'sprites/misc/dragon-0.png', speed: 10)
+    state.enemy ||= Ent.new(x:1100,y: 720/2,w:150,h:150,
+                            path: 'sprites/hexagon/green.png')
     state.ents ||= []
     state.burst_timer_max ||= 60
     state.burst_timer ||= 120
     state.background_color ||= [200,100,100]#[0,0,0]
     state.new_background_color ||= [0,0,0]
   end
-
+;
   def tick
     defaults
     render
@@ -51,12 +51,14 @@ class Game
   end
   def calc
     state.ents.each {|ent| ent.calc}
+    state.guy.calc
     if state.burst_timer == 0
       state.burst_timer = state.burst_timer_max
       burst
     else
       state.burst_timer -= 1
     end
+    
   end
 
   def cleanup
@@ -70,7 +72,7 @@ class Game
      angle = i*22.5 + 90 + rand(22)
 
 
-     new_bullet = Bullet.new(state.enemy.x*Gsize + Gsize/2,state.enemy.y*Gsize)
+     new_bullet = Bullet.new({x:state.enemy.x,y: state.enemy.y})
      new_bullet.angle = angle
 
      state.ents << new_bullet
@@ -79,24 +81,24 @@ class Game
 
   def input
     if inputs.mouse.down
-      new_bullet = Bullet.new(state.guy.x*Gsize + Gsize,state.guy.y*Gsize)
+      new_bullet = Bullet.new(x:state.guy.x,y:state.guy.y)
       new_bullet.set_dest(*inputs.mouse.point)
       state.ents << new_bullet
       #state.ents << Bullet.new(*inputs.mouse.down.point)
-      puts state.ents
-      puts inputs.mouse.down.point
+      #puts state.ents
+      #puts inputs.mouse.down.point
     end
     if inputs.keyboard.key_held.w
-      args.state.guy.y += 1
+      state.guy.y += state.guy.speed
     end
     if inputs.keyboard.key_held.a
-      args.state.guy.x -= 1
+      state.guy.x -=  state.guy.speed
     end
     if inputs.keyboard.key_held.s
-      args.state.guy.y -= 1
+      state.guy.y -= state.guy.speed
     end
     if inputs.keyboard.key_held.d
-      args.state.guy.x += 1
+      state.guy.x +=  state.guy.speed
     end
   end
 end
