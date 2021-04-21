@@ -14,7 +14,7 @@ end
 
 class Ent
   attr_accessor :x,:y, :w,:h,:speed,:color,:angle, :status, :hp, :hitbox
-  attr_accessor :invincible_timer
+  attr_accessor :invincible_timer, :invincible_length, :anim_state, :anim,:anims
 
   def initialize(*traits)
     #p traits
@@ -33,22 +33,28 @@ class Ent
       @flip_v = traits[0][:flip_v]
       @speed ||= 6
       @status ||= :normal
+      @invincible_length ||= 60
       @invincible_timer ||=0
-      @hp ||= 10
-      @flip_v ||= false
-      @flip_h ||= false
-      #@angle ||= 0
+      @hp               ||= 10
+      @flip_v           ||= false
+      @flip_h           ||= false
+
+      @anim_state         ||= :idle
+      @anims            ||= {}
+      @anims[:idle] = Anim.new(name: :idle,path: @path)
+      @anims[:attack] = Anim.new(name: :attack)#,path: @path)
+      @anim = @anims[@anim_state]
       
+
+      #@angle ||= 0
       #@hitbox ||= Rect.new(@x,@y,
       #@hitbox = I#
-      
-    #elsif traits.size > 1
-
-
-    @w ||= 100
+      #elsif traits.size > 1      # was going to give option to init as array
     end
+    @w ||= 100
     @h ||= 100
     @path ||= 'sprites/misc/dragon-0.png'
+    @anims ||= Anim.new(name: :idle,path: @path)
     @color ||= Green
     @border ||= Darkblue
   end
@@ -64,7 +70,7 @@ class Ent
       @destx = dest[0]
       @desty = dest[1]
     end
-      @angle ||= [@x,@y].angle_to([@destx,@desty])
+    @angle ||= [@x,@y].angle_to([@destx,@desty])
   end
 
   def calc
@@ -79,6 +85,37 @@ class Ent
   end
 
   def draw args
+    args.outputs.labels << [100,680,"anim_state: #{@anim_state}",2]
+    if @anim_state == :idle
+      draw_old args
+      return
+    end
+    @anim = @anims[@anim_state]
+    @anim.cur_time += 1
+    if @anim.cur_time == @anim.max_time
+      @anim.reset
+      @anim_state = :idle
+    end
+    if @anim_state == :idle
+      draw_old args
+      return
+    end
+    if @anim.cur_time != 0 && anim.cur_time % @anim.timesperframe == 0
+      @anim.frame_index += 1
+    end
+    args.outputs.labels << [100,650,"frame_index: #{@anim.frame_index}",2]
+    args.outputs.labels << [100,620,"cur_time: #{@anim.cur_time}",2]
+    args.outputs.labels << [100,590,"max_time: #{@anim.max_time}",2]
+    puts @anim.frame_index
+
+    args.outputs.sprites << {x:@x,y:@y,w:@h,h: @h,path: @anim.frames[@anim.frame_index],
+                             flip_vertically: @flip_v,
+                             flip_horizontally: @flip_h}
+    args.outputs.sprites << @hitbox
+
+  end
+
+  def draw_old args
     args.outputs.sprites << {x:@x,y:@y,w:@h,h: @h,path: @path,
                              flip_vertically: @flip_v,
                              flip_horizontally: @flip_h}
@@ -91,6 +128,29 @@ class Ent
     \tx: #{@x}
     \ty: #{@y}
     \tcolor: #{@color}\n"
+  end
+
+end
+
+class Anim
+  attr_accessor :path, :max_time,:cur_time,:frame_time,:timesperframe,:cur_frame,:frames
+  attr_accessor :frame_index
+  def initialize(args)
+    @path = args[:path]
+    @cur_time =0
+    #@frame_time = 3
+    @timesperframe = 4
+    @frames = []
+    (1..6).each do |i|
+      @frames << "sprites/siegetrooper-attack-#{i}.png"
+    end
+    @max_time = @timesperframe * @frames.size
+    @frame_index = 0
+  end
+
+  def reset
+    @frame_index = 0
+    @cur_time = 0
   end
 
 end
@@ -126,3 +186,5 @@ class Bullet < Ent
                              flip_vertically: flip_v}
   end
 end
+
+

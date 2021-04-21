@@ -4,7 +4,8 @@ class Game
   attr_accessor :args, :grid, :inputs, :outputs, :state
   def defaults
     state.guy ||= Ent.new(x:200,y: 720/2,w:80,h:80,
-                          path: 'sprites/sylph.png', speed: 10)
+                          #path: 'sprites/sylph.png', speed: 10)
+                          path: 'sprites/siegetrooper.png', speed: 10)
     state.enemy ||= Ent.new(x:1100,y: 720/2,w:150,h:150,
                             path: 'sprites/fire-dragon.png',
                             flip_h: true)
@@ -15,7 +16,6 @@ class Game
     state.burst_timer ||= 120
     state.background_color ||= [200,100,100]
     state.new_background_color ||= [0,0,0]
-    state.invincible_length ||= 60
   end
 
   def tick
@@ -24,7 +24,7 @@ class Game
     calc
     cleanup
     input
-s
+
   end
 
   def render
@@ -84,7 +84,7 @@ s
           state.guy.status = :invincible
         end
 
-        state.guy.invincible_timer = state.invincible_length
+        state.guy.invincible_timer = state.guy.invincible_length
         ent.status = :remove
         state.explosions << {x:ent.x,y:ent.y,w:30,h:30,path: "sprites/fire-burst-small-1.png",age:1}
       end
@@ -119,9 +119,12 @@ s
 
   def input
     if inputs.mouse.down
-      new_bullet = Bullet.new(x:state.guy.x,y:state.guy.y,path: 'sprites/icemissile-ne-2.png' )
+      new_bullet = Bullet.new(x:state.guy.x,y:state.guy.y,
+                              path: 'sprites/icemissile-ne-2.png',
+                              speed: 14)
       new_bullet.set_dest(*inputs.mouse.point)
       state.good_ents << new_bullet
+      state.guy.anim_state = :attack
       #state.ents << Bullet.new(*inputs.mouse.down.point)
       #puts state.ents
       #puts inputs.mouse.down.point
