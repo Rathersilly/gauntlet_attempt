@@ -1,0 +1,15 @@
+--- !ruby/object:Anim
+name:
+path:
+cur_frame: 0
+frames_per_sprite: 20
+frames:
+- sprites/siegetrooper-attack-1.png
+- sprites/siegetrooper-attack-2.png
+- sprites/siegetrooper-attack-3.png
+- sprites/siegetrooper-attack-4.png
+- sprites/siegetrooper-attack-5.png
+- sprites/siegetrooper-attack-6.png
+max_frames: 120
+frame_index: 0
+loop: false

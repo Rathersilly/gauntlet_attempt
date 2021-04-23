@@ -108,11 +108,9 @@ class Game
   def burst
    8.times do |i|
      angle = i*22.5 + 90 + rand(22)
-
-
-     new_bullet = Bullet.new({x:state.enemy.x,y: state.enemy.y, path: 'sprites/fire-burst-small-2.png'})
-     new_bullet.angle = angle
-
+     new_bullet = Bullet.new({x:state.enemy.x,y: state.enemy.y,
+                              path: 'sprites/fire-burst-small-2.png',
+                              angle: angle })
      state.bad_ents << new_bullet
    end
   end
