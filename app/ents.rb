@@ -14,7 +14,8 @@ end
 
 class Ent
   attr_accessor :x,:y, :w,:h,:speed,:color,:angle, :status, :hp, :hitbox, :angle
-  attr_accessor :invincible_timer, :invincible_length, :anim_state, :anim,:anims
+  attr_accessor :invincible_timer, :invincible_length, :anim_state
+  attr_accessor :atkspd, :atkcd
 
   def initialize(traits)
     #p traits
@@ -22,44 +23,40 @@ class Ent
     @x = traits[:x]
     @y = traits[:y]
     @w = traits[:w]
+    @w ||= 100
     @h = traits[:h]
+    @h ||= 100
     @path = traits[:path]
     @color = traits[:color]
+    @color ||= Green
     @border = traits[:border]
-    @speed = traits[:speed]
+    @border ||= Darkblue
     @flip_h = traits[:flip_h]
+    @flip_h           ||= false
     @flip_v = traits[:flip_v]
+    @flip_v           ||= false
     @angle = traits[:angle]
+    @speed = traits[:speed]
     @speed ||= 6
     @status ||= :normal
-    @invincible_length ||= 60
-    @invincible_timer ||=0
+    @invincible_length  ||= 60
+    @invincible_timer   ||=0
+
     @hp               ||= 10
-    @flip_v           ||= false
-    @flip_h           ||= false
+    @atkspd           ||= 60
+    @atkcd            ||= 0
+
 
     @anim_state         ||= :idle
     @anims            ||= {}
-    @anims[:idle] = Anim.new(name: :idle,path: @path)
+    @path ||= 'sprites/sylph.png'
+    @anims[:idle] ||= Anim.new(name: :idle,path: @path)
     @anims[:idle].loop = true
-    @anims[:attack] = Anim.new(name: :attack)#,path: @path)
-
-    (1..6).each do |i|
-      @anims[:attack].frames << "sprites/siegetrooper-attack-#{i}.png"
-    end
 
 
-    #@angle ||= 0
-    #@hitbox ||= Rect.new(@x,@y,
-    #@hitbox = I#
     #elsif traits.size > 1      # was going to give option to init as array
-    @w ||= 100
-    @h ||= 100
     @path ||= 'sprites/misc/dragon-0.png'
     @anims ||= Anim.new(name: :idle,path: @path)
-    @color ||= Green
-    @border ||= Darkblue
-    @hitbox = [@x+35,@y+30,15,15,'sprites/border-heart.png']
   end
   def rect
     [@x,@y,@w,@h]
@@ -76,7 +73,7 @@ class Ent
     @angle ||= [@x,@y].angle_to([@destx,@desty])
   end
 
-  def calc
+  def calc args
     @hitbox[0] = @x+35
     @hitbox[1] = @y+30
     if @status == :invincible
@@ -84,6 +81,9 @@ class Ent
       if @invincible_timer == 0
         @status = :normal
       end
+    end
+    if @atkcd > 0
+      @atkcd -= 1
     end
 
   end
@@ -95,10 +95,7 @@ class Ent
 
   def draw args
 
-    args.outputs.labels << [100,680,"anim_state: #{@anim_state}",2]
-
     anim = @anims[@anim_state]
-    anim.show_info args
     frame = anim.frame
 
     if @anim_state != :idle && !(frame)
@@ -110,7 +107,6 @@ class Ent
     args.outputs.sprites << {x:@x,y:@y,w:@h,h: @h,path: frame,
                              flip_vertically: @flip_v,
                              flip_horizontally: @flip_h}
-    args.outputs.sprites << @hitbox
   end
 
   def inspect
@@ -122,78 +118,106 @@ class Ent
 
 end
 
-class Anim
-  attr_accessor :path, :cur_frame,:frames, :loop
-  attr_accessor :frame_index, :name, :frames_per_sprite,:max_frames
+class Guy < Ent
 
-  def initialize(args)
-    @name = args[:name]
-    @frames = []
+  def initialize traits
+    super traits
+    @anims[:idle] = Anim.new(name: :idle,path: "sprites/archmage/arch-mage+female.png")
+    @anims[:idle].loop = true
 
-    @path = args[:path]
-    if @path
-      @frames << @path
+    @anims[:attack] = Anim.new(name: :attack)#,path: @path)
+    (1..2).each do |i|
+      @anims[:attack].frames << "sprites/archmage/arch-mage+female-attack-staff-#{i}.png"
     end
-    @cur_frame = 0
-    @frames_per_sprite = 10
-    @max_frames = @frames_per_sprite * @frames.size
-    @frame_index = 0
-    @loop = false
+    @anims[:attack].duration = @atkspd
+
+    @hitbox = [@x+35,@y+30,15,15,'sprites/border-heart.png']
+    @attacks = []
+    @attacks << Attack.new(atkframe: 1, dmg: 1)
 
   end
 
-  def frame
-    # returns the frame to be drawn (in Ent class)
-    if frames.size == 1
-      return frames[0]
+  def calc args
+    super
+    if @anim_state == :attack
+      @attacks[0].calc(@anims[anim_state].frame_index, args)
     end
 
-    # incrementing cur_time first, so that can check modulsu without worrying about 0 % n
-    @cur_frame += 1
 
-    # handle if cur = max - return nil or reset?
-    if cur_frame > max_frames
-    end
-
-    if  cur_frame % frames_per_sprite == 0
-      # if this says frame_index (without @), it doesnt update
-      @frame_index += 1
-    end
-    
-    # good place to check bounds
-    if @frame_index > @frames.size - 1
-      if @loop == true
-        reset
-      else
-        reset
-        return nil
-      end
-    end
-
-    # return the sprite to use
-    #dbinspect
-    return frames[frame_index]
   end
 
-  def show_info args
-    args.outputs.labels << [100,650,"frame_index: #{frame_index}",2]
-    args.outputs.labels << [100,620,"cur_frame: #{cur_frame}",2]
-    args.outputs.labels << [100,590,"max_frame: #{max_frames}",2]
-    args.outputs.labels << [100,560,"path: #{frames[frame_index]}",2]
+  def attack args
+    if atkcd.zero?
+      @attacks[0].reset
+      @anim_state = :attack
+      @atkcd = @atkspd
+    end
+  end
+
+  def draw args
+    args.outputs.labels << [100,680,"anim_state: #{anim_state}",2]
+    @anims[anim_state].show_info args
+    super args
+    args.outputs.sprites << @hitbox
+  end
+
+end
+class Attack
+  attr_accessor :name, :anim, :atkframge, :dmg
+
+  # for now lets keep the animation out of attack - might want same
+  # anim for diff attacks after all
+  def initialize traits
+    #@anim = traits[:anim]
+    @name = traits[:name]
+    @name ||= "attack"
+    @atkframe = traits[:atkframe]
+    @atkframe ||= 0
+    @dmg = traits[:dmg]
+    @dmg ||= 1
+    @started = false
+  end
+
+  def start args
+      new_bullet = Bullet.new(x:args.state.guy.x, y: args.state.guy.y,
+                              w: 200,h:200,
+                              path: 'sprites/icemissile-ne-1.png',
+                              speed: 14)
+      new_bullet.set_dest(*args.inputs.mouse.point)
+      args.state.good_ents << new_bullet
+  end
+
+  def calc(frame, args)
+    if @started == false && frame == @atkframe
+      @started = true
+      start args
+    end
   end
 
   def reset
-    @frame_index = 0
-    @cur_frame = 0
-  end 
-
-  def dbinspect
-    instance_variables.each do |var|
-      puts "#{var}:\t\t#{instance_variable_get(var)}"
-    end
+    @started = false
   end
 end
 
+class Baddie< Ent
+
+  def initialize traits
+    super traits
+    @anims[:idle] = Anim.new(name: :idle)
+    (1..11).each do |i|
+      @anims[:idle].frames << "sprites/necromancer/adept-idle-#{i}.png"
+    end
+    @anims[:idle].loop = true
+
+    @anims[:attack] = Anim.new(name: :attack)#,path: @path)
+    (1..3).each do |i|
+      @anims[:attack].frames << "sprites/necromancer/adept-magic-#{i}.png"
+    end
+
+    #@hitbox = [@x+35,@y+30,15,15,'sprites/border-heart.png']
+  end
+
+end
 class Player < Ent
 
 end
@@ -212,16 +236,15 @@ class Bullet < Ent
     if @angle > 270 || @angle < 90
       flip_v = false
     else
-      flip_v = true
     end
+    flip_v = true
     if @angle > 270 || @angle < 90
       flip_h = true
     else
       flip_h = false
     end
     #puts "#{@x}, #{@y}, #{@destx}, #{@desty}, #{@angle}"
-    #args.outputs.sprites << [@x,@y,50,50,@path, @angle]
-    args.outputs.sprites << {x:@x,y:@y,w:50,h:50,path: @path, angle: @angle,
+    args.outputs.sprites << {x:@x,y:@y,w:@w,h:@w,path: @path, angle: @angle + 30,
                              flip_vertically: flip_v}
   end
 end
