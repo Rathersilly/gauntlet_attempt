@@ -13,7 +13,7 @@ class Explosion
 end
 
 class Ent
-  attr_accessor :x,:y, :w,:h,:speed,:color,:angle, :status, :hp, :hitbox, :angle
+  attr_accessor :x,:y, :w,:h,:speed,:color,:angle, :status, :hp, :max_hp, :hitbox, :angle
   attr_accessor :invincible_timer, :invincible_length, :anim_state
   attr_accessor :atkspd, :atkcd
 
@@ -42,12 +42,13 @@ class Ent
     @invincible_length  ||= 60
     @invincible_timer   ||=0
 
+    @max_hp           ||= 10
     @hp               ||= 10
     @atkspd           ||= 60
     @atkcd            ||= 0
 
 
-    @anim_state         ||= :idle
+    @anim_state       ||= :idle
     @anims            ||= {}
     @path ||= 'sprites/sylph.png'
     @anims[:idle] ||= Anim.new(name: :idle,path: @path)
@@ -74,8 +75,6 @@ class Ent
   end
 
   def calc args
-    @hitbox[0] = @x+35
-    @hitbox[1] = @y+30
     if @status == :invincible
       @invincible_timer -= 1
       if @invincible_timer == 0
@@ -94,14 +93,31 @@ class Ent
   end
 
   def draw args
-
     anim = @anims[@anim_state]
+    # get next frame of the animation
     frame = anim.frame
 
-    if @anim_state != :idle && !(frame)
-      @anim_state = :idle
-      anim = @anims[@anim_state]
-      frame = anim.frame
+    # anim.frame will return nil if anim is over (and anim.loop == false)
+    # in that case, return to idle state
+    if frame.nil?
+      if @anim_state == :die
+        @anim_state = :transition
+        anim = @anims[@anim_state]
+        frame = anim.frame
+        #draw transition explosions
+        #not sure best way to do that atm
+        #could just do it like the other explosions, and 
+        #just transition again after some timer elapses
+        10.times do |i|
+          args.outputs.sprites << []
+        end
+
+      elsif @anim_state != :idle
+        @anim_state = :idle
+        anim = @anims[@anim_state]
+        # so here we get first frame of next anim
+        frame = anim.frame
+      end
     end
 
     args.outputs.sprites << {x:@x,y:@y,w:@h,h: @h,path: frame,
@@ -138,7 +154,12 @@ class Guy < Ent
   end
 
   def calc args
-    super
+    @hitbox[0] = @x+35
+    @hitbox[1] = @y+30
+    if @status == :die
+      @anim_state = :die
+    end
+    super args
     if @anim_state == :attack
       @attacks[0].calc(@anims[anim_state].frame_index, args)
     end
@@ -162,42 +183,6 @@ class Guy < Ent
   end
 
 end
-class Attack
-  attr_accessor :name, :anim, :atkframge, :dmg
-
-  # for now lets keep the animation out of attack - might want same
-  # anim for diff attacks after all
-  def initialize traits
-    #@anim = traits[:anim]
-    @name = traits[:name]
-    @name ||= "attack"
-    @atkframe = traits[:atkframe]
-    @atkframe ||= 0
-    @dmg = traits[:dmg]
-    @dmg ||= 1
-    @started = false
-  end
-
-  def start args
-      new_bullet = Bullet.new(x:args.state.guy.x, y: args.state.guy.y,
-                              w: 200,h:200,
-                              path: 'sprites/icemissile-ne-1.png',
-                              speed: 14)
-      new_bullet.set_dest(*args.inputs.mouse.point)
-      args.state.good_ents << new_bullet
-  end
-
-  def calc(frame, args)
-    if @started == false && frame == @atkframe
-      @started = true
-      start args
-    end
-  end
-
-  def reset
-    @started = false
-  end
-end
 
 class Baddie< Ent
 
@@ -209,15 +194,52 @@ class Baddie< Ent
     end
     @anims[:idle].loop = true
 
-    @anims[:attack] = Anim.new(name: :attack)#,path: @path)
+    @anims[:attack] = Anim.new(name: :attack)
     (1..3).each do |i|
       @anims[:attack].frames << "sprites/necromancer/adept-magic-#{i}.png"
     end
 
-    #@hitbox = [@x+35,@y+30,15,15,'sprites/border-heart.png']
+    @anims[:die] = Anim.new(name: :die)#,path: @path)
+    (1..8).each do |i|
+      @anims[:die].frames << "sprites/necromancer/adept-die#{i}.png"
+    end
+    @anims[:die].duration = 10
+
+    @anims[:transition] = Anim.new(name: :die)#,path: @path)
+    (5..8).each do |i|
+      @anims[:transition].frames << "sprites/icemissile-n-#{i}"
+    end
+    @anims[:transition].duration = 10
+
+    @max_hp = 3
+    @hp = @max_hp
+  end
+
+  def draw args
+    super args
+    args.outputs.solids << [x, y + h,w,30,*Black]
+    args.outputs.solids << [x, y + h,w * hp/max_hp ,30,255,0,0]
+    args.outputs.borders << [x, y + h,w,30,*Black]
+    args.outputs.labels << [x-200,680,"HP: #{hp}/#{max_hp}",2]
+    args.outputs.labels << [x-200,650,"Status: #{status}",2]
+    args.outputs.labels << [x-300,620,"Sprite: #{@anims[@anim_state].current_sprite}",1]
+
+  end
+
+  def calc args
+    if @status == :die
+      @anim_state = :die
+    end
+    super args
+    if @anim_state == :attack
+      @attacks[0].calc(@anims[anim_state].frame_index, args)
+    end
+
+
   end
 
 end
+
 class Player < Ent
 
 end

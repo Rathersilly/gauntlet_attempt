@@ -1,6 +1,7 @@
 require '/app/init.rb'
 require '/app/ents.rb'
 require '/app/anim.rb'
+require '/app/attack.rb'
 class Game
   attr_accessor :args, :grid, :inputs, :outputs, :state
   def defaults
@@ -32,8 +33,8 @@ class Game
     render_background
     render_guys
 
-    outputs.labels << [300,680,"HITPOINTS: #{state.guy.hp}",5]
-    outputs.labels << [300,640,"STATUS: #{state.guy.status}",5]
+    outputs.labels << [400,680,"HITPOINTS: #{state.guy.hp}",5]
+    outputs.labels << [400,640,"STATUS: #{state.guy.status}",5]
   end
   def render_background
     while state.new_background_color == state.background_color
@@ -68,6 +69,7 @@ class Game
       exp[:age] += 0.25
     end
     state.guy.calc args
+    state.enemy.calc args
     if state.burst_timer == 0
       state.burst_timer = state.burst_timer_max
       burst
@@ -89,8 +91,19 @@ class Game
         ent.status = :remove
         state.explosions << {x:ent.x,y:ent.y,w:30,h:30,path: "sprites/fire-burst-small-1.png",age:1}
       end
-
     end
+    state.good_ents.each do |ent|
+      if ent.rect.intersect_rect? state.enemy.rect
+        state.enemy.hp -= 1
+        ent.status = :remove
+        if state.enemy.hp <= 0
+          state.enemy.status = :die
+        end
+
+        state.explosions << {x:ent.x,y:ent.y,w:30,h:30,path: "sprites/fire-burst-small-1.png",age:1}
+      end
+    end
+
   end
 
   def cleanup

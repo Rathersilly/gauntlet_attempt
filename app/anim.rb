@@ -23,6 +23,9 @@ class Anim
     @frames_per_sprite = @duration / frames.size
     puts "DUR SET TO #{@frames_per_sprite}"
   end
+  def current_sprite
+    frames[frame_index]
+  end
 
   def frame
     # returns the frame to be drawn (in Ent class)

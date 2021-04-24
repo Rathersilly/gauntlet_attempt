@@ -21,3 +21,8 @@ class Anim
 Ent#add_animation(args)
   @animations << Anim.new  
 
+
+4/24/21
+pretty sure after attacking I never reset status
+i dont think that matters a lot at the moment, but statuses might become important later
+
