@@ -131,6 +131,9 @@ class Guy < Ent
   def initialize traits
     super traits
     @anims[:idle] = Anim.new(name: :idle,path: "sprites/archmage/arch-mage+female.png")
+    (1..9).each do |n|
+      @anims[:attack].frames << "sprites/archmage/arch-mage+female-idle-#{i}.png"
+    end
     @anims[:idle].loop = true
 
     @anims[:attack] = Anim.new(name: :attack)#,path: @path)
