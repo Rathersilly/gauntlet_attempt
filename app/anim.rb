@@ -1,12 +1,26 @@
 class Anim
-  attr_accessor :path, :cur_frame,:frames, :loop
-  attr_accessor :frame_index, :name, :frames_per_sprite,:max_frames
+  attr_accessor :path, :frames, :loop, :linger,:xoff,:yoff,:timeoff
+  attr_accessor :name, :state,:max_frames, :parent
 
-  def initialize(args)
-    @name = args[:name]
+  def initialize(traits)
+    @state = :off   # can be on or off or remove  # state will determine if anim needs to be removed
+
+    # need a way to get x and y of the guy it's related to
+
+
+
+    # these are offsets that can be used by the draw function
+    @xoff = traits[:xoff]
+    @yoff = traits[:yoff]
+    @xoff ||= 0
+    @yoff ||= 0
+    @timeoff = traits[:timeoff]
+    @timeoff ||= 0
+
+    @name = traits[:name]
     @frames = []
 
-    @path = args[:path]
+    @path = traits[:path]
     if @path
       @frames << @path
     end
@@ -15,22 +29,37 @@ class Anim
     @max_frames = @frames_per_sprite * @frames.size
     @frame_index = 0
     @loop = false
+    @linger = false       # remain on last fram after animation over
+    @linger_dur = -1
+    @fallback_animation   # what to do when animation finished - prob bad place for it
     @duration = 0
 
   end
+
+  def attach parent
+    self.parent = parent
+  end
+
+  def draw args
+    args.outputs.sprites << [parent.x+xoff,parent.y+yoff,frames[frame_index]]
+  end
+
   def duration= dur
     @duration = dur
     @frames_per_sprite = @duration / frames.size
     puts "DUR SET TO #{@frames_per_sprite}"
   end
+  
   def current_sprite
     frames[frame_index]
   end
 
-  def frame
-    # returns the frame to be drawn (in Ent class)
+  def update
+    # get next frame. handle if anim over
     if frames.size == 1
       return frames[0]
+    elsif @linger == true && @cur_frame == @frames.size - 1
+      return frames[-1]
     end
 
     # incrementing cur_time first, so that can check modulsu without worrying about 0 % n
@@ -40,8 +69,7 @@ class Anim
     if cur_frame > max_frames
     end
 
-    if  cur_frame % frames_per_sprite == 0
-      # if this says frame_index (without @), it doesnt update
+    if cur_frame % frames_per_sprite == 0
       @frame_index += 1
     end
     
@@ -56,15 +84,14 @@ class Anim
     end
 
     # return the sprite to use
-    #dbinspect
-    return frames[frame_index]
+    @frame_index
   end
 
-  def show_info args
-    args.outputs.labels << [100,650,"frame_index: #{frame_index}",2]
-    args.outputs.labels << [100,620,"cur_frame: #{cur_frame}",2]
-    args.outputs.labels << [100,590,"max_frame: #{max_frames}",2]
-    args.outputs.labels << [100,560,"path: #{frames[frame_index]}",2]
+  def show_info args, x=100,y=560
+    args.outputs.labels << [x,y+60,"frame_index: #{frame_index}",2]
+    args.outputs.labels << [x,y+40,"cur_frame: #{cur_frame}",2]
+    args.outputs.labels << [x,y+20,"max_frame: #{max_frames}",2]
+    args.outputs.labels << [x,y,"path: #{frames[frame_index]}",2]
   end
 
   def reset

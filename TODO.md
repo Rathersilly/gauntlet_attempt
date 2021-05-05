@@ -26,3 +26,5 @@ Ent#add_animation(args)
 pretty sure after attacking I never reset status
 i dont think that matters a lot at the moment, but statuses might become important later
 
+could write a script that calls dragonruby after loading yaml files maybe?
+
