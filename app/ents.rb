@@ -80,6 +80,9 @@ class Anim
     # args.outputs.sprites << xform.to_h.merge(path: @frames[@frame_index], angle: @angle)
     #
     # uhh or could just use array
+    puts "@@@@@@@@@@"
+    p ent
+
     args.outputs.sprites << [*args.state.xforms[@ent].to_a,@frames[@frame_index], @angle]
     @cur_time += 1
     if @cur_time == @frame_dur
@@ -105,6 +108,7 @@ class Anim
     puts "*****Animation*****"
     puts "name: #{@name}"
     puts "ent: #{@ent}"
+    puts "state: #{@state}"
     #puts "frames: #{@frames}"
     puts "*******************"
   end
@@ -116,16 +120,27 @@ class Behavior
 
   # the current plan: add methods here to singleton class.  But have templates for things
   # that need to be repeated. or actually subclasses would work I think.
-  attr_accessor :name, :ent
+  attr_accessor :name, :ent, :args
   def initialize(**opts)
     @ent          = opts[:ent]         || nil
     @name         = opts[:name]        || nil
   end
+
+  def known_anims ent, name
+    args.state.known_anims[ent][name].dup
+  end
   
   def handle bs, args
+    puts "HANDLING1"
+    p bs
+    p args.state.anims
     if bs.type == Anim && bs.state == :done
       default_anim args
     end
+    puts "HANDLING2"
+    p bs
+    p args.state.anims
+    p args.state.behavior
 
   end
 
@@ -144,12 +159,10 @@ class BehaviorSignal
     # info = eg anim name
     @ent          = opts[:ent]         || nil
     @type         = opts[:type]        || nil
-    @state         = opts[:state]        || nil
+    @state        = opts[:state]       || nil
     @info         = opts[:info]        || nil
   end
 end
-
-
 
 # Ent is a tiny container that links components
 # honestly though this just needs to be a unique integer
