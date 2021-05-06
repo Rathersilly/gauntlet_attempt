@@ -16,13 +16,16 @@ class Game
     args.state.xforms       = []
     args.state.anims        = []
     args.state.known_anims  = []
+    args.state.behavior     = []
+    args.state.behavior_signals     ||= []
     args.state.anim_pail    = {}
 
-    # REGARDING ENT IDS currently, looping through arrays, with ID as index
-    # to avoid running out if ids, have separate ids for temporary things
-    # can only have max # of temp things before we reset id to 0
-    @@ent_id          = -1
-    @@temp_ent_id     = -1 
+    # REGARDING ENT IDS: currently we are looping through arrays, with ID as index.
+    # to avoid running out of ids, have separate ids for temporary things
+    # can only have max # of temp things before we reset id to 0 (is the plan{nyi})
+
+    @@ent_id          = -1    # these start at -1 because they are incremented for each
+    @@temp_ent_id     = -1    # new ent, and we want the component arrays to start at 0
     init_anims args
     init_hero args
   end
@@ -40,55 +43,58 @@ class Game
     ent = new_ent_id
 
     # xform
-    x =Xform.new(ent: ent,x: 200,y:200,w:200,h:200) 
-    p x
     args.state.xforms[ent] = Xform.new(ent: ent,x: 200,y:200,w:200,h:200)
-    puts "00000000000000"
-    p args.state.xforms
     #args.state.xforms[ent] = [x: 200,y:200,w:200,h:200]
 
     # anim
-    args.state.known_anims[ent] = []
+    # this might be a tad confusing (or not)
+    # args.state.known_anims is an array of hashes, which are found by the index ent
+    args.state.known_anims[ent] = {}
     anim = args.state.anim_pail[:hero_attack_staff].dup
     anim.ent = ent
-    args.state.known_anims[ent] << anim
+    args.state.known_anims[ent][anim.name] = anim
 
     anim = args.state.anim_pail[:hero_idle].dup
     anim.ent = ent
-    args.state.known_anims[ent] << anim
+    args.state.known_anims[ent][anim.name] = anim
 
-
+    # set anim to play
     args.state.anims << anim
 
-    puts "!!!!!!!!!!!!!!!!!!!!!"
-    p args.state.anims
     # behaviour
-=begin
     b = Behavior.new(ent: ent)
-    
-    # needs to have default behavior (eg idle anim)
-    b.define_singleton_method(:default) do 
 
+    # needs to have default behavior (eg idle anim)
+    b.define_singleton_method(:default_anim) do |args|
+      # reset animation
+      args.state.anims.reject! {|x| x.ent == ent }
+      anim = args.state.known_anims[@ent][:hero_idle]
+
+      # check if an animation with this ent is playing
+      if args.state.anims.select { |anim| anim.ent == ent }
+
+        args.state.anims[ent] = anim
+      end
     end
 
     # needs to have a trigger (eg input) which has some effect (eg change anim)
-    b.define_singleton_method(:on_mouse_down) do 
-
-      # attack!
+    b.define_singleton_method(:on_mouse_down) do  |args|
       # animation becomes attack
-      state.anims[ent] = asdf
-      state.anims.reject! {|x| x.name == :hero_attack_staff }
-      anim = state.anim_pail[:hero_idle].dup
-      anim.ent = ent
-      state.anims << anim if state.anims.none? { |x| x.name == :hero_idle }
+
+      # reset animation
+      args.state.anims.reject! {|x| x.ent == ent }
+      args.state.anims << args.state.known_anims[ent][:hero_attack_staff]
 
     end
 
+    # would like the attack method to invoke the on_mouse_down method,
+    # not the other way around
+    # if it could be registered or something?
     b.define_singleton_method(:attack) do 
     end
-=end
 
     args.state.hero = ent
+    args.state.behavior[ent] = b
   end
 
   def init_anims args
@@ -118,11 +124,34 @@ class Game
     # I think input is not necessary - dragonruby basically takes care of that
     behavior
     render
-    #cleanup
+    cleanup
   end
 
   def behavior
+    # iterate through state.behavior_signals, to see if any behaviors must respond
+    # eg to finished animations
+
+    if !state.behavior_signals.empty?
+      puts "STATE BEHAVIOR SIGNALS"
+      p state.behavior_signals
+      state.behavior_signals.each do |bs|
+        state.behavior.each do |b|
+          if b.ent == bs.ent
+            b.handle(bs, args)
+          end
+        end
+      end
+    end
+    
     # iterate through behavior components, see if they respond to input
+    
+    # default doesnt have to be called every frame - it should respond to signal,
+    # or be called by itself after finishing a task perhaps
+    
+    state.behavior.each do |b|
+      #b.default
+    end
+
     if inputs.keyboard.key_down.one
       state.anims.reject! {|x| x.name == :hero_attack_staff }
       anim = state.anim_pail[:hero_idle].dup
@@ -136,10 +165,12 @@ class Game
     end
     if inputs.mouse.down
       state.behavior.each do |b|
+        b.send(:on_mouse_down, args) if b.respond_to?(:on_mouse_down)
       end
 
       #attack animation
     end
+
   end
 
   def render
@@ -149,7 +180,8 @@ class Game
     #outputs.solids << [500,300,200,200,45,255,0,255,255]
 
     args.state.anims.each do |anim|
-      anim.render args
+      next if anim.nil? || anim.state == :done
+      anim.render args 
     end
   end
 
@@ -158,7 +190,14 @@ class Game
   end
 
   def cleanup
-    state.anims.reject! { |anim| anim.state == :done }
+    state.anims.reject! do |anim|
+      if anim.state == :done 
+        # this dependency sucks - would be better to have a callback of some kind
+        anim.reset
+        return true
+      end
+    end
+    state.behavior_signals.clear
   end
 
 

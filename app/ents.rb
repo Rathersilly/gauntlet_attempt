@@ -44,16 +44,18 @@ class Anim
     @state = :play
   end
   def stop
-    @state = :stop
     reset
+    @state = :stop
   end
   def pause
     @state = :pause
   end
   def done
+    reset
     @state = :done
   end
   def reset
+    @state = :play
     @cur_time = 0
     @frame_index = 0
   end
@@ -84,7 +86,17 @@ class Anim
       @cur_time = 0
       @frame_index += 1
       if @frame_index == @frames.size
-        @frame_index = 0
+        if @loop == true
+          reset
+        else
+          args.state.behavior_signals << BehaviorSignal.new(ent: @ent,
+                                                            type: Anim,
+                                                            state: :done,
+                                                            info: @name)
+
+          done
+        end
+
       end
     end
   end
@@ -101,15 +113,44 @@ end
 class Behavior
   # does behavior know about all its anims? or just loop through them as needed and select
   # the ones with the same ent
+
+  # the current plan: add methods here to singleton class.  But have templates for things
+  # that need to be repeated. or actually subclasses would work I think.
   attr_accessor :name, :ent
   def initialize(**opts)
-    @name         = opts[:name]        || nil
     @ent          = opts[:ent]         || nil
+    @name         = opts[:name]        || nil
+  end
+  
+  def handle bs, args
+    if bs.type == Anim && bs.state == :done
+      default_anim args
+    end
+
   end
 
-
-
 end
+
+class BehaviorSignal
+  # when an animation finishes, it sets it state to :done (so it is cleaned up)
+  # and places a BehaviorSignal instance in state.behavior_signals
+  # which is looped through in the behavior system
+  attr_accessor :ent, :type, :state, :info
+
+  # types of BSignals: anim_finished
+
+  def initialize(**opts)
+    # type = :anim_done
+    # info = eg anim name
+    @ent          = opts[:ent]         || nil
+    @type         = opts[:type]        || nil
+    @state         = opts[:state]        || nil
+    @info         = opts[:info]        || nil
+  end
+end
+
+
+
 # Ent is a tiny container that links components
 # honestly though this just needs to be a unique integer
 class Ent 
