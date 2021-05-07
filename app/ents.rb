@@ -4,9 +4,25 @@
 # args.outputs to be able to use it.  might be great opportunity
 # to use forwardable or that other thing.
 
+# Ent is a tiny container that links components
+# honestly though this just needs to be a unique integer
+class Ent 
+  def new_entity_id args
+    args.state.entity_id += 1
+  end
+
+  def new_tent_id args
+    args.state.tent_id += 1
+  end
+
+  def initialize(**opts)
+  end
+
+end
+
 # actually, this class might not even be needed:
 # ie args.state.xforms[ent] = [1,1,1,1]
-class Xform
+class Xform < Ent
   attr_accessor :ent, :x,:y, :w, :h, :angle, :r ,:g, :b, :a
   def initialize(**opts)
     @ent        = opts[:ent]
@@ -25,7 +41,7 @@ class Xform
   end
 end
 
-class Anim
+class Anim < Ent
   attr_accessor :name, :ent, :angle, :path, :frames, :duration, :loop, :state
   def initialize(**opts)
     # possible states: play, stop, pause, done
@@ -80,8 +96,6 @@ class Anim
     # args.outputs.sprites << xform.to_h.merge(path: @frames[@frame_index], angle: @angle)
     #
     # uhh or could just use array
-    puts "@@@@@@@@@@"
-    p ent
 
     args.outputs.sprites << [*args.state.xforms[@ent].to_a,@frames[@frame_index], @angle]
     @cur_time += 1
@@ -106,15 +120,11 @@ class Anim
 
   def inspect
     puts "*****Animation*****"
-    puts "name: #{@name}"
-    puts "ent: #{@ent}"
-    puts "state: #{@state}"
-    #puts "frames: #{@frames}"
-    puts "*******************"
+    print "\tname: #{@name}" + "\tent: #{@ent}" + "\tstate: #{@state}\n"
   end
 end
 
-class Behavior
+class Behavior < Ent
   # does behavior know about all its anims? or just loop through them as needed and select
   # the ones with the same ent
 
@@ -124,6 +134,7 @@ class Behavior
   def initialize(**opts)
     @ent          = opts[:ent]         || nil
     @name         = opts[:name]        || nil
+    @default      = opts[:default]     || false
   end
 
   def known_anims ent, name
@@ -131,16 +142,11 @@ class Behavior
   end
   
   def handle bs, args
-    puts "HANDLING1"
+    puts "HANDLING BEHAVIOR SIGNAL"
     p bs
-    p args.state.anims
     if bs.type == Anim && bs.state == :done
-      default_anim args
+      default_anim args if methods.include?(:default_anim)
     end
-    puts "HANDLING2"
-    p bs
-    p args.state.anims
-    p args.state.behavior
 
   end
 
@@ -162,11 +168,10 @@ class BehaviorSignal
     @state        = opts[:state]       || nil
     @info         = opts[:info]        || nil
   end
-end
 
-# Ent is a tiny container that links components
-# honestly though this just needs to be a unique integer
-class Ent 
-  def initialize(**opts)
+  def inspect
+    puts "ent: #{@ent}, #{@type}, #{@state}"
+    super
   end
 end
+

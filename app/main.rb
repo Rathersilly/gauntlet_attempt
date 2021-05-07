@@ -1,5 +1,5 @@
-require '/app/init.rb'
 require '/app/ents.rb'
+require '/app/init.rb'
 #require '/app/anim.rb'
 #require '/app/attack.rb'
 
@@ -18,17 +18,20 @@ class Game
 
     args.state.xforms                 = []
     args.state.anims                  = []
+    args.state.tents                  = []
     #args.state.known_anims            = []
     args.state.behavior               = []
     args.state.behavior_signals       = []
     args.state.anim_pail              = {}
+    args.state.entity_id              = -1
+    args.state.tent_id                = -1
 
     # REGARDING ENT IDS: currently we are looping through arrays, with ID as index.
     # to avoid running out of ids, have separate ids for temporary things
     # can only have max # of temp things before we reset id to 0 (is the plan{nyi})
 
-    @@ent_id          = -1    # these start at -1 because they are incremented for each
-    @@temp_ent_id     = -1    # new ent, and we want the component arrays to start at 0
+    @@entity_id          = -1    # these start at -1 because they are incremented for each
+    @@tent_id     = -1    # new ent, and we want the component arrays to start at 0
     @args = args
     @state = args.state
     @grid = args.grid
@@ -39,13 +42,14 @@ class Game
     init_baddie args
   end
 
-  def new_ent_id
-    @@ent_id += 1
+  def new_entity_id 
+    args.state.entity_id += 1
   end
 
-  def new_temp_ent_id
-    @@temp_ent_id += 1
+  def new_tent_id 
+    args.state.tent_id += 1
   end
+
 
   def tick
     # run through systems. each system invokes one or more components
@@ -56,6 +60,7 @@ class Game
   end
 
   def behavior
+    #puts "BEHAVIOR"
     # iterate through state.behavior_signals, to see if any behaviors must respond
     # eg to finished animations
 
@@ -73,12 +78,6 @@ class Game
     
     # iterate through behavior components, see if they respond to input
     
-    # default doesnt have to be called every frame - it should respond to signal,
-    # or be called by itself after finishing a task perhaps
-    
-    state.behavior.each do |b|
-      #b.default
-    end
 
     if inputs.keyboard.key_down.one
       state.anims.reject! {|x| x.name == :hero_attack_staff }
@@ -93,11 +92,26 @@ class Game
     end
     if inputs.mouse.down
       state.behavior.each do |b|
+
         b.send(:on_mouse_down, args) if b.respond_to?(:on_mouse_down)
       end
 
       #attack animation
     end
+    #if inputs.keyboard.key_down
+    if inputs.keyboard.key_down.char
+      state.behavior.each do |b|
+        b.send(:on_key_down, args) if b.respond_to?(:on_key_down)
+      end
+    end
+    
+    # default doesnt have to be called every frame - it should respond to signal,
+    # or be called by itself after finishing a task perhaps
+    
+    state.behavior.each do |b|
+        b.send(:on_tick, args) if b.respond_to?(:on_tick)
+    end
+
 
   end
 
@@ -106,11 +120,15 @@ class Game
     #outputs.labels << [400,640,"STATUS: #{state.hero.status}",5]
     #outputs.sprites << [500,300,200,200,'sprites/square/violet.png',45,255,0,255,255]
     #outputs.solids << [500,300,200,200,45,255,0,255,255]
+    #puts "RENDER"
+    render_background
 
-    args.state.anims.each do |anim|
+    state.anims.each do |anim|
       next if anim.nil? || anim.state == :done
       anim.render args 
     end
+    
+    outputs.labels << [10,700, "#{args.gtk.current_framerate.round}"]
   end
 
   def render_background
@@ -120,10 +138,21 @@ class Game
   def cleanup
     puts "CLEANUP"
     p state.anims
+    rejected = []
     state.anims.reject! do |anim|
+      #puts "CHECKING ANIM"
+      #puts anim.state
+      truthflag = false
       if anim.state == :done 
-        return true
+        rejected << anim
+
+        truthflag =  true
       end
+      truthflag
+    end
+    if !rejected.empty?
+    print "REJECTED: "
+    p rejected
     end
     state.behavior_signals.clear
   end
