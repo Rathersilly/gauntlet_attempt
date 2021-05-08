@@ -41,6 +41,8 @@ class Game
     init_anims 
     init_hero args
     init_baddie args
+    #init_siegeguy args
+    init_steelclad args
   end
 
   def new_entity_id 

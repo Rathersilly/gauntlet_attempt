@@ -42,8 +42,10 @@ class Xform < Ent
 end
 
 class Anim < Ent
-  attr_accessor :name, :ent, :angle, :path, :frames, :duration, :loop, :state
+  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state
   attr_accessor :flip_horizontally, :flip_vertically
+  # this line can be commented out - these should be private - uncomment for debug
+  attr_accessor :cur_time, :frame_dur, :frame_index
 
   def initialize(**opts)
     # possible states: play, stop, pause, done
@@ -53,9 +55,11 @@ class Anim < Ent
     @loop         = opts[:loop]        || false
     @duration     = opts[:duration]    || 60
     @state        = opts[:state]       || :play
+    @up           = opts[:up]          || false
     @flip_horizontally      = opts[:flip_horizontally]     || false
     @flip_vertically        = opts[:flip_vertically]       || false
     @frames       = []
+    @upframes     = []    # for animations with 4 directions (incl flip)
     @frame_index  = 0
     @cur_time = 0
   end
@@ -84,6 +88,15 @@ class Anim < Ent
     @frames << path
     @frame_dur = (@duration / @frames.size).round
   end
+  def add_frame path
+    @frames << path
+    @frame_dur = (@duration / @frames.size).round
+  end
+  def add_upframe path
+    @upframes << path
+    @upframe_dur = (@duration / @upframes.size).round
+  end
+
 
   def duration= dur
     @duration = dur
@@ -103,10 +116,18 @@ class Anim < Ent
 
     #args.outputs.sprites << [*args.state.xforms[@ent].to_a,@frames[@frame_index], @angle]
     #args.outputs.sprites << [*xform.to_a,@frames[@frame_index], @angle]
-    args.outputs.sprites << [**xform.to_h, path: @frames[@frame_index],
-                             angle: @angle,
-                             flip_horizontally: @flip_horizontally,
-                             flip_vertically: @flip_vertically]
+    if up == false
+      args.outputs.sprites << [**xform.to_h, path: @frames[@frame_index],
+                               angle: @angle,
+                               flip_horizontally: @flip_horizontally,
+                               flip_vertically: @flip_vertically]
+    else
+      args.outputs.sprites << [**xform.to_h, path: @upframes[@frame_index],
+                               angle: @angle,
+                               flip_horizontally: @flip_horizontally,
+                               flip_vertically: @flip_vertically]
+    end
+
     @cur_time += 1
     if @cur_time == @frame_dur
       @cur_time = 0
@@ -133,6 +154,7 @@ class Anim < Ent
     puts "*****Animation*****"
     print "\tname: #{@name}" + "\tent: #{@ent}" + "\tstate: #{@state}\n"
     p @frames
+    p @upframes
   end
 end
 
@@ -147,6 +169,10 @@ class Behavior < Ent
     @ent          = opts[:ent]         || nil
     @name         = opts[:name]        || nil
     @default      = opts[:default]     || false
+    post_initialize opts
+  end
+  def post_initialize opts
+    # to be overridden if needed in subclasses
   end
 
   def known_anims ent, name
@@ -158,8 +184,6 @@ class Behavior < Ent
     p bs
     if bs.type == Anim && bs.state == :done
 
-      p methods.sort
-      p singleton_methods.sort
       default_anim args if methods.include?(:default_anim)
     end
     bs.handled = true
@@ -172,6 +196,15 @@ class Behavior < Ent
     end
   end
 
+  def set_dir  args, dest_vector
+    # expect [x,y]
+    xform = args.state.xforms.find { |xform| xform.ent == @ent }
+    x = dest_vector[0] - xform.x
+    y = dest_vector[1] - xform.y
+    norm = Tools.normalize([x,y])
+    @dirx = norm[0]
+    @diry = norm[1]
+  end
 
 
 end

@@ -40,5 +40,28 @@
     state.anim_pail[anim.name] = anim
     puts "Adding anim to pail:"
     anim.inspect
+
+    anim = Anim.new(name: :siegetrooper_attack)
+    (1..7).each do |i|
+      #anim << "sprites/siegetrooper-attack-#{i}.png"
+    end
+      anim << "sprites/siegetrooper-attack-3.png"
+    state.anim_pail[anim.name] = anim
+    puts "Adding anim to pail:"
+    anim.inspect
+
+    ##### Steelclad #####
+
+    anim = Anim.new(name: :steelclad_run)
+    (1..10).each do |i|
+      anim.add_frame "sprites/steelclad/steelclad-se-run#{i}.png"
+    end
+    (1..10).each do |i|
+      anim.add_upframe "sprites/steelclad/steelclad-ne-run#{i}.png"
+    end
+    state.anim_pail[anim.name] = anim
+    puts "Adding anim to pail:"
+    anim.inspect2
+
   end
 

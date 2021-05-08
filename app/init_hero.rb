@@ -22,9 +22,11 @@ def init_hero args
   end
 
   ########## Behavior ##########
+  # keeping this here instead of in new class just for
+  # reference purposes re: metaprogramming
 
   b = Behavior.new(ent: ent)
-  b.add_attribute(:speed, 10)
+  b.add_attribute(:speed, 5)
   puts "SPEED"
   puts b.speed
 
@@ -64,7 +66,8 @@ def init_hero args
     args.state.anims << Known_anims[ent][:hero_attack_staff].dup
 
     # create projectile
-    args.state.tents << IceMissile.new(args, ent)
+    proj = IceMissile.new(args, ent)
+    args.state.tents << proj
     puts "ANIM ADDED"
     p args.state.anims
     p args.state.effects
