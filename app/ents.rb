@@ -11,6 +11,8 @@ class Ent
     args.state.entity_id += 1
   end
 
+  # this might be used in future - thought about having separate id indexes
+  # for temporary ents
   def new_tent_id args
     args.state.tent_id += 1
   end
@@ -61,7 +63,7 @@ class Anim < Ent
     @frames       = []
     @upframes     = []    # for animations with 4 directions (incl flip)
     @frame_index  = 0
-    @cur_time = 0
+    @cur_time     = 0
   end
 
   def play
@@ -88,15 +90,16 @@ class Anim < Ent
     @frames << path
     @frame_dur = (@duration / @frames.size).round
   end
+
   def add_frame path
     @frames << path
     @frame_dur = (@duration / @frames.size).round
   end
+
   def add_upframe path
     @upframes << path
-    @upframe_dur = (@duration / @upframes.size).round
+    @frame_dur = (@duration / @upframes.size).round
   end
-
 
   def duration= dur
     @duration = dur
@@ -150,7 +153,7 @@ class Anim < Ent
     end
   end
 
-  def inspect2
+  def megainspect
     puts "*****Animation*****"
     print "\tname: #{@name}" + "\tent: #{@ent}" + "\tstate: #{@state}\n"
     p @frames
@@ -179,6 +182,7 @@ class Behavior < Ent
     args.state.known_anims[ent][name].dup
   end
   
+  # i know args first would be more consistent, but i can't help myself
   def handle bs, args
     puts "HANDLING BEHAVIOR SIGNAL"
     p bs

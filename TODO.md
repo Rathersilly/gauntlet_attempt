@@ -1,30 +1,29 @@
 #TODO
 
-there's gotta be a super simple way to add an animation
 
-the game needs to know - what animation is playing, how long it lasts,
-how long is left, the image path(s), the coords if needed
+5/8/21
+Adding new ents is a mess - but it's already solved wrt icemissile.
+just need to make subclasses of ent for hero etc
+then can make more of them
+also super important to get rid of all those Hash#find functions ugh
 
-so could have a data structure
+simple things to add
 
-class Ent
-  @current_anim  -> animation class
-
-
-class Anim
-
-  @path
-  @max_time
-  @cur_time
-
-  @frame_dur
-Ent#add_animation(args)
-  @animations << Anim.new  
+- hitpoints
+- collision on projectile
+- damage on projectile
+- ui
 
 
-4/24/21
-pretty sure after attacking I never reset status
-i dont think that matters a lot at the moment, but statuses might become important later
+- move unit data to xml files
+- after ent class refactor/xml change, should be super simple to add new units/projectiles
 
-could write a script that calls dragonruby after loading yaml files maybe?
+a bit later - research how to make a map
+- divide space into grid, look into pathfinding
+- make pathfinding optional/toggleable. original gauntlet didnt have pathfinding
+
+"components have no functions, systems have no fields" - timothy ford
+a component can be marked read-only to a system, so multiple systems can read in parallel
+
+
 

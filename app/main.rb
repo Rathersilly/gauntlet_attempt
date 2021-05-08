@@ -10,9 +10,11 @@ require '/app/init.rb'
 module Init
 end
 class Game
-  attr_accessor :args, :grid, :inputs, :outputs, :state
+  attr_gtk
+  #attr_accessor :args, :grid, :inputs, :outputs, :state
 
   include Init
+
   def initialize args
     # initialize each component container
 
@@ -31,8 +33,6 @@ class Game
     # to avoid running out of ids, have separate ids for temporary things
     # can only have max # of temp things before we reset id to 0 (is the plan{nyi})
 
-    @@entity_id          = -1    # these start at -1 because they are incremented for each
-    @@tent_id     = -1    # new ent, and we want the component arrays to start at 0
     @args = args
     @state = args.state
     @grid = args.grid
@@ -176,10 +176,6 @@ end
 def tick args
   $game ||= Game.new args
   $game.args = args
-  $game.grid = args.grid
-  $game.inputs = args.inputs
-  $game.outputs = args.outputs
-  $game.state = args.state
   $game.tick
   #args.outputs.background_color = [100,100,100]
   #args.outputs.solids <<  [0,0,1280,720,100,100,100]

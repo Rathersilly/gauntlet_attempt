@@ -7,88 +7,29 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +1 app/main.rb
-badd +1 app/ents.rb
-badd +1 app/init.rb
-badd +1 ~/.config/nvim/init.vim
-badd +0 NERD_tree_1
+badd +33 app/main.rb
+badd +156 app/ents.rb
+badd +50 app/init.rb
+badd +100 ~/.config/nvim/init.vim
+badd +85 app/init_anims.rb
+badd +1 app/init_hero.rb
+badd +15 app/init_baddie.rb
+badd +45 app/init_spells.rb
+badd +13 a.rb
+badd +0 term://.//23273:tail\ -f\ /dev/null;\#gdb\ program
+badd +5 term://.//23275:/usr/bin/gdb
+badd +0 sprites/siegetrooper-attack-5.png
+badd +1 app/init_siegeguy.rb
+badd +1 app/anim.rb
+badd +34 app/init_steelclad.rb
+badd +6 README.md
+badd +1 init\ anim
+badd +94 app/init_mage.rb
+badd +29 TODO.md
 argglobal
 %argdel
 set stal=2
-edit NERD_tree_1
-set splitbelow splitright
-wincmd _ | wincmd |
-vsplit
-wincmd _ | wincmd |
-vsplit
-2wincmd h
-wincmd w
-wincmd w
-wincmd t
-set winminheight=0
-set winheight=1
-set winminwidth=0
-set winwidth=1
-exe 'vert 1resize ' . ((&columns * 31 + 119) / 238)
-exe 'vert 2resize ' . ((&columns * 102 + 119) / 238)
-exe 'vert 3resize ' . ((&columns * 103 + 119) / 238)
-argglobal
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal nofen
-silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 27) / 55)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-1
-normal! 0
-wincmd w
-argglobal
-if bufexists("app/main.rb") | buffer app/main.rb | else | edit app/main.rb | endif
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 27) / 55)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-1
-normal! 0
-wincmd w
-argglobal
-if bufexists("app/ents.rb") | buffer app/ents.rb | else | edit app/ents.rb | endif
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 94 - ((36 * winheight(0) + 27) / 55)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-94
-normal! 020|
-wincmd w
-exe 'vert 1resize ' . ((&columns * 31 + 119) / 238)
-exe 'vert 2resize ' . ((&columns * 102 + 119) / 238)
-exe 'vert 3resize ' . ((&columns * 103 + 119) / 238)
-tabedit app/init.rb
+edit app/main.rb
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
@@ -99,8 +40,8 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 118 + 119) / 238)
-exe 'vert 2resize ' . ((&columns * 119 + 119) / 238)
+exe 'vert 1resize ' . ((&columns * 119 + 119) / 238)
+exe 'vert 2resize ' . ((&columns * 118 + 119) / 238)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -111,36 +52,112 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-59,125fold
-127,169fold
-let s:l = 40 - ((4 * winheight(0) + 27) / 55)
+let s:l = 16 - ((15 * winheight(0) + 27) / 55)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-40
-normal! 0
-wincmd w
-argglobal
-if bufexists("~/.config/nvim/init.vim") | buffer ~/.config/nvim/init.vim | else | edit ~/.config/nvim/init.vim | endif
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 349 - ((35 * winheight(0) + 27) / 55)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-349
+16
 normal! 03|
 wincmd w
-exe 'vert 1resize ' . ((&columns * 118 + 119) / 238)
-exe 'vert 2resize ' . ((&columns * 119 + 119) / 238)
-tabnext 2
+argglobal
+if bufexists("app/init_anims.rb") | buffer app/init_anims.rb | else | edit app/init_anims.rb | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 85 - ((27 * winheight(0) + 27) / 55)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+85
+normal! 020|
+wincmd w
+exe 'vert 1resize ' . ((&columns * 119 + 119) / 238)
+exe 'vert 2resize ' . ((&columns * 118 + 119) / 238)
+tabedit app/init_mage.rb
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+wincmd _ | wincmd |
+split
+1wincmd k
+wincmd w
+wincmd t
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 119 + 119) / 238)
+exe '2resize ' . ((&lines * 27 + 29) / 58)
+exe 'vert 2resize ' . ((&columns * 118 + 119) / 238)
+exe '3resize ' . ((&lines * 27 + 29) / 58)
+exe 'vert 3resize ' . ((&columns * 118 + 119) / 238)
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 44 - ((41 * winheight(0) + 27) / 55)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+44
+normal! 022|
+wincmd w
+argglobal
+if bufexists("app/init_steelclad.rb") | buffer app/init_steelclad.rb | else | edit app/init_steelclad.rb | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 32 - ((19 * winheight(0) + 13) / 27)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+32
+normal! 032|
+wincmd w
+argglobal
+if bufexists("app/init_anims.rb") | buffer app/init_anims.rb | else | edit app/init_anims.rb | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let s:l = 36 - ((22 * winheight(0) + 13) / 27)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+36
+normal! 021|
+wincmd w
+exe 'vert 1resize ' . ((&columns * 119 + 119) / 238)
+exe '2resize ' . ((&lines * 27 + 29) / 58)
+exe 'vert 2resize ' . ((&columns * 118 + 119) / 238)
+exe '3resize ' . ((&lines * 27 + 29) / 58)
+exe 'vert 3resize ' . ((&columns * 118 + 119) / 238)
+tabnext 1
 set stal=1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
