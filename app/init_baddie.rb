@@ -38,5 +38,5 @@
     end
 
     args.state.baddie = ent
-    args.state.behavior[ent] = b
+    args.state.behaviors << b
   end

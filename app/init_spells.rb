@@ -7,18 +7,20 @@
 
     def initialize args, parent
       @parent = parent
-      @ent = new_tent_id args
+      @ent = new_entity_id args
 
-      p "NEW ICEMISSILE"
       xform = args.state.xforms[parent].dup
+      xform.ent = @ent
+      args.state.xforms << xform
       anim = args.state.anim_pail[:ice_missile].dup
       anim.ent = ent
-      args.state.anims << anim
+      anim.reset
+      args.state.effects << anim
 
-      puts "new icemissile"
+      p "NEW ICEMISSILE"
       puts "p: #{@parent}, e: #{@ent}"
       puts "a.s.entid : #{args.state.entity_id}"
-      puts "a.s.tentid: #{args.state.tent_id}"
+      p args.state.effects
 
 
     end

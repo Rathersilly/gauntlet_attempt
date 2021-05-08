@@ -97,7 +97,12 @@ class Anim < Ent
     #
     # uhh or could just use array
 
-    args.outputs.sprites << [*args.state.xforms[@ent].to_a,@frames[@frame_index], @angle]
+    if name == :ice_missile
+      inspect2
+      p xform
+    end
+    #args.outputs.sprites << [*args.state.xforms[@ent].to_a,@frames[@frame_index], @angle]
+    args.outputs.sprites << [*xform.to_a,@frames[@frame_index], @angle]
     @cur_time += 1
     if @cur_time == @frame_dur
       @cur_time = 0
@@ -106,10 +111,12 @@ class Anim < Ent
         if @loop == true
           reset
         else
-          args.state.behavior_signals << BehaviorSignal.new(ent: @ent,
-                                                            type: Anim,
-                                                            state: :done,
-                                                            info: @name)
+          if args.state.behaviors.any? { |b| b.ent == @ent }
+            args.state.behavior_signals << BehaviorSignal.new(ent: @ent,
+                                                              type: Anim,
+                                                              state: :done,
+                                                              info: @name)
+          end
 
           done
         end
@@ -118,9 +125,10 @@ class Anim < Ent
     end
   end
 
-  def inspect
+  def inspect2
     puts "*****Animation*****"
     print "\tname: #{@name}" + "\tent: #{@ent}" + "\tstate: #{@state}\n"
+    p @frames
   end
 end
 
@@ -145,8 +153,12 @@ class Behavior < Ent
     puts "HANDLING BEHAVIOR SIGNAL"
     p bs
     if bs.type == Anim && bs.state == :done
+
+      p methods.sort
+      p singleton_methods.sort
       default_anim args if methods.include?(:default_anim)
     end
+    bs.handled = true
 
   end
 
@@ -156,17 +168,19 @@ class BehaviorSignal
   # when an animation finishes, it sets it state to :done (so it is cleaned up)
   # and places a BehaviorSignal instance in state.behavior_signals
   # which is looped through in the behavior system
-  attr_accessor :ent, :type, :state, :info
+  attr_accessor :ent, :type, :state, :info, :handled
 
   # types of BSignals: anim_finished
 
   def initialize(**opts)
+    puts "BEHAVIOR SIGNAL CREATED"
     # type = :anim_done
     # info = eg anim name
     @ent          = opts[:ent]         || nil
     @type         = opts[:type]        || nil
     @state        = opts[:state]       || nil
     @info         = opts[:info]        || nil
+    @handled      = opts[:handled]     || false
   end
 
   def inspect

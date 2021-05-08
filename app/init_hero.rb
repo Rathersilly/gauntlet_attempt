@@ -63,9 +63,11 @@ def init_hero args
 
     # create projectile
     args.state.tents << IceMissile.new(args, ent)
-    puts args.state.tents
+    puts "ANIM ADDED"
+    p args.state.anims
+    p args.state.effects
   end
 
   args.state.hero = ent
-  args.state.behavior[ent] = b
+  args.state.behaviors << b
 end

@@ -18,9 +18,10 @@ class Game
 
     args.state.xforms                 = []
     args.state.anims                  = []
+    args.state.effects                = []
     args.state.tents                  = []
     #args.state.known_anims            = []
-    args.state.behavior               = []
+    args.state.behaviors              = []
     args.state.behavior_signals       = []
     args.state.anim_pail              = {}
     args.state.entity_id              = -1
@@ -68,7 +69,7 @@ class Game
       puts "STATE BEHAVIOR SIGNALS"
       p state.behavior_signals
       state.behavior_signals.each do |bs|
-        state.behavior.each do |b|
+        state.behaviors.each do |b|
           if b.ent == bs.ent
             b.handle(bs, args)
           end
@@ -91,7 +92,7 @@ class Game
       state.anims << anim if state.anims.none? { |x| x.name == :hero_attack_staff }
     end
     if inputs.mouse.down
-      state.behavior.each do |b|
+      state.behaviors.each do |b|
 
         b.send(:on_mouse_down, args) if b.respond_to?(:on_mouse_down)
       end
@@ -100,7 +101,7 @@ class Game
     end
     #if inputs.keyboard.key_down
     if inputs.keyboard.key_down.char
-      state.behavior.each do |b|
+      state.behaviors.each do |b|
         b.send(:on_key_down, args) if b.respond_to?(:on_key_down)
       end
     end
@@ -108,7 +109,7 @@ class Game
     # default doesnt have to be called every frame - it should respond to signal,
     # or be called by itself after finishing a task perhaps
     
-    state.behavior.each do |b|
+    state.behaviors.each do |b|
         b.send(:on_tick, args) if b.respond_to?(:on_tick)
     end
 
@@ -127,6 +128,10 @@ class Game
       next if anim.nil? || anim.state == :done
       anim.render args 
     end
+    state.effects.each do |anim|
+      next if anim.nil? || anim.state == :done
+      anim.render args 
+    end
     
     outputs.labels << [10,700, "#{args.gtk.current_framerate.round}"]
   end
@@ -136,25 +141,28 @@ class Game
   end
 
   def cleanup
-    puts "CLEANUP"
-    p state.anims
-    rejected = []
+    # puts "CLEANUP"
+    # p state.anims
+    # p state.effects
     state.anims.reject! do |anim|
       #puts "CHECKING ANIM"
       #puts anim.state
       truthflag = false
       if anim.state == :done 
-        rejected << anim
-
         truthflag =  true
       end
       truthflag
     end
-    if !rejected.empty?
-    print "REJECTED: "
-    p rejected
+
+    state.effects.reject! do |anim|
+      truthflag = false
+      if anim.state == :done 
+        truthflag =  true
+      end
+      truthflag
     end
-    state.behavior_signals.clear
+
+    state.behavior_signals.reject! { |bs| bs.handled == true }
   end
 
 
