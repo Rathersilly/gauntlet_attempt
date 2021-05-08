@@ -4,7 +4,7 @@
 
     ########## Xform ##########
 
-    args.state.xforms[ent] = Xform.new(ent: ent,x: 900,y:400,w:200,h:200)
+    args.state.xforms[ent] = Xform.new(ent: ent,x: 900,y:400,w:100,h:100)
 
     ########## Animation ##########
 
@@ -14,6 +14,7 @@
     anims_to_add.each do |name|
       anim = args.state.anim_pail[name]
       anim.ent = ent
+      anim.flip_horizontally = true
       Known_anims[ent][name] = anim
     end
 

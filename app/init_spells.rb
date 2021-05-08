@@ -11,6 +11,9 @@
 
       xform = args.state.xforms[parent].dup
       xform.ent = @ent
+      xform.w = 50
+      xform.h = 50
+
       args.state.xforms << xform
       anim = args.state.anim_pail[:ice_missile].dup
       anim.ent = ent

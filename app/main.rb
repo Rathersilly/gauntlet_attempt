@@ -76,9 +76,9 @@ class Game
         end
       end
     end
-    
+
     # iterate through behavior components, see if they respond to input
-    
+
 
     if inputs.keyboard.key_down.one
       state.anims.reject! {|x| x.name == :hero_attack_staff }
@@ -99,13 +99,14 @@ class Game
 
       #attack animation
     end
-    #if inputs.keyboard.key_down
-    if inputs.keyboard.key_down.char
-      state.behaviors.each do |b|
-        b.send(:on_key_down, args) if b.respond_to?(:on_key_down)
-      end
+    # puts "key_down"
+    # p inputs.keyboard.key_down
+    # puts "key_down_or_held"
+    # p inputs.keyboard.key_down_or_held
+    state.behaviors.each do |b|
+      b.send(:on_key_down, args) if b.respond_to?(:on_key_down)
     end
-    
+
     # default doesnt have to be called every frame - it should respond to signal,
     # or be called by itself after finishing a task perhaps
     

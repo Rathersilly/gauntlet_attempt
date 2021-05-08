@@ -43,6 +43,8 @@ end
 
 class Anim < Ent
   attr_accessor :name, :ent, :angle, :path, :frames, :duration, :loop, :state
+  attr_accessor :flip_horizontally, :flip_vertically
+
   def initialize(**opts)
     # possible states: play, stop, pause, done
     @name         = opts[:name]        || nil
@@ -51,6 +53,8 @@ class Anim < Ent
     @loop         = opts[:loop]        || false
     @duration     = opts[:duration]    || 60
     @state        = opts[:state]       || :play
+    @flip_horizontally      = opts[:flip_horizontally]     || false
+    @flip_vertically        = opts[:flip_vertically]       || false
     @frames       = []
     @frame_index  = 0
     @cur_time = 0
@@ -97,12 +101,12 @@ class Anim < Ent
     #
     # uhh or could just use array
 
-    if name == :ice_missile
-      inspect2
-      p xform
-    end
     #args.outputs.sprites << [*args.state.xforms[@ent].to_a,@frames[@frame_index], @angle]
-    args.outputs.sprites << [*xform.to_a,@frames[@frame_index], @angle]
+    #args.outputs.sprites << [*xform.to_a,@frames[@frame_index], @angle]
+    args.outputs.sprites << [**xform.to_h, path: @frames[@frame_index],
+                             angle: @angle,
+                             flip_horizontally: @flip_horizontally,
+                             flip_vertically: @flip_vertically]
     @cur_time += 1
     if @cur_time == @frame_dur
       @cur_time = 0
@@ -159,8 +163,16 @@ class Behavior < Ent
       default_anim args if methods.include?(:default_anim)
     end
     bs.handled = true
-
   end
+
+  def add_attribute name, value, access = true
+    instance_variable_set("@#{name}", value)
+    if access == true
+      singleton_class.class_eval { attr_accessor name}
+    end
+  end
+
+
 
 end
 

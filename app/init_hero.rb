@@ -4,7 +4,7 @@ def init_hero args
 
   ########## Xform ##########
 
-  args.state.xforms[ent] = Xform.new(ent: ent,x: 200,y:200,w:200,h:200)
+  args.state.xforms[ent] = Xform.new(ent: ent,x: 200,y:200,w:100,h:100)
   #args.state.xforms[ent] = [x: 200,y:200,w:200,h:200]
 
   ########## Animation ##########
@@ -21,12 +21,12 @@ def init_hero args
     Known_anims[ent][name] = anim
   end
 
-  # set anim to play
-  args.state.anims << Known_anims[ent][:hero_idle].dup
-
   ########## Behavior ##########
 
   b = Behavior.new(ent: ent)
+  b.add_attribute(:speed, 10)
+  puts "SPEED"
+  puts b.speed
 
   # needs to have default behavior (eg idle anim)
   b.define_singleton_method(:default_anim) do |args|
@@ -43,11 +43,13 @@ def init_hero args
     p args.state.anims
   end
 
-  # needs to have a trigger (eg input) which has some effect (eg change anim)
+  # INPUT HANDLING
   b.define_singleton_method(:on_mouse_down) do  |args|
-
     attack args
+  end
 
+  b.define_singleton_method(:on_key_down) do  |args|
+    move args
   end
 
   # would like the attack method to invoke the on_mouse_down method,
@@ -67,6 +69,32 @@ def init_hero args
     p args.state.anims
     p args.state.effects
   end
+
+  b.define_singleton_method(:move) do |args|
+    xform = args.state.xforms.find { |x| x.ent == @ent }
+    #puts "MOVING"
+    #p args.inputs.keyboard.key
+    #p args.inputs.keyboard.keys
+    #p args.inputs.keyboard.key_down
+    chars = args.inputs.keyboard.keys[:down_or_held]
+    if args.inputs.keyboard.up
+      xform.y += @speed
+    end
+    if args.inputs.keyboard.left
+      xform.x -= @speed
+    end
+    if args.inputs.keyboard.down
+      xform.y -= @speed
+    end
+    if args.inputs.keyboard.right
+      xform.x += @speed
+    end
+  end
+
+  ########## ADDING TO STATE ##########
+  
+  # set anim to play
+  args.state.anims << Known_anims[ent][:hero_idle].dup
 
   args.state.hero = ent
   args.state.behaviors << b
