@@ -39,7 +39,8 @@ class Game
     @outputs = args.outputs
     @inputs = args.inputs
     init_anims 
-    init_hero args
+    #init_hero args
+    init_mage args
     init_baddie args
     #init_siegeguy args
     init_steelclad args

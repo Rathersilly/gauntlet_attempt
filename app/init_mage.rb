@@ -1,4 +1,4 @@
-def init_hero args
+def init_mage args
   #args.state.hero = Ent.new
   ent = new_entity_id
 
@@ -13,7 +13,7 @@ def init_hero args
   # Known_anims is an array of hashes, which are found by the index ent
   Known_anims[ent] = {}
 
-  anims_to_add = [:hero_idle,:hero_attack_staff]
+  anims_to_add = [:mage_idle,:mage_attack_staff]
   anims_to_add.each do |name|
 
     anim = args.state.anim_pail[name]
@@ -34,7 +34,7 @@ def init_hero args
   b.define_singleton_method(:default_anim) do |args|
     # reset animation
     args.state.anims.reject! {|x| x.ent == ent }
-    anim = Known_anims[ent][:hero_idle].dup
+    anim = Known_anims[ent][:mage_idle].dup
 
     # check if an animation with this ent is playing
     if args.state.anims.select { |anim| anim.ent == ent }
@@ -64,7 +64,7 @@ def init_hero args
 
     # animation becomes attack
     xform = args.state.xforms.find { |x| x.ent == @ent }
-    anim = Known_anims[ent][:hero_attack_staff].dup
+    anim = Known_anims[ent][:mage_attack_staff].dup
     if args.inputs.mouse.x < xform.x
       anim.flip_horizontally = true
     end
@@ -91,22 +91,23 @@ def init_hero args
     end
     if args.inputs.keyboard.left
       xform.x -= @speed
-      anim.flip_horizontally = true if anim.name != :hero_attack_staff
+      anim.flip_horizontally = true if anim.name != :mage_attack_staff
     end
     if args.inputs.keyboard.down
       xform.y -= @speed
     end
     if args.inputs.keyboard.right
       xform.x += @speed
-      anim.flip_horizontally = false if anim.name != :hero_attack_staff
+      anim.flip_horizontally = false if anim.name != :mage_attack_staff
     end
   end
 
   ########## ADDING TO STATE ##########
   
   # set anim to play
-  args.state.anims << Known_anims[ent][:hero_idle].dup
+  args.state.anims << Known_anims[ent][:mage_idle].dup
 
   args.state.hero = ent
   args.state.behaviors << b
 end
+
