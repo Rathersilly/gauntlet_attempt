@@ -43,6 +43,8 @@ class Xform < Ent
   end
 end
 
+# lmao there's a hell of a lot of logic here for a so-called component
+# actually its not so bad - its all in the render function, which can be moved easily
 class Anim < Ent
   attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state
   attr_accessor :flip_horizontally, :flip_vertically
@@ -161,6 +163,9 @@ class Anim < Ent
   end
 end
 
+# again, logic can be moved out of here (mainly the set_dir function)
+# every unnecessary function (or anything) defeats the point of components.
+# like maybe even move the inspect function to some sort of helper class
 class Behavior < Ent
   # does behavior know about all its anims? or just loop through them as needed and select
   # the ones with the same ent
@@ -174,8 +179,10 @@ class Behavior < Ent
     @default      = opts[:default]     || false
     post_initialize opts
   end
+
   def post_initialize opts
     # to be overridden if needed in subclasses
+    # Sandi Metz taught me this but don't blame her if its wrong
   end
 
   def known_anims ent, name
@@ -185,7 +192,8 @@ class Behavior < Ent
   # i know args first would be more consistent, but i can't help myself
   def handle bs, args
     puts "HANDLING BEHAVIOR SIGNAL"
-    p bs
+    bs.megainspect
+
     if bs.type == Anim && bs.state == :done
 
       default_anim args if methods.include?(:default_anim)
@@ -210,7 +218,6 @@ class Behavior < Ent
     @diry = norm[1]
   end
 
-
 end
 
 class BehaviorSignal
@@ -232,7 +239,7 @@ class BehaviorSignal
     @handled      = opts[:handled]     || false
   end
 
-  def inspect
+  def megainspect
     puts "ent: #{@ent}, #{@type}, #{@state}"
     super
   end

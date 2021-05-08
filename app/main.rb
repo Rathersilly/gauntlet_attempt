@@ -83,6 +83,7 @@ class Game
     # iterate through behavior components, see if they respond to input
 
 
+    # uh, this isnt currently used - maybe delete?
     if inputs.keyboard.key_down.one
       state.anims.reject! {|x| x.name == :hero_attack_staff }
       anim = state.anim_pail[:hero_idle].dup
@@ -94,29 +95,24 @@ class Game
       anim.ent = state.hero
       state.anims << anim if state.anims.none? { |x| x.name == :hero_attack_staff }
     end
+
+    # there's probably a better way to iterate here - maybe a container
+    # with all the behaviors that respond to input
     if inputs.mouse.down
       state.behaviors.each do |b|
-
         b.send(:on_mouse_down, args) if b.respond_to?(:on_mouse_down)
       end
-
-      #attack animation
     end
+
     # puts "key_down"
     # p inputs.keyboard.key_down
     # puts "key_down_or_held"
     # p inputs.keyboard.key_down_or_held
     state.behaviors.each do |b|
       b.send(:on_key_down, args) if b.respond_to?(:on_key_down)
+      # this was in a separate each loop - probably fine to keep it here?
+      b.send(:on_tick, args) if b.respond_to?(:on_tick)
     end
-
-    # default doesnt have to be called every frame - it should respond to signal,
-    # or be called by itself after finishing a task perhaps
-    
-    state.behaviors.each do |b|
-        b.send(:on_tick, args) if b.respond_to?(:on_tick)
-    end
-
 
   end
 
