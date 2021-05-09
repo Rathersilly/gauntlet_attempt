@@ -1,26 +1,27 @@
-def init_hero args
-  #args.state.hero = Ent.new
-  ent = new_entity_id args
+class ArchmageFactory < Factory
+  class << self
+    def anims
+      Known_anims[@ent] = {}
 
-  ########## Xform ##########
+      anims_to_add = [:hero_idle,:hero_attack_staff]
+      anims_to_add.each do |name|
 
-  args.state.xforms[ent] = Xform.new(ent: ent,x: 200,y:200,w:100,h:100)
-  #args.state.xforms[ent] = [x: 200,y:200,w:200,h:200]
+        anim = args.state.anim_pail[name]
+        anim.ent = @ent
+        Known_anims[@ent][name] = anim
+      end
+      args.state.anims << Known_anims[@ent][:hero_idle].dup
+    end
 
-  ########## Animation ##########
-
-  # this might be a tad confusing (or not)
-  # Known_anims is an array of hashes, which are found by the index ent
-  Known_anims[ent] = {}
-
-  anims_to_add = [:hero_idle,:hero_attack_staff]
-  anims_to_add.each do |name|
-
-    anim = args.state.anim_pail[name]
-    anim.ent = ent
-    Known_anims[ent][name] = anim
+    # haven't updated this yet - it will have normal mage animations
+    def behavior(args)
+      b = PlayerBehavior.new(ent: @ent, speed: 5)
+      args.state.behaviors << b
+    end
   end
+end
 
+=begin
   ########## Behavior ##########
   # keeping this here instead of in new class just for
   # reference purposes re: metaprogramming
@@ -110,3 +111,4 @@ def init_hero args
   args.state.hero = ent
   args.state.behaviors << b
 end
+=end

@@ -21,12 +21,12 @@ module Init
   require '/app/init_anims.rb'
   require '/app/components.rb'
   require '/app/ents.rb'
-  require '/app/init_spells.rb'
-  require '/app/init_hero.rb'
-  require '/app/magefactory.rb'
-  require '/app/init_baddie.rb'
+  require '/app/mage_factory.rb'
+  require '/app/archmage_factory.rb'
+  require '/app/steelclad_factory.rb'
+  require '/app/adept_factory.rb'
+  require '/app/spell_factory.rb'
   #require '/app/init_siegeguy.rb'
-  require '/app/init_steelclad.rb'
 
 end
 
@@ -38,16 +38,18 @@ module Tools
   end
 end
 
+
+
+# module to handle mobs with 4 directional anims (including horiz flip)
+# module to be included in a Behavior class
 module Mob4d
-  # module to be included in a Behavior class
   def move_to_hero args
     hero = args.state.hero
     hero_xform = args.state.xforms.find { |xform| xform.ent == hero }
     set_dir(args, [hero_xform.x,hero_xform.y])
   end
-
-
   def on_tick args
+
     move_to_hero args
     xform = args.state.xforms.find { |xform| xform.ent == @ent }
     anim = args.state.anims.find { |xform| xform.ent == @ent }
