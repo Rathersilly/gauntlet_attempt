@@ -7,6 +7,8 @@ require '/app/init.rb'
 # dragonruby already does a big part of it with the render class
 # ruby has modules and singleton class, which should make this elegant
 # you got this.
+module MageFactory
+end
 module Init
 end
 class Game
@@ -14,6 +16,10 @@ class Game
   #attr_accessor :args, :grid, :inputs, :outputs, :state
 
   include Init
+
+  def new_entity_id args
+    args.state.entity_id += 1
+  end
 
   def initialize args
     # initialize each component container
@@ -40,14 +46,11 @@ class Game
     @inputs = args.inputs
     init_anims 
     #init_hero args
-    init_mage args
+    MageFactory.create_mage args
+    
     init_baddie args
     #init_siegeguy args
-    init_steelclad args
-  end
-
-  def new_entity_id 
-    args.state.entity_id += 1
+    #init_steelclad args
   end
 
   def new_tent_id 

@@ -1,6 +1,7 @@
+#class Siegeguy < Ent
   def init_siegeguy args
 
-    ent = new_entity_id
+    ent = new_entity_id args
 
     ########## Xform ##########
 
@@ -47,4 +48,4 @@
     args.state.baddie = ent
     args.state.behaviors << b
   end
-
+#end

@@ -1,6 +1,6 @@
 def init_hero args
   #args.state.hero = Ent.new
-  ent = new_entity_id
+  ent = new_entity_id args
 
   ########## Xform ##########
 

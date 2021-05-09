@@ -1,6 +1,6 @@
   def init_steelclad args
 
-    ent = new_entity_id
+    ent = new_entity_id args
 
     ########## Xform ##########
 

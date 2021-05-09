@@ -19,9 +19,11 @@ Known_anims = []
 module Init
 
   require '/app/init_anims.rb'
+  require '/app/components.rb'
+  require '/app/ents.rb'
   require '/app/init_spells.rb'
   require '/app/init_hero.rb'
-  require '/app/init_mage.rb'
+  require '/app/magefactory.rb'
   require '/app/init_baddie.rb'
   #require '/app/init_siegeguy.rb'
   require '/app/init_steelclad.rb'

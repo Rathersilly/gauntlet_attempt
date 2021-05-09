@@ -1,6 +1,6 @@
   def init_baddie args
 
-    ent = new_entity_id
+    ent = new_entity_id args
 
     ########## Xform ##########
 
