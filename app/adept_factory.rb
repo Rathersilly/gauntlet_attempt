@@ -24,23 +24,4 @@ end
 class AdeptBehavior < Behavior
 
 
-=begin
-  def default_anim(args)
-    # needs to have default behavior (eg idle anim)
-    b.define_singleton_method(:default_anim) do |args|
-    end
-
-    b.define_singleton_method(:attack) do |args|
-      
-      # reset animation
-      args.state.anims.reject! {|x| x.ent == ent }
-      
-      # animation becomes attack
-      args.state.anims << Known_anims[ent][:adept_magic]
-    end
-
-    args.state.baddie = ent
-    args.state.behaviors << b
-  end
-=end
 end

@@ -6,6 +6,7 @@ class IceMissileFactory < Factory
   class << self
 
     def before args, **opts
+      puts "BEFORE ICEMISSILE"
       @parent = opts[:parent]
       @w ||= 50
       @h ||= 50
@@ -16,14 +17,14 @@ class IceMissileFactory < Factory
       xform.ent = @ent
       xform.w = @w
       xform.h = @h
-      args.state.xforms << xform
+      args.state.xforms[@ent] = xform
     end
 
     def anim args
       anim = args.state.anim_pail[:ice_missile].dup
       anim.ent = @ent
       anim.reset
-      args.state.effects << anim
+      args.state.spell_anims[@ent] = anim
     end
 
     def behavior args
@@ -36,7 +37,7 @@ class IceMissileFactory < Factory
       p "NEW ICEMISSILE"
       puts "p: #{@parent}, e: #{@ent}"
       puts "a.s.entid : #{args.state.entity_id}"
-      p args.state.effects
+      p args.state.spell_anims
     end
 
   end

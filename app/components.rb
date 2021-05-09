@@ -26,9 +26,10 @@ class Xform < Component
   def to_h
     {x: @x,y:@y,w:@w,h:@h}
   end
-  def to_a
-    [@x,@y,@w,@h]
-  end
+
+  # def to_a
+  #   [@x,@y,@w,@h]
+  # end
 end
 
 # lmao there's a hell of a lot of logic here for a so-called component
@@ -197,9 +198,9 @@ class Behavior < Component
     end
   end
 
-  def set_dir  args, dest_vector
+  def set_dir args, dest_vector
     # expect [x,y]
-    xform = args.state.xforms.find { |xform| xform.ent == @ent }
+    xform = args.state.xforms[@ent]
     x = dest_vector[0] - xform.x
     y = dest_vector[1] - xform.y
     norm = Tools.normalize([x,y])

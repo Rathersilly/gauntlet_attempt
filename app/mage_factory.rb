@@ -44,7 +44,7 @@ class MageFactory < Factory
         anim.ent = @ent
         Known_anims[@ent][name] = anim
       end
-      args.state.anims << Known_anims[@ent][:mage_idle].dup
+      args.state.anims[@ent] = Known_anims[@ent][:mage_idle].dup
     end
 
     def behavior(args)
@@ -63,14 +63,9 @@ class PlayerBehavior < Behavior
 
   def default_anim(args)
     # reset animation
-    args.state.anims.reject! { |x| x.ent == @ent }
     anim = Known_anims[@ent][:mage_idle].dup
+    args.state.anims[@ent] = anim
 
-    # check if an animation with this ent is playing
-    if args.state.anims.select { |anim| anim.ent == @ent }
-
-    end
-    args.state.anims << anim
     puts 'END DEFAULT'
     p args.state.anims
   end
@@ -85,26 +80,22 @@ class PlayerBehavior < Behavior
   end
 
   def attack(args)
-    # reset animation
-    args.state.anims.reject! { |x| x.ent == @ent }
 
-    # animation becomes attack
     xform = args.state.xforms[@ent]
     anim = Known_anims[@ent][:mage_attack_staff].dup
     anim.flip_horizontally = true if args.inputs.mouse.x < xform.x
-    args.state.anims << anim
+    args.state.anims[@ent] = anim
 
     IceMissileFactory.create args, {parent: @ent}
-    #projectile = IceMissile.new(args, @ent)
-    #args.state.tents << projectile
+
     puts 'ANIM ADDED'
     p args.state.anims
-    p args.state.effects
+    p args.state.spell_anims
   end
 
   def move(args)
-    xform = args.state.xforms.find { |x| x.ent == @ent }
-    anim = args.state.anims.find { |x| x.ent == @ent }
+    xform = args.state.xforms[@ent]
+    anim = args.state.anims[@ent]
 
     chars = args.inputs.keyboard.keys[:down_or_held]
     xform.y += @speed if args.inputs.keyboard.up

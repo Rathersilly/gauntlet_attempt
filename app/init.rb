@@ -54,7 +54,7 @@ module Mob4d
       move_to_hero args
     end
     xform = args.state.xforms[@ent]
-    anim = args.state.anims.find { |xform| xform.ent == @ent }
+    anim = args.state.anims[@ent]
     
     xform.x += @dirx * speed
     xform.y += @diry * speed

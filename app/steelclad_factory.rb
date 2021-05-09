@@ -11,7 +11,7 @@ class SteelCladFactory < Factory
         #anim.flip_horizontally = true
         Known_anims[@ent][name] = anim
       end
-      args.state.anims << Known_anims[@ent][:steelclad_run].dup
+      args.state.anims[@ent] = Known_anims[@ent][:steelclad_run].dup
     end
 
     def behavior(args)
@@ -31,16 +31,11 @@ class SteelcladBehavior < Behavior
   end
 
   def default anim, args
-    # reset animation
-    args.state.anims.reject! {|x| x.ent == ent }
+
     anim = Known_anims[ent][:steelclad_run].dup
     anim.loop = true
 
-    # check if an animation with this ent is playing
-    if args.state.anims.select { |anim| anim.ent == ent }
-
-    end
-    args.state.anims << anim
+    args.state.anims[@ent] = anim
     puts "END DEFAULT"
     p args.state.anims
 
@@ -48,12 +43,6 @@ class SteelcladBehavior < Behavior
 
   # TODO
   def attack args
-
-    # reset animation
-    #args.state.anims.reject! {|x| x.ent == ent }
-
-    # animation becomes attack
-    #args.state.anims << Known_anims[ent][:adept_magic]
   end
 
 end

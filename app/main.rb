@@ -18,10 +18,11 @@ class Game
 
   def new_entity_id args
     args.state.entity_id += 1
+
   end
 
-  def new_tent_id 
-    args.state.tent_id += 1
+  def new_spell_id 
+    args.state.spell_id += 1
   end
 
   def initialize args
@@ -32,14 +33,16 @@ class Game
 
     args.state.xforms                 = []
     args.state.anims                  = []
-    args.state.effects                = []
+    args.state.spell_anims            = []
+    args.state.spell_behaviors        = []
+    
     args.state.tents                  = []
     #args.state.known_anims            = []
     args.state.behaviors              = []
     args.state.behavior_signals       = []
     args.state.anim_pail              = {}
     args.state.entity_id              = -1
-    args.state.tent_id                = -1
+    args.state.spell_id                = -1
 
     # REGARDING ENT IDS: currently we are looping through arrays, with ID as index.
     # to avoid running out of ids, have separate ids for temporary things
@@ -134,7 +137,7 @@ class Game
       next if anim.nil? || anim.state == :done
       anim.render args 
     end
-    state.effects.each do |anim|
+    state.spell_anims.each do |anim|
       next if anim.nil? || anim.state == :done
       anim.render args 
     end
@@ -147,9 +150,11 @@ class Game
   end
 
   def cleanup
+    # a lot of this is unnecessary after limiting 1 xform/anim per entity
+    
     # puts "CLEANUP"
     # p state.anims
-    # p state.effects
+    # p state.spell_anims
     state.anims.reject! do |anim|
       #puts "CHECKING ANIM"
       #puts anim.state
@@ -160,7 +165,10 @@ class Game
       truthflag
     end
 
-    state.effects.reject! do |anim|
+    state.spell_anims.reject! do |anim|
+
+      next unless anim
+      #puts "SPELL CLEANUP"
       truthflag = false
       if anim.state == :done 
         truthflag =  true

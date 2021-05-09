@@ -28,6 +28,14 @@ a bit later - research how to make a map
 
 5/9/21
 converted the init functions into Factory classes
+each ent now has max 1 xform/anim at a time
+got rid of a bunch of finds and rejects, saved like 8 fps but more work needed
+skipping the cleanup step saves 5fps, as long as theres no missiles
+
+- more refactoring to do - created spell_id. separate set of components, to stop from
+having to iterator over a ton of nils all the time - not sure if worth
+
+- there's a bug with a nil anim on a missile - need to give spells a duration
 
 
 
