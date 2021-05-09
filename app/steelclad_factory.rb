@@ -11,7 +11,7 @@ class SteelCladFactory < Factory
         #anim.flip_horizontally = true
         Known_anims[@ent][name] = anim
       end
-    args.state.anims << Known_anims[@ent][:steelclad_run]
+      args.state.anims << Known_anims[@ent][:steelclad_run].dup
     end
 
     def behavior(args)

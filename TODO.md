@@ -26,6 +26,11 @@ a bit later - research how to make a map
 
 - can analyse the loops in behavior function - dont need to iterate so many times
 
+5/9/21
+converted the init functions into Factory classes
+
+
+
 #"components have no functions, systems have no fields" - timothy ford
 a component can be marked read-only to a system, so multiple systems can read in parallel
 

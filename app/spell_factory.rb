@@ -50,7 +50,7 @@ class SpellBehavior < Behavior
   end
 
   def on_tick args
-    xform = args.state.xforms.find { |xform| xform.ent == @ent }
+    xform = args.state.xforms[@ent]
     xform.x += @dirx * speed
     xform.y += @diry * speed
   end

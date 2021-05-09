@@ -89,7 +89,7 @@ class PlayerBehavior < Behavior
     args.state.anims.reject! { |x| x.ent == @ent }
 
     # animation becomes attack
-    xform = args.state.xforms.find { |x| x.ent == @ent }
+    xform = args.state.xforms[@ent]
     anim = Known_anims[@ent][:mage_attack_staff].dup
     anim.flip_horizontally = true if args.inputs.mouse.x < xform.x
     args.state.anims << anim

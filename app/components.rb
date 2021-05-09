@@ -102,7 +102,7 @@ class Anim < Component
     end
     # yeah there's no way this has good performance lol
     # would have to make custom data structure?
-    xform = args.state.xforms.find { |x| x.ent == @ent }
+    xform = args.state.xforms[@ent]
     # args.outputs.sprites << xform.to_h.merge(path: @frames[@frame_index], angle: @angle)
     #
     # uhh or could just use array

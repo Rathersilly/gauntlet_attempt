@@ -8,6 +8,7 @@ require '/app/init.rb'
 # ruby has modules and singleton class, which should make this elegant
 # you got this.
 module Init
+  # This must be forward declared for reasons
 end
 class Game
   attr_gtk
@@ -19,8 +20,15 @@ class Game
     args.state.entity_id += 1
   end
 
+  def new_tent_id 
+    args.state.tent_id += 1
+  end
+
   def initialize args
     # initialize each component container
+
+    args.state.map = Array.new(20) { Array.new(20) }
+
 
     args.state.xforms                 = []
     args.state.anims                  = []
@@ -42,20 +50,16 @@ class Game
     @grid = args.grid
     @outputs = args.outputs
     @inputs = args.inputs
+
     init_anims 
-    #init_hero args
+
     MageFactory.create args
     args.state.hero = 0
-    SteelCladFactory.create args, {x: 700,y:400}
+    20.times do |i|
+      SteelCladFactory.create args, {x: 700,y:100 *  i}
+    end
     AdeptFactory.create args, {x: 900,y:400}
-    
-    #init_siegeguy args
   end
-
-  def new_tent_id 
-    args.state.tent_id += 1
-  end
-
 
   def tick
     # run through systems. each system invokes one or more components

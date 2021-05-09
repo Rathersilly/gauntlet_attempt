@@ -45,13 +45,15 @@ end
 module Mob4d
   def move_to_hero args
     hero = args.state.hero
-    hero_xform = args.state.xforms.find { |xform| xform.ent == hero }
+    hero_xform = args.state.xforms[hero]
     set_dir(args, [hero_xform.x,hero_xform.y])
   end
   def on_tick args
 
-    move_to_hero args
-    xform = args.state.xforms.find { |xform| xform.ent == @ent }
+    if args.state.tick_count % 30 == 0
+      move_to_hero args
+    end
+    xform = args.state.xforms[@ent]
     anim = args.state.anims.find { |xform| xform.ent == @ent }
     
     xform.x += @dirx * speed

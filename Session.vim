@@ -7,25 +7,27 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +33 app/main.rb
+badd +1 app/main.rb
 badd +156 app/ents.rb
 badd +50 app/init.rb
 badd +100 ~/.config/nvim/init.vim
-badd +85 app/init_anims.rb
+badd +36 app/init_anims.rb
 badd +1 app/init_hero.rb
 badd +15 app/init_baddie.rb
 badd +45 app/init_spells.rb
 badd +13 a.rb
-badd +0 term://.//23273:tail\ -f\ /dev/null;\#gdb\ program
+badd +1 term://.//23273:tail\ -f\ /dev/null;\#gdb\ program
 badd +5 term://.//23275:/usr/bin/gdb
-badd +0 sprites/siegetrooper-attack-5.png
+badd +1 sprites/siegetrooper-attack-5.png
 badd +1 app/init_siegeguy.rb
 badd +1 app/anim.rb
-badd +34 app/init_steelclad.rb
+badd +1 app/init_steelclad.rb
 badd +6 README.md
 badd +1 init\ anim
-badd +94 app/init_mage.rb
+badd +1 app/init_mage.rb
 badd +29 TODO.md
+badd +1 app/mage_factory.rb
+badd +0 app/steelclad_factory.rb
 argglobal
 %argdel
 set stal=2
@@ -52,15 +54,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 16 - ((15 * winheight(0) + 27) / 55)
+let s:l = 31 - ((30 * winheight(0) + 27) / 55)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-16
-normal! 03|
+31
+normal! 0
 wincmd w
 argglobal
-if bufexists("app/init_anims.rb") | buffer app/init_anims.rb | else | edit app/init_anims.rb | endif
+if bufexists("TODO.md") | buffer TODO.md | else | edit TODO.md | endif
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -70,24 +72,20 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 85 - ((27 * winheight(0) + 27) / 55)
+let s:l = 1 - ((0 * winheight(0) + 27) / 55)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-85
-normal! 020|
+1
+normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 119 + 119) / 238)
 exe 'vert 2resize ' . ((&columns * 118 + 119) / 238)
-tabedit app/init_mage.rb
+tabedit app/init.rb
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
 1wincmd h
-wincmd w
-wincmd _ | wincmd |
-split
-1wincmd k
 wincmd w
 wincmd t
 set winminheight=0
@@ -95,10 +93,7 @@ set winheight=1
 set winminwidth=0
 set winwidth=1
 exe 'vert 1resize ' . ((&columns * 119 + 119) / 238)
-exe '2resize ' . ((&lines * 27 + 29) / 58)
 exe 'vert 2resize ' . ((&columns * 118 + 119) / 238)
-exe '3resize ' . ((&lines * 27 + 29) / 58)
-exe 'vert 3resize ' . ((&columns * 118 + 119) / 238)
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -109,15 +104,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 44 - ((41 * winheight(0) + 27) / 55)
+let s:l = 57 - ((40 * winheight(0) + 27) / 55)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-44
-normal! 022|
+57
+normal! 028|
 wincmd w
 argglobal
-if bufexists("app/init_steelclad.rb") | buffer app/init_steelclad.rb | else | edit app/init_steelclad.rb | endif
+if bufexists("app/steelclad_factory.rb") | buffer app/steelclad_factory.rb | else | edit app/steelclad_factory.rb | endif
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -127,36 +122,15 @@ setlocal fml=1
 setlocal fdn=20
 setlocal fen
 silent! normal! zE
-let s:l = 32 - ((19 * winheight(0) + 13) / 27)
+let s:l = 14 - ((13 * winheight(0) + 27) / 55)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-32
-normal! 032|
-wincmd w
-argglobal
-if bufexists("app/init_anims.rb") | buffer app/init_anims.rb | else | edit app/init_anims.rb | endif
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let s:l = 36 - ((22 * winheight(0) + 13) / 27)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-36
-normal! 021|
+14
+normal! 063|
 wincmd w
 exe 'vert 1resize ' . ((&columns * 119 + 119) / 238)
-exe '2resize ' . ((&lines * 27 + 29) / 58)
 exe 'vert 2resize ' . ((&columns * 118 + 119) / 238)
-exe '3resize ' . ((&lines * 27 + 29) / 58)
-exe 'vert 3resize ' . ((&columns * 118 + 119) / 238)
 tabnext 1
 set stal=1
 if exists('s:wipebuf') && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
