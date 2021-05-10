@@ -40,7 +40,7 @@ module Animation
 
         if anim.frame_index == anim.frames.size
           if anim.loop == true
-            reset
+            reset_anim anim
           else
             finish_anim anim
             if args.state.behaviors.any? { |b| b.ent == ent }
@@ -57,6 +57,7 @@ module Animation
       state.sprites[ent] = anim.to_h
     end
 
+    Tools.megainspect state.sprites
   end
   
   def reset_anim anim
@@ -84,11 +85,12 @@ module Animation
   end
 
   def render
+    calc_sprites
 
-    state.sprites.each do |sprite|
+    state.sprites.each_with_index do |sprite, ent|
       next if sprite.nil?
       # args.outputs.sprites << [**xform.to_h, **sprite.to_h]
-      args.outputs.sprites << xform.to_h.merge(sprite)
+      args.outputs.sprites << state.xforms[ent].to_h.merge(sprite)
     end
 
     # state.spell_anims.each do |anim|
