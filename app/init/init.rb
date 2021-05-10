@@ -14,14 +14,14 @@ Black = colorhex('000000')
 White = colorhex('ffffff')
 Colors = [Darkblue,Green,Yellow,Orange,Red]
 
+#All_anims = {}  #dont need anim_pail in state
+# Known anims can be looked up by entity_id
 Known_anims = []
-
 
 module Init
   require '/app/init/tools.rb'
 
   require '/app/components.rb'
-  require '/app/ents.rb'
   require '/app/systems/animation.rb'
   require '/app/systems/behavior.rb'
 
@@ -44,19 +44,18 @@ module Init
     args.state.xforms                 = []
     args.state.anims                  = []
     args.state.sprites                = []
+
+    # spells NYI in this branch
     args.state.spell_anims            = []
     args.state.spell_behaviors        = []
     
-    #args.state.known_anims            = []
     args.state.behaviors              = []
     args.state.behavior_signals       = []
     args.state.anim_pail              = {}
+
     args.state.entity_id              = -1
     args.state.spell_id               = -1
 
-    # REGARDING ENT IDS: currently we are looping through arrays, with ID as index.
-    # to avoid running out of ids, have separate ids for temporary things
-    # can only have max # of temp things before we reset id to 0 (is the plan{nyi})
 
     @args = args
     @state = args.state

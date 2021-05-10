@@ -1,7 +1,3 @@
-class Fireball < Ent
-
-end
-
 class IceMissileFactory < Factory
   class << self
 

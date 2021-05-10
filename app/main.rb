@@ -1,10 +1,11 @@
 require '/app/init/init.rb'
 
+# These must be forward declared for reasons
 module Init
-  # These must be forward declared for reasons
 end
 
 module Tools
+  # just tiny helper methods
 end
 
 module AnimationSystem
@@ -27,13 +28,14 @@ class Game
 
   def tick
     #behavior
-    render
+    do_animation
     #cleanup
   end
 
   def behavior
 
-    if !state.behavior_signals.empty?
+    # this might get out of hand if many behaviors/signals
+    if state.behavior_signals.any?
       state.behavior_signals.each do |bs|
         state.behaviors.each do |b|
           if b.ent == bs.ent
@@ -47,18 +49,13 @@ class Game
     # with all the behaviors that respond to input
     if inputs.mouse.down
       state.behaviors.each do |b|
-        b.send(:on_mouse_down, args) if b.respond_to?(:on_mouse_down)
+        b.send(:on_mouse_down, args) rescue nil #if b.respond_to?(:on_mouse_down)
       end
     end
 
-    # puts "key_down"
-    # p inputs.keyboard.key_down
-    # puts "key_down_or_held"
-    # p inputs.keyboard.key_down_or_held
     state.behaviors.each do |b|
-      b.send(:on_key_down, args) if b.respond_to?(:on_key_down)
-      # this was in a separate each loop - probably fine to keep it here?
-      b.send(:on_tick, args) if b.respond_to?(:on_tick)
+      b.send(:on_key_down, args) rescue nil   #if b.respond_to?(:on_key_down)
+      b.send(:on_tick, args) rescue nil       #if b.respond_to?(:on_tick)
     end
 
   end

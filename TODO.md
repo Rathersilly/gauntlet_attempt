@@ -39,7 +39,7 @@ having to iterator over a ton of nils all the time - not sure if worth
 
 5/10/21
 refactored animation class to be more component like - everything still works but still
-about 45 fps.  reading dragonruby's stdout perf tips will help
+about 45 fps.  reading dragonruby's stdout perf tips will help - also docs
 
 refactored loop through anims to use outputs.sprites << ... .each
 as recommended. got rid of 20 draw calls but fps still at 45

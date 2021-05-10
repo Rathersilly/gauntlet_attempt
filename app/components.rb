@@ -1,29 +1,22 @@
-# Component class for Documentation purposes - can remove later
-class Component
-end
-
-class Sprite
-  attr_accessor :ent, :angle, :path
-  attr_accessor :flip_horizontally, :flip_vertically
-
-end
-
-class Anim < Component
-  attr_accessor :name, :ent, :angle, :path, :frames, :up, :upframes, :duration, :loop, :state
+class Anim 
+  attr_accessor :name, :ent, :angle, :path, :duration, :loop, :state
+  attr_accessor :frames, :up, :upframes
   attr_accessor :flip_horizontally, :flip_vertically
   attr_accessor :cur_time, :frame_dur, :frame_index
 
   def initialize(**opts)
-    # possible states: play, stop, pause, done
+    @flip_horizontally      = opts[:flip_horizontally]     || false
+    @flip_vertically        = opts[:flip_vertically]       || false
+
     @name         = opts[:name]        || nil
     @ent          = opts[:ent]         || nil
     @angle        = opts[:angle]       || 0
     @loop         = opts[:loop]        || false
     @duration     = opts[:duration]    || 60
+    
+    # possible states: play, stop, pause, done
     @state        = opts[:state]       || :play
     @up           = opts[:up]          || false
-    @flip_horizontally      = opts[:flip_horizontally]     || false
-    @flip_vertically        = opts[:flip_vertically]       || false
     @frames       = []
     @upframes     = []    # for animations with 4 directions (incl flip)
     @frame_index  = 0
@@ -63,7 +56,7 @@ end
 # every unnecessary function (or anything) defeats the point of components.
 # like maybe even move the inspect function to some sort of helper class
 # actually this needs massive refactor
-class Behavior < Component
+class Behavior
   # does behavior know about all its anims? or just loop through them as needed and select
   # the ones with the same ent
 
@@ -79,22 +72,21 @@ class Behavior < Component
 
   def post_initialize opts
     # to be overridden if needed in subclasses
-    # Sandi Metz taught me this but don't blame her if its wrong
   end
 
   def known_anims ent, name
     args.state.known_anims[ent][name].dup
   end
 
-  # i know args first would be more consistent, but i can't help myself
+  # args as first arg would be more consistent, but who could resist?
   def handle bs, args
     puts "HANDLING BEHAVIOR SIGNAL"
     Tools.megainspect bs
 
     if bs.type == Anim && bs.state == :done
-
       default_anim args if methods.include?(:default_anim)
     end
+
     bs.handled = true
   end
 
@@ -106,7 +98,7 @@ class Behavior < Component
   end
 
   def set_dir args, dest_vector
-    # expect [x,y]
+    # expect dest_vector = [x,y]
     xform = args.state.xforms[@ent]
     x = dest_vector[0] - xform.x
     y = dest_vector[1] - xform.y
@@ -117,7 +109,7 @@ class Behavior < Component
 
 end
 
-class BehaviorSignal < Component
+class BehaviorSignal
   # when an animation finishes, it sets it state to :done (so it is cleaned up)
   # and places a BehaviorSignal instance in state.behavior_signals
   # which is looped through in the behavior system
@@ -136,8 +128,4 @@ class BehaviorSignal < Component
     @handled      = opts[:handled]     || false
   end
 
-  def megainspect
-    puts "ent: #{@ent}, #{@type}, #{@state}"
-  end
 end
-

@@ -17,17 +17,17 @@ class Factory
       after args
     end
     def before args, opts
-      # override this in subclasses if needed
+      # override this in subclass if needed
     end
     def after args
-      # override this in subclasses if needed
+      # override this in subclass if needed
     end
 
-    def new_entity_id(args)
+    def new_entity_id args
       args.state.entity_id += 1
     end
 
-    def xform(args)
+    def xform args
       #args.state.xforms[@ent] = Xform.new(ent: @ent, x: @x, y: @y, w: @w, h: @h)
       args.state.xforms[@ent] = {x: @x, y: @y, w: @w, h: @h}
     end

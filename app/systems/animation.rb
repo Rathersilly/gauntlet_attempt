@@ -1,7 +1,7 @@
 
 module AnimationSystem
 
-  def render
+  def do_animation
     calc_sprites
 
     render_background
@@ -39,7 +39,7 @@ module AnimationSystem
 
   def render_sprites
     outputs.sprites << state.xforms.map.with_index do |xf, i|
-      xf.to_h.merge(state.sprites[i])
+      xf.merge(state.sprites[i])
     end
 
     # state.spell_anims.each do |anim|
