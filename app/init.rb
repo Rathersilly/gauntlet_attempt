@@ -16,11 +16,16 @@ Colors = [Darkblue,Green,Yellow,Orange,Red]
 
 Known_anims = []
 
+
 module Init
 
-  require '/app/init_anims.rb'
+
   require '/app/components.rb'
   require '/app/ents.rb'
+
+  require '/app/factory_template.rb'
+  require '/app/init_anims.rb'
+
   require '/app/mage_factory.rb'
   require '/app/archmage_factory.rb'
   require '/app/steelclad_factory.rb'
@@ -28,14 +33,6 @@ module Init
   require '/app/spell_factory.rb'
   #require '/app/init_siegeguy.rb'
 
-end
-
-module Tools
-  def self.normalize vector
-    # expect [x,y]gt
-    r = Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1])
-    [vector[0]/r, vector[1]/r]
-  end
 end
 
 

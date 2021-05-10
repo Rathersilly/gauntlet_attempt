@@ -23,7 +23,6 @@ class IceMissileFactory < Factory
     def anim args
       anim = args.state.anim_pail[:ice_missile].dup
       anim.ent = @ent
-      anim.reset
       args.state.spell_anims[@ent] = anim
     end
 

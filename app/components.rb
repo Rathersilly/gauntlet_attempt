@@ -1,11 +1,4 @@
-# This class will contain everything needed to draw a to outputs
-# EXCEPT sprite specific things
-# oh man, i think this needs to be usable as a hash for
-# args.outputs to be able to use it.  might be great opportunity
-# to use forwardable or that other thing.
-
-# Not sure this class even needs to be a thing - nice to have components
-# documented as such though
+# Component class for Documentation purposes - can remove later
 class Component
 end
 
@@ -27,17 +20,17 @@ class Xform < Component
     {x: @x,y:@y,w:@w,h:@h}
   end
 
-  # def to_a
-  #   [@x,@y,@w,@h]
-  # end
 end
 
-# lmao there's a hell of a lot of logic here for a so-called component
-# actually its not so bad - its all in the render function, which can be moved easily
-class Anim < Component
-  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state
+class Sprite
+  attr_accessor :ent, :angle, :path
   attr_accessor :flip_horizontally, :flip_vertically
-  # this line can be commented out - these should be private - uncomment for debug
+
+end
+
+class Anim < Component
+  attr_accessor :name, :ent, :angle, :path, :frames, :up, :upframes, :duration, :loop, :state
+  attr_accessor :flip_horizontally, :flip_vertically
   attr_accessor :cur_time, :frame_dur, :frame_index
 
   def initialize(**opts)
@@ -57,24 +50,12 @@ class Anim < Component
     @cur_time     = 0
   end
 
-  def play
-    @state = :play
-  end
-  def stop
-    reset
-    @state = :stop
-  end
-  def pause
-    @state = :pause
-  end
-  def done
-    reset
-    @state = :done
-  end
-  def reset
-    @state = :play
-    @cur_time = 0
-    @frame_index = 0
+  def to_h
+    { path: @frames[@frame_index],
+      angle: @angle,
+      flip_horizontally: @flip_horizontally,
+      flip_vertically: @flip_vertically
+    }
   end
 
   def << path
@@ -95,60 +76,6 @@ class Anim < Component
   def duration= dur
     @duration = dur
     @frame_dur = (@duration / @frames.size).round
-  end
-
-  def render args
-    if @state != :play
-      return 
-    end
-    # yeah there's no way this has good performance lol
-    # would have to make custom data structure?
-    xform = args.state.xforms[@ent]
-    # args.outputs.sprites << xform.to_h.merge(path: @frames[@frame_index], angle: @angle)
-    #
-    # uhh or could just use array
-
-    #args.outputs.sprites << [*args.state.xforms[@ent].to_a,@frames[@frame_index], @angle]
-    #args.outputs.sprites << [*xform.to_a,@frames[@frame_index], @angle]
-    if up == false
-      args.outputs.sprites << [**xform.to_h, path: @frames[@frame_index],
-                               angle: @angle,
-                               flip_horizontally: @flip_horizontally,
-                               flip_vertically: @flip_vertically]
-    else
-      args.outputs.sprites << [**xform.to_h, path: @upframes[@frame_index],
-                               angle: @angle,
-                               flip_horizontally: @flip_horizontally,
-                               flip_vertically: @flip_vertically]
-    end
-
-    @cur_time += 1
-    if @cur_time == @frame_dur
-      @cur_time = 0
-      @frame_index += 1
-      if @frame_index == @frames.size
-        if @loop == true
-          reset
-        else
-          if args.state.behaviors.any? { |b| b.ent == @ent }
-            args.state.behavior_signals << BehaviorSignal.new(ent: @ent,
-                                                              type: Anim,
-                                                              state: :done,
-                                                              info: @name)
-          end
-
-          done
-        end
-
-      end
-    end
-  end
-
-  def megainspect
-    puts "*****Animation*****"
-    print "\tname: #{@name}" + "\tent: #{@ent}" + "\tstate: #{@state}\n"
-    p @frames
-    p @upframes
   end
 end
 
@@ -178,11 +105,11 @@ class Behavior < Component
   def known_anims ent, name
     args.state.known_anims[ent][name].dup
   end
-  
+
   # i know args first would be more consistent, but i can't help myself
   def handle bs, args
     puts "HANDLING BEHAVIOR SIGNAL"
-    bs.megainspect
+    Tools.megainspect bs
 
     if bs.type == Anim && bs.state == :done
 

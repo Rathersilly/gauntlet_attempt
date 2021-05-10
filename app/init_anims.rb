@@ -82,7 +82,7 @@
     end
     state.anim_pail[anim.name] = anim
     puts "Adding anim to pail:"
-    anim.megainspect
+    Tools.megainspect anim
 
   end
 

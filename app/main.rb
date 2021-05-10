@@ -1,5 +1,7 @@
+require '/app/tools.rb'
 require '/app/ents.rb'
 require '/app/init.rb'
+require '/app/animation.rb'
 #require '/app/anim.rb'
 #require '/app/attack.rb'
 
@@ -7,6 +9,8 @@ require '/app/init.rb'
 # dragonruby already does a big part of it with the render class
 # ruby has modules and singleton class, which should make this elegant
 # you got this.
+module Tools
+end
 module Init
   # This must be forward declared for reasons
 end
@@ -14,12 +18,12 @@ module Animation
   # the anim class that gets passed to the eventual render function must only 
   # consist of the relevant data.  Need a separate animation controller class i think,
   # which will hold the array of all that anim's frames have the frame in a Sprite class?
-  def render
-    anim = args.state.anims[:ent].calc_sprite
-    args.outputs.sprites << xform[ent].merge(anim)
+  # def render
+  #   anim = state.anims[:ent].calc_sprite args
+  #   outputs.sprites << xform[ent].merge(anim)
 
 
-  end
+  # end
 
 end
 class Game
@@ -27,7 +31,7 @@ class Game
   #attr_accessor :args, :grid, :inputs, :outputs, :state
 
   include Init
-  #include Animation
+  include Animation
 
   def new_entity_id args
     args.state.entity_id += 1
@@ -46,16 +50,16 @@ class Game
 
     args.state.xforms                 = []
     args.state.anims                  = []
+    args.state.sprites                = []
     args.state.spell_anims            = []
     args.state.spell_behaviors        = []
     
-    args.state.tents                  = []
     #args.state.known_anims            = []
     args.state.behaviors              = []
     args.state.behavior_signals       = []
     args.state.anim_pail              = {}
     args.state.entity_id              = -1
-    args.state.spell_id                = -1
+    args.state.spell_id               = -1
 
     # REGARDING ENT IDS: currently we are looping through arrays, with ID as index.
     # to avoid running out of ids, have separate ids for temporary things
@@ -81,7 +85,9 @@ class Game
     # run through systems. each system invokes one or more components
     # I think input is not necessary - dragonruby basically takes care of that
     behavior
+    render_background
     render
+    render_labels
     cleanup
   end
 
@@ -136,26 +142,6 @@ class Game
       b.send(:on_tick, args) if b.respond_to?(:on_tick)
     end
 
-  end
-
-  
-  def render
-    render_background
-
-    state.anims.each do |anim|
-      next if anim.nil? || anim.state == :done
-      anim.render args 
-    end
-    state.spell_anims.each do |anim|
-      next if anim.nil? || anim.state == :done
-      anim.render args 
-    end
-    
-    outputs.labels << [10,700, "#{args.gtk.current_framerate.round}"]
-  end
-
-  def render_background
-    outputs.background_color = Yellow
   end
 
   def cleanup
