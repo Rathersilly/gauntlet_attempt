@@ -10,11 +10,24 @@ require '/app/init.rb'
 module Init
   # This must be forward declared for reasons
 end
+module Animation
+  # the anim class that gets passed to the eventual render function must only 
+  # consist of the relevant data.  Need a separate animation controller class i think,
+  # which will hold the array of all that anim's frames have the frame in a Sprite class?
+  def render
+    anim = args.state.anims[:ent].calc_sprite
+    args.outputs.sprites << xform[ent].merge(anim)
+
+
+  end
+
+end
 class Game
   attr_gtk
   #attr_accessor :args, :grid, :inputs, :outputs, :state
 
   include Init
+  #include Animation
 
   def new_entity_id args
     args.state.entity_id += 1
@@ -125,12 +138,8 @@ class Game
 
   end
 
+  
   def render
-    #outputs.labels << [400,680,"HITPOINTS: #{state.hero.hp}",5]
-    #outputs.labels << [400,640,"STATUS: #{state.hero.status}",5]
-    #outputs.sprites << [500,300,200,200,'sprites/square/violet.png',45,255,0,255,255]
-    #outputs.solids << [500,300,200,200,45,255,0,255,255]
-    #puts "RENDER"
     render_background
 
     state.anims.each do |anim|
