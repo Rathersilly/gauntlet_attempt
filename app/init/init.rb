@@ -66,13 +66,13 @@ module Init
 
     init_anims 
 
-    MageFactory.create args
+    #MageFactory.create args
     args.state.hero = 0
     20.times do |i|
       # SteelCladFactory.create args, {x: 700,y:100 *  i}
       SteelCladFactory.create args, {x: rand(1280),y:rand(720)}
     end
-    AdeptFactory.create args, {x: 900,y:400}
+    #AdeptFactory.create args, {x: 900,y:400}
   end
 
 end

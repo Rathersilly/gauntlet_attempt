@@ -17,11 +17,11 @@ class Game
   include Init
   include AnimationSystem
 
-  def new_entity_id args
+  def new_entity_id
     args.state.entity_id += 1
   end
 
-  def new_spell_id 
+  def new_spell_id
     args.state.spell_id += 1
   end
 
@@ -32,7 +32,6 @@ class Game
   end
 
   def behavior
-    #puts "BEHAVIOR"
 
     if !state.behavior_signals.empty?
       state.behavior_signals.each do |bs|
@@ -43,8 +42,6 @@ class Game
         end
       end
     end
-
-    # iterate through behavior components, see if they respond to input
 
     # there's probably a better way to iterate here - maybe a container
     # with all the behaviors that respond to input
@@ -88,15 +85,12 @@ class Game
     state.behavior_signals.reject! { |bs| bs.handled == true }
   end
 
-
-
 end
 
 def tick args
   $game ||= Game.new args
   $game.args = args
   $game.tick
-  #args.outputs.background_color = [100,100,100]
-  #args.outputs.solids <<  [0,0,1280,720,100,100,100]
+
   args.outputs.debug << args.gtk.framerate_diagnostics_primitives
 end

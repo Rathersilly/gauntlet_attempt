@@ -2,26 +2,6 @@
 class Component
 end
 
-# actually, this class might not even be needed:
-# ie args.state.xforms[ent] = [1,1,1,1]
-class Xform < Component
-  attr_accessor :ent, :x,:y, :w, :h, :angle, :r ,:g, :b, :a
-  def initialize(**opts)
-    @ent        = opts[:ent]
-    @x          = opts[:x]
-    @y          = opts[:y]
-    @w          = opts[:w]       || 100
-    @h          = opts[:h]       || 100
-    @color      = opts[:color]
-  end
-
-  # TODO: refactor out these functions - only need the data
-  def to_h
-    {x: @x,y:@y,w:@w,h:@h}
-  end
-
-end
-
 class Sprite
   attr_accessor :ent, :angle, :path
   attr_accessor :flip_horizontally, :flip_vertically

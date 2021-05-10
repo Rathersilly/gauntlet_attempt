@@ -28,7 +28,8 @@ class Factory
     end
 
     def xform(args)
-      args.state.xforms[@ent] = Xform.new(ent: @ent, x: @x, y: @y, w: @w, h: @h)
+      #args.state.xforms[@ent] = Xform.new(ent: @ent, x: @x, y: @y, w: @w, h: @h)
+      args.state.xforms[@ent] = {x: @x, y: @y, w: @w, h: @h}
     end
   end
 end

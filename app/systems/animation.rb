@@ -1,5 +1,14 @@
 
 module AnimationSystem
+
+  def render
+    calc_sprites
+
+    render_background
+    render_sprites
+    #render_labels
+  end
+
   def calc_sprites
     state.anims.each_with_index  do |anim, ent|
 
@@ -23,18 +32,42 @@ module AnimationSystem
 
     Tools.megainspect state.sprites
   end
+
+  def render_background
+    outputs.background_color = Yellow
+  end
+
+  def render_sprites
+    outputs.sprites << state.xforms.map.with_index do |xf, i|
+      xf.to_h.merge(state.sprites[i])
+    end
+
+    # state.spell_anims.each do |anim|
+    #   next if anim.nil? || anim.state == :done
+    #   anim.render args 
+    #   outputs.sprites << [**xform.to_h, **sprite.to_h]
+    # end
+
+  end
+
+  def render_labels
+    outputs.labels << [10,700, "#{gtk.current_framerate.round}"]
+  end
   
+  ##### anim controls #####
+  # possibly should be moved but they are ok here
+
   def reset_anim anim
-    anim.state = :play
-    anim.cur_time = 0
+    anim.state       = :play
+    anim.cur_time    = 0
     anim.frame_index = 0
   end
 
   def finish_anim anim
     reset_anim anim
     anim.state = :done
-    if args.state.behaviors.any? { |b| b.ent == ent }
-      args.state.behavior_signals << BehaviorSignal.new(ent: ent,
+    if state.behaviors.any? { |b| b.ent == anim.ent }
+      state.behavior_signals << BehaviorSignal.new(ent: ent,
                                                         type: Anim,
                                                         state: :done,
                                                         info: anim.name)
@@ -52,30 +85,6 @@ module AnimationSystem
 
   def pause anim
     anim.state = :pause
-  end
-
-  def render
-    render_background
-    calc_sprites
-
-    args.outputs.sprites << state.xforms.map.with_index do |xf, i|
-      xf.to_h.merge(state.sprites[i])
-    end
-
-    # state.spell_anims.each do |anim|
-    #   next if anim.nil? || anim.state == :done
-    #   anim.render args 
-    #   args.outputs.sprites << [**xform.to_h, **sprite.to_h]
-    # end
-
-    #render_labels
-  end
-
-  def render_background
-    outputs.background_color = Yellow
-  end
-  def render_labels
-    outputs.labels << [10,700, "#{args.gtk.current_framerate.round}"]
   end
 
 end
