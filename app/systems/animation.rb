@@ -1,36 +1,43 @@
 module AnimationSystem
 
   def do_animation
+    # puts "ANIMATING"
+    # p args.state.anims
+    # p args.state.anims
     #calc_sprites
 
     render_background
+    # puts "3333333333333333"
+    # Tools.megainspect state.anims[3]
     render_sprites
+    render_spells
     #render_labels
   end
 
-  def calc_sprites
-    state.anims.each_with_index  do |anim, ent|
+  # replaced with cacl_sprite in the render_sprites function
+  # def calc_sprites
+  #   state.anims.each_with_index  do |anim, ent|
 
-      anim.cur_time += 1
+  #     anim.cur_time += 1
 
-      if anim.cur_time == anim.frame_dur
-        anim.cur_time = 0
-        anim.frame_index += 1
+  #     if anim.cur_time == anim.frame_dur
+  #       anim.cur_time = 0
+  #       anim.frame_index += 1
 
-        if anim.frame_index == anim.frames.size
-          if anim.loop == true
-            reset_anim anim
-          else
-            finish_anim anim
-          end
+  #       if anim.frame_index == anim.frames.size
+  #         if anim.loop == true
+  #           reset_anim anim
+  #         else
+  #           finish_anim anim
+  #         end
 
-        end
-      end
-      state.sprites[ent] = anim.to_h
-    end
+  #       end
+  #     end
+  #     state.sprites[ent] = anim.to_h
+  #   end
 
-    Tools.megainspect state.sprites
-  end
+  #   Tools.megainspect state.sprites
+  # end
 
   def calc_sprite anim
     anim.cur_time += 1
@@ -57,21 +64,35 @@ module AnimationSystem
 
   def render_sprites
     outputs.sprites << state.xforms.map.with_index do |xf, i|
-      xf.merge(calc_sprite(state.anims[i]))
+      # puts "RENDERING"
+      # p xf
+      # p i
+      # p state.anims[i]
+      anim = state.anims[i]
+      if anim && anim.state == :play
+        xf.merge(calc_sprite(state.anims[i]))
+      else
+        nil
+      end
     end
+  end
 
-    # state.spell_anims.each do |anim|
-    #   next if anim.nil? || anim.state == :done
-    #   anim.render args 
-    #   outputs.sprites << [**xform.to_h, **sprite.to_h]
-    # end
+  def render_spells
+    outputs.sprites << state.spells.xforms.map.with_index do |xf, i|
+      anim = state.spells.anims[i]
+      if anim && anim.state == :play
+        xf.merge(calc_sprite(state.spells.anims[i]))
+      else
+        nil
+      end
 
+    end
   end
 
   def render_labels
     outputs.labels << [10,700, "#{gtk.current_framerate.round}"]
   end
-  
+
   ##### anim controls #####
   # possibly should be moved but they are ok here
 
@@ -82,13 +103,24 @@ module AnimationSystem
   end
 
   def finish_anim anim
+    puts "FINISHING ANIM"
+    Tools.megainspect anim
     reset_anim anim
     anim.state = :done
-    if state.behaviors.any? { |b| b.ent == anim.ent }
-      state.behavior_signals << BehaviorSignal.new(ent: ent,
-                                                        type: Anim,
-                                                        state: :done,
-                                                        info: anim.name)
+    if anim.spell == false
+      if state.behaviors.any? { |b| b.ent == anim.ent }
+        state.behavior_signals << BehaviorSignal.new(ent: anim.ent,
+                                                     type: Anim,
+                                                     state: :done,
+                                                     info: anim.name)
+      end
+    else
+      if state.spells.behaviors.any? { |b| b.ent == anim.ent }
+        state.spells.behavior_signals << BehaviorSignal.new(ent: anim.ent,
+                                                            type: Anim,
+                                                            state: :done,
+                                                            info: anim.name)
+      end
     end
   end
 

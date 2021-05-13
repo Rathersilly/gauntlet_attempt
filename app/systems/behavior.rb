@@ -4,9 +4,10 @@ module Mob4d
   def move_to_hero args
     hero = args.state.hero
     hero_xform = args.state.xforms[hero]
-    set_dir(args, [hero_xform.x,hero_xform.y])
+    set_dir(args, [hero_xform[:x],hero_xform[:y]])
   end
   def on_tick args
+    return
 
     if args.state.tick_count % 30 == 0
       move_to_hero args
@@ -14,8 +15,8 @@ module Mob4d
     xform = args.state.xforms[@ent]
     anim = args.state.anims[@ent]
     
-    xform.x += @dirx * speed
-    xform.y += @diry * speed
+    xform[:x] += @dirx * speed
+    xform[:y] += @diry * speed
     if @dirx <= 0
       anim.flip_horizontally = true
     else

@@ -27,9 +27,9 @@ class Game
   end
 
   def tick
-    #behavior
+    behavior
     do_animation
-    #cleanup
+    cleanup
   end
 
   def behavior
@@ -49,37 +49,48 @@ class Game
     # with all the behaviors that respond to input
     if inputs.mouse.down
       state.behaviors.each do |b|
-        b.send(:on_mouse_down, args) rescue nil #if b.respond_to?(:on_mouse_down)
+        b.send(:on_mouse_down, args) if b.respond_to?(:on_mouse_down)
       end
     end
 
     state.behaviors.each do |b|
-      b.send(:on_key_down, args) rescue nil   #if b.respond_to?(:on_key_down)
-      b.send(:on_tick, args) rescue nil       #if b.respond_to?(:on_tick)
+      # b.send(:on_key_down, args) if b.respond_to?(:on_key_down)
+      b.send(:on_tick, args) if b.respond_to?(:on_tick)
+    end
+    state.spells.behaviors.each do |b|
+      b.send(:on_tick, args) if b.respond_to?(:on_tick)
     end
 
   end
 
   def cleanup
     # a lot of this is unnecessary after limiting 1 xform/anim per entity
-    
+
     # puts "CLEANUP"
     # p state.anims
-    # p state.spell_anims
+    state.anims.reject! do |anim|
 
-    #state.spell_anims.reject! do |anim|
+      anim.state == :done 
+    end
 
-    #  next unless anim
-    #  #puts "SPELL CLEANUP"
-    #  truthflag = false
-    #  if anim.state == :done 
-    #    truthflag =  true
-    #  end
-    #  truthflag
-    #end
+    state.spells.anims.reject! do |anim|
 
-    state.anims.reject! { |anim| anim.state == :done }
-    state.behavior_signals.reject! { |bs| bs.handled == true }
+      next unless anim
+      truthflag = false
+      if anim.state == :done 
+        puts "SPELL CLEANUP"
+        Tools.megainspect anim
+        truthflag = true
+      end
+      truthflag
+    end
+
+    #state.anims.reject! { |anim| anim.state == :done }
+    #state.spells.anims.reject! { |anim| anim.state == :done }
+
+    #state.behavior_signals.reject! { |bs| bs.handled == true }
+    #state.spells.behavior_signals.reject! { |bs| bs.handled == true }
+
   end
 
 end
@@ -88,9 +99,12 @@ def tick args
   $game ||= Game.new args
   $game.args = args
   $game.tick
+  if args.state.tick_count % 60 == 0
+    Tools.megainspect args.state.anims
+  end
+    
+  #puts args.state.xforms[1]
+  #puts args.state.anims[1]
 
-  args.outputs.labels << [100,100,"#{args.state.anims[3].frame_index}",2]
-  args.outputs.labels << [100,120,"#{args.state.anims[3].frame_dur}",2]
-  args.outputs.labels << [100,140,"#{args.state.anims[3].duration}",2]
   args.outputs.debug << args.gtk.framerate_diagnostics_primitives
 end

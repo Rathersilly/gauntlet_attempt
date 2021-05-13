@@ -108,6 +108,7 @@ def init_anims
 
   ##### Steelclad #####
 
+  # omitting the 0 index sprite - animation seems smoother that way
   anim = Anim.new(name: :steelclad_run)
   (1..9).each do |i|
     anim.add_frame "sprites/steelclad/steelclad-se-run#{i}.png"

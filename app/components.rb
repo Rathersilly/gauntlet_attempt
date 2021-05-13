@@ -2,7 +2,7 @@ class Anim
   attr_accessor :name, :ent, :angle, :path, :duration, :loop, :state
   attr_accessor :frames, :up, :upframes
   attr_accessor :flip_horizontally, :flip_vertically
-  attr_accessor :cur_time, :frame_dur, :frame_index
+  attr_accessor :cur_time, :frame_dur, :frame_index, :spell
 
   def initialize(**opts)
     @flip_horizontally      = opts[:flip_horizontally]     || false
@@ -21,6 +21,7 @@ class Anim
     @upframes     = []    # for animations with 4 directions (incl flip)
     @frame_index  = 0
     @cur_time     = 0
+    @spell        = false
   end
 
   def to_h
@@ -50,6 +51,7 @@ class Anim
     @duration = dur
     @frame_dur = (@duration / @frames.size).round
   end
+
 end
 
 # again, logic can be moved out of here (mainly the set_dir function)
@@ -100,8 +102,8 @@ class Behavior
   def set_dir args, dest_vector
     # expect dest_vector = [x,y]
     xform = args.state.xforms[@ent]
-    x = dest_vector[0] - xform.x
-    y = dest_vector[1] - xform.y
+    x = dest_vector[0] - xform[:x]
+    y = dest_vector[1] - xform[:y]
     norm = Tools.normalize([x,y])
     @dirx = norm[0]
     @diry = norm[1]
@@ -125,6 +127,7 @@ class BehaviorSignal
     @type         = opts[:type]        || nil
     @state        = opts[:state]       || nil
     @info         = opts[:info]        || nil
+    @spell         = opts[:spell]      || nil
     @handled      = opts[:handled]     || false
   end
 

@@ -47,8 +47,10 @@ module Init
     args.state.sprites                = []
 
     # spells NYI in this branch
-    args.state.spell_anims            = []
-    args.state.spell_behaviors        = []
+    args.state.spells.xforms          = []
+    args.state.spells.anims           = []
+    args.state.spells.behaviors       = []
+    args.state.spells.behavior_signals       = []
 
     args.state.behaviors              = []
     args.state.behavior_signals       = []
@@ -67,12 +69,12 @@ module Init
     init_anims 
 
     MageFactory.create args
+    AdeptFactory.create args, {x: 900,y:400}
     args.state.hero = 0
-    20.times do |i|
+    2.times do |i|
       # SteelCladFactory.create args, {x: 700,y:100 *  i}
       SteelCladFactory.create args, {x: rand(1280),y:rand(720)}
     end
-    AdeptFactory.create args, {x: 900,y:400}
   end
 end
 

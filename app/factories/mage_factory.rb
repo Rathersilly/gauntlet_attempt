@@ -32,7 +32,7 @@ class PlayerBehavior < Behavior
     args.state.anims[@ent] = anim
 
     puts 'END DEFAULT'
-    p args.state.anims
+    Tools.megainspect anim
   end
 
   # INPUT HANDLING
@@ -45,6 +45,11 @@ class PlayerBehavior < Behavior
   end
 
   def attack(args)
+    puts "ATTACKING"
+    puts @ent
+    Tools.megainspect self
+    puts "ANIMS"
+    p args.state.anims
 
     xform = args.state.xforms[@ent]
     anim = Known_anims[@ent][:mage_attack_staff].dup
@@ -55,7 +60,6 @@ class PlayerBehavior < Behavior
 
     puts 'ANIM ADDED'
     p args.state.anims
-    p args.state.spell_anims
   end
 
   def move(args)
@@ -63,14 +67,14 @@ class PlayerBehavior < Behavior
     anim = args.state.anims[@ent]
 
     chars = args.inputs.keyboard.keys[:down_or_held]
-    xform.y += @speed if args.inputs.keyboard.up
+    xform[:y] += @speed if args.inputs.keyboard.up
     if args.inputs.keyboard.left
-      xform.x -= @speed
+      xform[:x] -= @speed
       anim.flip_horizontally = true if anim.name != :mage_attack_staff
     end
-    xform.y -= @speed if args.inputs.keyboard.down
+    xform[:y] -= @speed if args.inputs.keyboard.down
     if args.inputs.keyboard.right
-      xform.x += @speed
+      xform[:x] += @speed
       anim.flip_horizontally = false if anim.name != :mage_attack_staff
     end
   end

@@ -30,20 +30,21 @@ class SteelcladBehavior < Behavior
     @speed = opts[:speed]
   end
 
-  def default anim, args
+  # def default anim, args
+  #   puts "STEELCLAD DEFAULT"
 
-    anim = Known_anims[ent][:steelclad_run].dup
-    anim.loop = true
+  #   anim = Known_anims[ent][:steelclad_run].dup
+  #   anim.loop = true
 
-    args.state.anims[@ent] = anim
-    puts "END DEFAULT"
-    p args.state.anims
+  #   args.state.anims[@ent] = anim
+  #   puts "END DEFAULT"
+  #   p args.state.anims
 
-  end
+  # end
 
-  # TODO
-  def attack args
-  end
+  # # TODO
+  # def attack args
+  # end
 
 end
 
