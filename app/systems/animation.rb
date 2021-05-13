@@ -1,8 +1,7 @@
-
 module AnimationSystem
 
   def do_animation
-    calc_sprites
+    #calc_sprites
 
     render_background
     render_sprites
@@ -33,13 +32,32 @@ module AnimationSystem
     Tools.megainspect state.sprites
   end
 
+  def calc_sprite anim
+    anim.cur_time += 1
+
+    if anim.cur_time == anim.frame_dur
+      anim.cur_time = 0
+      anim.frame_index += 1
+
+      if anim.frame_index == anim.frames.size
+        if anim.loop == true
+          reset_anim anim
+        else
+          finish_anim anim
+        end
+
+      end
+    end
+    anim.to_h
+  end
+
   def render_background
     outputs.background_color = Yellow
   end
 
   def render_sprites
     outputs.sprites << state.xforms.map.with_index do |xf, i|
-      xf.merge(state.sprites[i])
+      xf.merge(calc_sprite(state.anims[i]))
     end
 
     # state.spell_anims.each do |anim|

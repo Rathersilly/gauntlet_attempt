@@ -1,3 +1,7 @@
+# The sole purpose of this file is to populate the @frames array of an Anim object
+# with all the frames of a particular animation, and set a default duration
+#
+#
 # AnimTemplate is NYI
 # considering moving excess functions from Anim to here
 class AnimTemplate
@@ -105,12 +109,12 @@ def init_anims
   ##### Steelclad #####
 
   anim = Anim.new(name: :steelclad_run)
-  (1..10).each do |i|
+  (1..9).each do |i|
     anim.add_frame "sprites/steelclad/steelclad-se-run#{i}.png"
   end
-  (1..10).each do |i|
-    anim.add_upframe "sprites/steelclad/steelclad-ne-run#{i}.png"
-  end
+   (1..9).each do |i|
+     anim.add_upframe "sprites/steelclad/steelclad-ne-run#{i}.png"
+   end
   state.anim_pail[anim.name] = anim
   puts "Adding anim to pail:"
   Tools.megainspect anim

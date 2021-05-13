@@ -18,22 +18,23 @@ Colors = [Darkblue,Green,Yellow,Orange,Red]
 # Known anims can be looked up by entity_id
 Known_anims = []
 
+require '/app/init/tools.rb'
+
+require '/app/components.rb'
+
+require '/app/systems/animation.rb'
+require '/app/systems/behavior.rb'
+
+require '/app/init/init_anims.rb'
+
+require '/app/factories/factory_template.rb'
+require '/app/factories/mage_factory.rb'
+require '/app/factories/archmage_factory.rb'
+require '/app/factories/steelclad_factory.rb'
+require '/app/factories/adept_factory.rb'
+require '/app/factories/spell_factory.rb'
+
 module Init
-  require '/app/init/tools.rb'
-
-  require '/app/components.rb'
-  require '/app/systems/animation.rb'
-  require '/app/systems/behavior.rb'
-
-  require '/app/factories/factory_template.rb'
-  require '/app/init/init_anims.rb'
-
-  require '/app/factories/mage_factory.rb'
-  require '/app/factories/archmage_factory.rb'
-  require '/app/factories/steelclad_factory.rb'
-  require '/app/factories/adept_factory.rb'
-  require '/app/factories/spell_factory.rb'
-  #require '/app/init_siegeguy.rb'
 
   def initialize args
     # initialize each component container
@@ -48,7 +49,7 @@ module Init
     # spells NYI in this branch
     args.state.spell_anims            = []
     args.state.spell_behaviors        = []
-    
+
     args.state.behaviors              = []
     args.state.behavior_signals       = []
     args.state.anim_pail              = {}
@@ -65,13 +66,13 @@ module Init
 
     init_anims 
 
-    #MageFactory.create args
+    MageFactory.create args
     args.state.hero = 0
     20.times do |i|
       # SteelCladFactory.create args, {x: 700,y:100 *  i}
       SteelCladFactory.create args, {x: rand(1280),y:rand(720)}
     end
-    #AdeptFactory.create args, {x: 900,y:400}
+    AdeptFactory.create args, {x: 900,y:400}
   end
-
 end
+

@@ -89,5 +89,8 @@ def tick args
   $game.args = args
   $game.tick
 
+  args.outputs.labels << [100,100,"#{args.state.anims[3].frame_index}",2]
+  args.outputs.labels << [100,120,"#{args.state.anims[3].frame_dur}",2]
+  args.outputs.labels << [100,140,"#{args.state.anims[3].duration}",2]
   args.outputs.debug << args.gtk.framerate_diagnostics_primitives
 end
