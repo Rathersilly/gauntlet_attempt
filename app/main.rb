@@ -24,7 +24,7 @@ class ComponentStore
 
   # this class might also keep track of the active component of each
   # collection - or delegate that to behavior?
-  attr_accessor :id, :xforms, :anims, :behaviors
+  attr_accessor :id, :max_ids, :xforms, :anims, :behaviors, :behavior_signals
   attr_accessor :active_xforms, :active_anims, :active_behaviors
   attr_accessor :anim_stores
 
@@ -33,7 +33,9 @@ class ComponentStore
     @anims = []
     @anim_stores = []
     @behaviors = []
+    @behavior_signals = []
     @id = -1
+    @max_ids = nil
   end
 
   def << **components
@@ -55,11 +57,22 @@ class ComponentStore
     puts "INITTING COMPONENTS"
     p components
     components.each_value do |component|
+      p component
+      p component.class.ancestors
       if component.class.ancestors.include?(Component)
         component.ent = id
         component.container = self
       end
+      if component.class == Array
+        component.each do |subcomponent|
+          subcomponent.ent = id
+          subcomponent.container = self
+        end
+      end
     end
+    puts "ANIMS ID"
+    p @anims[id].ent
+    p @anims[id].container
   end
 
   def components
@@ -67,6 +80,11 @@ class ComponentStore
 
   def new_entity_id
     @id += 1
+    if @max_ids && @id == @max_ids
+      # need function to clear out this id
+      @id = 0
+    end
+    @id
   end
 
   def inspect
@@ -96,21 +114,31 @@ class Game
   def tick
     behavior
     do_animation
-    #cleanup
+    cleanup
   end
 
   def behavior
 
-    # this might get out of hand if many behaviors/signals
-    # if state.behavior_signals.any?
-    #   state.behavior_signals.each do |bs|
-    #     state.behaviors.each do |b|
-    #       if b.ent == bs.ent
-    #         b.handle(bs, args)
-    #       end
-    #     end
-    #   end
-    # end
+    #this might get out of hand if many behaviors/signals
+    if state.spells.behavior_signals.any?
+      state.spells.behavior_signals.each do |bs|
+        state.spells.behaviors.each do |b|
+          if b.ent == bs.ent
+            b.handle(bs, args)
+          end
+        end
+      end
+    end
+
+    if state.mobs.behavior_signals.any?
+      state.mobs.behavior_signals.each do |bs|
+        state.mobs.behaviors.each do |b|
+          if b.ent == bs.ent
+            b.handle(bs, args)
+          end
+        end
+      end
+    end
 
     # there's probably a better way to iterate here - maybe a container
     # with all the behaviors that respond to input
@@ -122,7 +150,7 @@ class Game
 
     state.mobs.behaviors.each do |b|
       b.send(:on_key_down, args) if b.respond_to?(:on_key_down)
-      # b.send(:on_tick, args) if b.respond_to?(:on_tick)
+      b.send(:on_tick, args) if b.respond_to?(:on_tick)
     end
     state.spells.behaviors.each do |b|
       b.send(:on_tick, args) if b.respond_to?(:on_tick)
@@ -131,34 +159,25 @@ class Game
   end
 
   def cleanup
-    # a lot of this is unnecessary after limiting 1 xform/anim per entity
-
-    # puts "CLEANUP"
-    # p state.anims
-    # state.anims.reject! do |anim|
-
-    #   anim.state == :done 
-    # end
-
-    # state.spells.anims.reject! do |anim|
-
-    #   next unless anim
-    #   truthflag = false
-    #   if anim.state == :done 
-    #     puts "SPELL CLEANUP"
-    #     Tools.megainspect anim
-    #     truthflag = true
-    #   end
-    #   truthflag
-    # end
-
-    #state.anims.reject! { |anim| anim.state == :done }
+    # spell cleanup
+    
+    # actually, they will get cleaned up on their own if you make a limit on
+    # the  # of spells and overwrite their entity_ids
     #state.spells.anims.reject! { |anim| anim.state == :done }
 
-    state.behavior_signals.reject! { |bs| bs.handled == true }
+    state.mobs.behavior_signals.reject! { |bs| bs.handled == true }
     state.spells.behavior_signals.reject! { |bs| bs.handled == true }
-
   end
+
+end
+
+def daily_report args
+  puts "##### DAILY REPORT#####"
+  if args.state.spells.behavior_signals.any?
+    puts "Behavior signals:\t\t\t: #{args.state.spells.behavior_signals}"
+  end
+    puts "Mob anims:\t\t\t: #{args.state.mobs.anims}"
+    puts "Spell anims:\t\t\t: #{args.state.spells.anims}"
 
 end
 
@@ -167,8 +186,11 @@ def tick args
   $game.args = args
   $game.tick
   if args.state.tick_count % 60 == 0
+    daily_report args
+
+    p args.state.spells.behavior_signals
   end
-    
+
   #puts args.state.xforms[1]
   #puts args.state.anims[1]
 

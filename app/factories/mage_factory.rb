@@ -36,10 +36,14 @@ class PlayerBehavior < Behavior
 
   def default_anim(args)
     # reset animation
-    #anim = Known_anims[@ent][:mage_idle].dup
-    #args.state.anims[@ent] = anim
+    puts 'DEFAULT ANIM'
 
-    #puts 'END DEFAULT'
+    anim = @container.anim_stores[@ent][0]
+    Tools.megainspect anim
+    @container.anims[@ent] = anim
+
+
+    puts 'END DEFAULT'
     #Tools.megainspect anim
   end
 
@@ -63,7 +67,7 @@ class PlayerBehavior < Behavior
     #should change this from array index to :mage_attack_staff
     anim = @container.anim_stores[@ent][1].dup
     anim.flip_horizontally = true if args.inputs.mouse.x < xform.x
-    args.state.anims[@ent] = anim
+    args.state.mobs.anims[@ent] = anim
 
     args.state.spells << IceMissileFactory.create(args, {parent_container: @container,parent: @ent})
 

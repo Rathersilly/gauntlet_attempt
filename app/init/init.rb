@@ -38,6 +38,7 @@ module Init
   def initialize args
 
     Spells = ComponentStore.new
+    Spells.max_ids = 3
     Mobs = ComponentStore.new
 
     args.state.spells     = Spells
@@ -54,8 +55,8 @@ module Init
 
     Mobs << MageFactory.create(args)
     p Mobs
+    args.state.hero = 0
     # AdeptFactory.create args, {x: 900,y:400}
-    # args.state.hero = 0
     3.times do |i|
       Mobs << SteelCladFactory.create(args, {x: rand(1280),y:rand(720)})
     end

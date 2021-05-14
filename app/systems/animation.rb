@@ -106,24 +106,15 @@ module AnimationSystem
   end
 
   def finish_anim anim
-    #puts "FINISHING ANIM"
-    #Tools.megainspect anim
+    puts "FINISHING ANIM"
+    Tools.megainspect anim
     reset_anim anim
     anim.state = :done
-    if anim.spell == false
-      if state.behaviors.any? { |b| b.ent == anim.ent }
-        state.behavior_signals << BehaviorSignal.new(ent: anim.ent,
-                                                     type: Anim,
-                                                     state: :done,
-                                                     info: anim.name)
-      end
-    else
-      if state.spells.behaviors.any? { |b| b.ent == anim.ent }
-        state.spells.behavior_signals << BehaviorSignal.new(ent: anim.ent,
-                                                            type: Anim,
-                                                            state: :done,
-                                                            info: anim.name)
-      end
+    if anim.container.behaviors.any? { |b| b.ent == anim.ent }
+      anim.container.behavior_signals << BehaviorSignal.new(ent: anim.ent,
+                                                          type: Anim,
+                                                          state: :done,
+                                                          info: anim.name)
     end
   end
 

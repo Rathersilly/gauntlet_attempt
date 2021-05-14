@@ -91,7 +91,7 @@ class Behavior < Component
 
   # the current plan: add methods here to singleton class.  But have templates for things
   # that need to be repeated. or actually subclasses would work I think.
-  attr_accessor :name, :ent, :args
+  attr_accessor :name, :ent, :args, :container
   def initialize(**opts)
     @ent          = opts[:ent]         || nil
     @name         = opts[:name]        || nil
@@ -110,9 +110,11 @@ class Behavior < Component
   # args as first arg would be more consistent, but who could resist?
   def handle bs, args
     puts "HANDLING BEHAVIOR SIGNAL"
-    Tools.megainspect bs
+      Tools.megainspect bs
 
     if bs.type == Anim && bs.state == :done
+      puts "SUPER HANDLING BS"
+      Tools.megainspect bs
       default_anim args if methods.include?(:default_anim)
     end
 
@@ -146,7 +148,7 @@ class BehaviorSignal < Component
   # when an animation finishes, it sets it state to :done (so it is cleaned up)
   # and places a BehaviorSignal instance in state.behavior_signals
   # which is looped through in the behavior system
-  attr_accessor :ent, :type, :state, :info, :handled
+  attr_accessor :ent, :type, :state, :info, :handled, :container
 
   # types of BSignals: anim_finished
 
