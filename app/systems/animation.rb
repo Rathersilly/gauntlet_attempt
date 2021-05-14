@@ -80,7 +80,7 @@ module AnimationSystem
   def render_spells
     outputs.sprites << state.spells.xforms.map.with_index do |xf, i|
 
-      anim = state.mobs.anims[i]
+      anim = state.spells.anims[i]
       if anim && anim.state == :play
         xf.to_h.merge(calc_sprite(state.spells.anims[i]))
       else
@@ -106,8 +106,8 @@ module AnimationSystem
   end
 
   def finish_anim anim
-    puts "FINISHING ANIM"
-    Tools.megainspect anim
+    #puts "FINISHING ANIM"
+    #Tools.megainspect anim
     reset_anim anim
     anim.state = :done
     if anim.spell == false

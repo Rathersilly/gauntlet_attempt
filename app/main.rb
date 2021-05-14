@@ -58,10 +58,6 @@ class ComponentStore
       if component.class.ancestors.include?(Component)
         component.ent = id
         component.container = self
-        puts "INIT COMPONENT"
-        p component.ent
-        p component.container
-        puts "@#@#@#@#@#@#"
       end
     end
   end
