@@ -4,35 +4,39 @@ class IceMissileFactory < Factory
     def before args, **opts
       puts "BEFORE ICEMISSILE"
       @parent = opts[:parent]
+      @parent_container = opts[:parent_container]
       @spell = true
       @w ||= 50
       @h ||= 50
     end
 
-    def xform(args)
-      xform = args.state.xforms[@parent].dup
-      xform[:w] = @w
-      xform[:h] = @h
-      args.state.spells.xforms[@ent] = xform
+
+    def xform args, **opts
+      puts "TESJKSETJLKSTRLJKESK"
+      p @parent
+      p @parent_container
+      xform = @parent_container.xforms[@parent].dup
+      xform.w = @w
+      xform.h = @h
+      xform
+    end
+    def anim_store args, **opts
+      anims =[] 
+
+      anims_to_add = %i[ice_missile]
+
+      anims_to_add.each do |name|
+        anim = args.state.all_anims[name].dup
+        anims << anim
+      end
+      anims
+
     end
 
-    def anim args
-      anim = args.state.all_anims[:ice_missile].dup
-      anim.ent = @ent
-      anim.spell = true
-      anim.loop = true
-      args.state.spells.anims[@ent] = anim
-    end
-
-    def behavior args
-      behavior = SpellBehavior.new(name: :ice_missile, ent: @ent, speed: 10)
-      behavior.set_dir(args, [args.inputs.mouse.x, args.inputs.mouse.y])
-      args.state.spells.behaviors << behavior
-    end
-
-    def after args
-      p "NEW ICEMISSILE"
-      puts "p: #{@parent}, e: #{@ent}"
+    def behavior args, **opts
+      b = SpellBehavior.new(name: :ice_missile, speed: 10)
+      b.set_dest(args, [args.inputs.mouse.x, args.inputs.mouse.y])
+      b
     end
 
   end
@@ -46,9 +50,10 @@ class SpellBehavior < Behavior
   end
 
   def on_tick args
-    xform = args.state.spells.xforms[@ent]
-    xform[:x] += @dirx * speed
-    xform[:y] += @diry * speed
+    set_dir(args, @dest) unless @dirx
+    xform = @container.xforms[@ent]
+    xform.x += @dirx * speed
+    xform.y += @diry * speed
   end
 end
 

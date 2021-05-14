@@ -5,7 +5,7 @@ class SteelCladFactory < Factory
       @y          = opts[:y]       || 200
       @w          = opts[:w]       || 100
       @h          = opts[:h]       || 100
-      {x: @x, y: @y, w: @w, h: @h}
+      Xform.new(x: @x, y: @y, w: @w, h: @h)
     end
 
     def anim_store args, **opts

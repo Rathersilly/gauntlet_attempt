@@ -36,7 +36,7 @@ class ComponentStore
     @id = -1
   end
 
-  def <<(**components)
+  def << **components
     id = new_entity_id
     @xforms[id] = components[:xform]
     @behaviors[id] = components[:behavior]
@@ -47,6 +47,26 @@ class ComponentStore
     else
       @anims[id] = @anim_stores[id][0]
     end
+    
+    init_components id, components
+  end
+
+  def init_components id, **components
+    puts "INITTING COMPONENTS"
+    p components
+    components.each_value do |component|
+      if component.class.ancestors.include?(Component)
+        component.ent = id
+        component.container = self
+        puts "INIT COMPONENT"
+        p component.ent
+        p component.container
+        puts "@#@#@#@#@#@#"
+      end
+    end
+  end
+
+  def components
   end
 
   def new_entity_id
@@ -78,7 +98,7 @@ class Game
   end
 
   def tick
-    #behavior
+    behavior
     do_animation
     #cleanup
   end
@@ -86,27 +106,27 @@ class Game
   def behavior
 
     # this might get out of hand if many behaviors/signals
-    if state.behavior_signals.any?
-      state.behavior_signals.each do |bs|
-        state.behaviors.each do |b|
-          if b.ent == bs.ent
-            b.handle(bs, args)
-          end
-        end
-      end
-    end
+    # if state.behavior_signals.any?
+    #   state.behavior_signals.each do |bs|
+    #     state.behaviors.each do |b|
+    #       if b.ent == bs.ent
+    #         b.handle(bs, args)
+    #       end
+    #     end
+    #   end
+    # end
 
     # there's probably a better way to iterate here - maybe a container
     # with all the behaviors that respond to input
     if inputs.mouse.down
-      state.behaviors.each do |b|
+      state.mobs.behaviors.each do |b|
         b.send(:on_mouse_down, args) if b.respond_to?(:on_mouse_down)
       end
     end
 
-    state.behaviors.each do |b|
-      # b.send(:on_key_down, args) if b.respond_to?(:on_key_down)
-      b.send(:on_tick, args) if b.respond_to?(:on_tick)
+    state.mobs.behaviors.each do |b|
+      b.send(:on_key_down, args) if b.respond_to?(:on_key_down)
+      # b.send(:on_tick, args) if b.respond_to?(:on_tick)
     end
     state.spells.behaviors.each do |b|
       b.send(:on_tick, args) if b.respond_to?(:on_tick)

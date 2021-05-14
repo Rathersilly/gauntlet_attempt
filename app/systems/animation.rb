@@ -6,7 +6,8 @@ module AnimationSystem
     render_background
     # puts "3333333333333333"
     # Tools.megainspect state.anims[3]
-    render_sprites
+    render_mobs
+    render_spells
     render_labels
   end
 
@@ -58,17 +59,17 @@ module AnimationSystem
     outputs.background_color = Yellow
   end
 
-  def render_sprites
+  def render_mobs
     outputs.sprites << state.mobs.xforms.map.with_index do |xf, i|
 
-      # puts "RENDERING"
-      # p xf
-      # p i
-      # p state.anims[i]
       anim = state.mobs.anims[i]
+      # puts "RENDERING"
+      # p xf.to_h
+      # p i
+      # p anim
       
       if anim && anim.state == :play
-        xf.merge(calc_sprite(state.mobs.anims[i]))
+        xf.to_h.merge(calc_sprite(state.mobs.anims[i]))
       else
         nil
       end
@@ -78,13 +79,13 @@ module AnimationSystem
 
   def render_spells
     outputs.sprites << state.spells.xforms.map.with_index do |xf, i|
-      anim = state.spells.anims[i]
+
+      anim = state.mobs.anims[i]
       if anim && anim.state == :play
-        xf.merge(calc_sprite(state.spells.anims[i]))
+        xf.to_h.merge(calc_sprite(state.spells.anims[i]))
       else
         nil
       end
-
     end
   end
 

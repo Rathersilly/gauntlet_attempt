@@ -5,7 +5,7 @@ class MageFactory < Factory
       @y          = opts[:y]       || 200
       @w          = opts[:w]       || 100
       @h          = opts[:h]       || 100
-      {x: @x, y: @y, w: @w, h: @h}
+      Xform.new(x: @x, y: @y, w: @w, h: @h)
     end
 
     def anim_store args, **opts
@@ -59,30 +59,30 @@ class PlayerBehavior < Behavior
     puts "ANIMS"
     p args.state.anims
 
-    xform = args.state.xforms[@ent]
-    anim = Known_anims[@ent][:mage_attack_staff].dup
+    xform = @container.xforms[@ent]
+    #should change this from array index to :mage_attack_staff
+    anim = @container.anim_stores[@ent][1].dup
     anim.flip_horizontally = true if args.inputs.mouse.x < xform.x
     args.state.anims[@ent] = anim
 
-    IceMissileFactory.create args, {parent: @ent}
+    args.state.spells << IceMissileFactory.create(args, {parent_container: @container,parent: @ent})
 
-    puts 'ANIM ADDED'
-    p args.state.anims
   end
 
   def move(args)
-    xform = args.state.xforms[@ent]
-    anim = args.state.anims[@ent]
+
+    xform = @container.xforms[@ent]
+    anim = @container.anims[@ent]
 
     chars = args.inputs.keyboard.keys[:down_or_held]
-    xform[:y] += @speed if args.inputs.keyboard.up
+    xform.y += @speed if args.inputs.keyboard.up
     if args.inputs.keyboard.left
-      xform[:x] -= @speed
+      xform.x -= @speed
       anim.flip_horizontally = true if anim.name != :mage_attack_staff
     end
-    xform[:y] -= @speed if args.inputs.keyboard.down
+    xform.y -= @speed if args.inputs.keyboard.down
     if args.inputs.keyboard.right
-      xform[:x] += @speed
+      xform.x += @speed
       anim.flip_horizontally = false if anim.name != :mage_attack_staff
     end
   end

@@ -2,6 +2,7 @@ class Factory
   class << self
 
     def create(args, **opts)
+      before args, opts
       {
         xform: xform(args, opts),
         anim_store: anim_store(args, opts),

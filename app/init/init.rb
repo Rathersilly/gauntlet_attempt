@@ -56,7 +56,7 @@ module Init
     p Mobs
     # AdeptFactory.create args, {x: 900,y:400}
     # args.state.hero = 0
-    50.times do |i|
+    3.times do |i|
       Mobs << SteelCladFactory.create(args, {x: rand(1280),y:rand(720)})
     end
     p Mobs
