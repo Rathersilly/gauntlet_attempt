@@ -14,12 +14,12 @@ Black = colorhex('000000')
 White = colorhex('ffffff')
 Colors = [Darkblue,Green,Yellow,Orange,Red]
 
-# Known anims can be looked up by entity_id
-Known_anims = []
-
 require '/app/init/tools.rb'
 
-require '/app/components.rb'
+require '/app/components/components.rb'
+require '/app/components/anim.rb'
+require '/app/components/behavior.rb'
+require '/app/component_store.rb'
 
 require '/app/systems/animation.rb'
 require '/app/systems/behavior.rb'

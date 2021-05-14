@@ -7,28 +7,28 @@
 class AnimTemplate
   attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state
   attr_accessor :flip_horizontally, :flip_vertically
-  attr_accessor :cur_time, :frame_dur, :frame_index
+  attr_accessor :cur_time, :frame_duration, :frame_index
 
 
   class << self
     def << path
       @frames << path
-      @frame_dur = (@duration / @frames.size).round
+      @frame_duration = (@duration / @frames.size).round
     end
 
     def add_frame path
       @frames << path
-      @frame_dur = (@duration / @frames.size).round
+      @frame_duration = (@duration / @frames.size).round
     end
 
     def add_upframe path
       @upframes << path
-      @frame_dur = (@duration / @upframes.size).round
+      @frame_duration = (@duration / @upframes.size).round
     end
 
     def duration= dur
       @duration = dur
-      @frame_dur = (@duration / @frames.size).round
+      @frame_duration = (@duration / @frames.size).round
     end
   end
 end
@@ -73,6 +73,22 @@ def init_anims
   puts "Adding anim to pail:"
   anim.inspect
 
+  ##### Steelclad #####
+
+  # omitting the 0 index sprite - animation seems smoother that way
+  anim = Anim.new(name: :steelclad_run)
+  (1..9).each do |i|
+    anim.add_frame "sprites/steelclad/steelclad-se-run#{i}.png"
+  end
+   (1..9).each do |i|
+     anim.add_upframe "sprites/steelclad/steelclad-ne-run#{i}.png"
+   end
+  state.all_anims[anim.name] = anim
+  puts "Adding anim to pail:"
+  Tools.megainspect anim
+
+  ##### Others #####
+
   anim = Anim.new(name: :adept_idle, loop: true)
   (1..9).each do |i|
     anim << "sprites/necromancer/adept-idle-#{i}.png"
@@ -106,19 +122,6 @@ def init_anims
   puts "Adding anim to pail:"
   anim.inspect
 
-  ##### Steelclad #####
-
-  # omitting the 0 index sprite - animation seems smoother that way
-  anim = Anim.new(name: :steelclad_run)
-  (1..9).each do |i|
-    anim.add_frame "sprites/steelclad/steelclad-se-run#{i}.png"
-  end
-   (1..9).each do |i|
-     anim.add_upframe "sprites/steelclad/steelclad-ne-run#{i}.png"
-   end
-  state.all_anims[anim.name] = anim
-  puts "Adding anim to pail:"
-  Tools.megainspect anim
 
 end
 

@@ -66,7 +66,11 @@ and its confusing af, at least in its current implementation
 probably best to just look up components by id, rather than have separate arrays
 of xforms/anims that are looked up by index = entity_id
 
-ways to store components? 
+SUCCESS: refactored things so there's a ComponentStore class, and can have multiples
+of them, and limit the number of components in them (ie limit spells for perf)
+fps is still not great in vm, but foundation is now solid i think
+
+TODO: blocks, map, collision, damage, etc etc
 
 
 

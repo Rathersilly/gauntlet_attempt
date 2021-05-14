@@ -27,7 +27,7 @@ module Mob4d
       anim.up = true
     end
     #puts anim.frame_index
-    #print "#{anim.cur_time} / #{anim.frame_dur}\n"
+    #print "#{anim.cur_time} / #{anim.frame_duration}\n"
   end
 
 end
