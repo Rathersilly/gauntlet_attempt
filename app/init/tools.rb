@@ -1,6 +1,9 @@
 module Tools
   def self.normalize vector
     # expect [x,y]gt
+    puts "normalize"
+    puts vector[0]
+    puts vector[1]
     r = Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1])
     [vector[0]/r, vector[1]/r]
   end

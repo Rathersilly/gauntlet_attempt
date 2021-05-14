@@ -17,7 +17,7 @@ class IceMissileFactory < Factory
     end
 
     def anim args
-      anim = args.state.anim_pail[:ice_missile].dup
+      anim = args.state.all_anims[:ice_missile].dup
       anim.ent = @ent
       anim.spell = true
       anim.loop = true

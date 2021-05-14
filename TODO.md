@@ -59,6 +59,17 @@ this is with Animation being the only running system
 2: tried changing AnimationSystem#Calc_sprites to just a calc_sprite function, 
    to save looping through anims an extra time - had 0 noticeable effect
 
+##5/14/21
+ok this separation of normal entities and spells is not gonna work - its not dry 
+and its confusing af, at least in its current implementation
+
+probably best to just look up components by id, rather than have separate arrays
+of xforms/anims that are looked up by index = entity_id
+
+ways to store components? 
+
+
+
 
 
 

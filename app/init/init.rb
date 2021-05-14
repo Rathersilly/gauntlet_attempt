@@ -14,7 +14,6 @@ Black = colorhex('000000')
 White = colorhex('ffffff')
 Colors = [Darkblue,Green,Yellow,Orange,Red]
 
-#All_anims = {}  #dont need anim_pail in state
 # Known anims can be looked up by entity_id
 Known_anims = []
 
@@ -37,28 +36,13 @@ require '/app/factories/spell_factory.rb'
 module Init
 
   def initialize args
-    # initialize each component container
 
-    args.state.map = Array.new(20) { Array.new(20) }
+    Spells = ComponentStore.new
+    Mobs = ComponentStore.new
 
-
-    args.state.xforms                 = []
-    args.state.anims                  = []
-    args.state.sprites                = []
-
-    # spells NYI in this branch
-    args.state.spells.xforms          = []
-    args.state.spells.anims           = []
-    args.state.spells.behaviors       = []
-    args.state.spells.behavior_signals       = []
-
-    args.state.behaviors              = []
-    args.state.behavior_signals       = []
-    args.state.anim_pail              = {}
-
-    args.state.entity_id              = -1
-    args.state.spell_id               = -1
-
+    args.state.spells     = Spells
+    args.state.mobs       = Mobs
+    args.state.all_anims  = {}
 
     @args = args
     @state = args.state
@@ -68,13 +52,14 @@ module Init
 
     init_anims 
 
-    MageFactory.create args
-    AdeptFactory.create args, {x: 900,y:400}
-    args.state.hero = 0
-    2.times do |i|
-      # SteelCladFactory.create args, {x: 700,y:100 *  i}
-      SteelCladFactory.create args, {x: rand(1280),y:rand(720)}
+    Mobs << MageFactory.create(args)
+    p Mobs
+    # AdeptFactory.create args, {x: 900,y:400}
+    # args.state.hero = 0
+    50.times do |i|
+      Mobs << SteelCladFactory.create(args, {x: rand(1280),y:rand(720)})
     end
+    p Mobs
   end
 end
 

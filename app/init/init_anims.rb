@@ -41,7 +41,7 @@ def init_anims
     anim << "sprites/archmage/arch-mage+female-idle-#{i}.png"
   end
   anim.duration = 120
-  state.anim_pail[anim.name] = anim
+  state.all_anims[anim.name] = anim
   puts "Adding anim to pail:"
   anim.inspect
 
@@ -49,7 +49,7 @@ def init_anims
   (1..2).each do |i|
     anim << "sprites/archmage/arch-mage+female-attack-staff-#{i}.png"
   end
-  state.anim_pail[anim.name] = anim
+  state.all_anims[anim.name] = anim
   puts "Adding anim to pail:"
   anim.inspect
 
@@ -60,7 +60,7 @@ def init_anims
   anim << "sprites/mage-female/mage+female-attack-magic#{2}.png"
   anim << "sprites/mage-female/mage+female-attack-magic#{1}.png"
   anim.duration = 60
-  state.anim_pail[anim.name] = anim
+  state.all_anims[anim.name] = anim
   puts "Adding anim to pail:"
   anim.inspect
 
@@ -69,7 +69,7 @@ def init_anims
   anim << "sprites/mage-female/mage+female-attack-staff#{1}.png"
   anim << "sprites/mage-female/mage+female-attack-staff#{2}.png"
   anim.duration = 30
-  state.anim_pail[anim.name] = anim
+  state.all_anims[anim.name] = anim
   puts "Adding anim to pail:"
   anim.inspect
 
@@ -77,7 +77,7 @@ def init_anims
   (1..9).each do |i|
     anim << "sprites/necromancer/adept-idle-#{i}.png"
   end
-  state.anim_pail[anim.name] = anim
+  state.all_anims[anim.name] = anim
   puts "Adding anim to pail:"
   anim.inspect
 
@@ -85,7 +85,7 @@ def init_anims
   (1..3).each do |i|
     anim << "sprites/necromancer/adept-magic-#{i}.png"
   end
-  state.anim_pail[anim.name] = anim
+  state.all_anims[anim.name] = anim
   puts "Adding anim to pail:"
   anim.inspect
 
@@ -93,7 +93,7 @@ def init_anims
   (1..7).each do |i|
     anim << "sprites/icemissile-ne-#{i}.png"
   end
-  state.anim_pail[anim.name] = anim
+  state.all_anims[anim.name] = anim
   puts "Adding anim to pail:"
   anim.inspect
 
@@ -102,7 +102,7 @@ def init_anims
     #anim << "sprites/siegetrooper-attack-#{i}.png"
   end
   anim << "sprites/siegetrooper-attack-3.png"
-  state.anim_pail[anim.name] = anim
+  state.all_anims[anim.name] = anim
   puts "Adding anim to pail:"
   anim.inspect
 
@@ -116,7 +116,7 @@ def init_anims
    (1..9).each do |i|
      anim.add_upframe "sprites/steelclad/steelclad-ne-run#{i}.png"
    end
-  state.anim_pail[anim.name] = anim
+  state.all_anims[anim.name] = anim
   puts "Adding anim to pail:"
   Tools.megainspect anim
 

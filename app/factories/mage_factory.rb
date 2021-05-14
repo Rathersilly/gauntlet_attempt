@@ -1,20 +1,28 @@
 class MageFactory < Factory
   class << self
-    def anim(args)
-      Known_anims[@ent] = {}
-
-      anims_to_add = %i[mage_idle mage_attack_staff]
-      anims_to_add.each do |name|
-        anim = args.state.anim_pail[name]
-        anim.ent = @ent
-        Known_anims[@ent][name] = anim
-      end
-      args.state.anims[@ent] = Known_anims[@ent][:mage_idle].dup
+    def xform args, **opts
+      @x          = opts[:x]       || 200
+      @y          = opts[:y]       || 200
+      @w          = opts[:w]       || 100
+      @h          = opts[:h]       || 100
+      {x: @x, y: @y, w: @w, h: @h}
     end
 
-    def behavior(args)
+    def anim_store args, **opts
+      anims =[] 
+
+      anims_to_add = %i[mage_idle mage_attack_staff]
+
+      anims_to_add.each do |name|
+        anim = args.state.all_anims[name].dup
+        anims << anim
+      end
+      anims
+
+    end
+
+    def behavior args, **opts
       b = PlayerBehavior.new(ent: @ent, speed: 5)
-      args.state.behaviors << b
     end
   end
 end
@@ -28,11 +36,11 @@ class PlayerBehavior < Behavior
 
   def default_anim(args)
     # reset animation
-    anim = Known_anims[@ent][:mage_idle].dup
-    args.state.anims[@ent] = anim
+    #anim = Known_anims[@ent][:mage_idle].dup
+    #args.state.anims[@ent] = anim
 
-    puts 'END DEFAULT'
-    Tools.megainspect anim
+    #puts 'END DEFAULT'
+    #Tools.megainspect anim
   end
 
   # INPUT HANDLING

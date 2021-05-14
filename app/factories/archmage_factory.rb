@@ -6,7 +6,7 @@ class ArchmageFactory < Factory
       anims_to_add = [:hero_idle,:hero_attack_staff]
       anims_to_add.each do |name|
 
-        anim = args.state.anim_pail[name]
+        anim = args.state.all_anims[name]
         anim.ent = @ent
         Known_anims[@ent][name] = anim
       end

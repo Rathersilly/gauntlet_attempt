@@ -2,16 +2,12 @@ module AnimationSystem
 
   def do_animation
     # puts "ANIMATING"
-    # p args.state.anims
-    # p args.state.anims
-    #calc_sprites
 
     render_background
     # puts "3333333333333333"
     # Tools.megainspect state.anims[3]
     render_sprites
-    render_spells
-    #render_labels
+    render_labels
   end
 
   # replaced with cacl_sprite in the render_sprites function
@@ -63,18 +59,21 @@ module AnimationSystem
   end
 
   def render_sprites
-    outputs.sprites << state.xforms.map.with_index do |xf, i|
+    outputs.sprites << state.mobs.xforms.map.with_index do |xf, i|
+
       # puts "RENDERING"
       # p xf
       # p i
       # p state.anims[i]
-      anim = state.anims[i]
+      anim = state.mobs.anims[i]
+      
       if anim && anim.state == :play
-        xf.merge(calc_sprite(state.anims[i]))
+        xf.merge(calc_sprite(state.mobs.anims[i]))
       else
         nil
       end
     end
+
   end
 
   def render_spells
@@ -90,7 +89,10 @@ module AnimationSystem
   end
 
   def render_labels
-    outputs.labels << [10,700, "#{gtk.current_framerate.round}"]
+    outputs.labels << [100,40, "#{state.mobs.anims[1].cur_time}"]
+    outputs.labels << [100,60, "#{state.mobs.anims[1].frame_dur}"]
+    outputs.labels << [100,80, "#{state.mobs.anims[1].frame_index}"]
+    outputs.labels << [100,100, "#{state.mobs.anims[1].duration}"]
   end
 
   ##### anim controls #####

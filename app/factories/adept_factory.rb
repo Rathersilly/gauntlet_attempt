@@ -5,7 +5,7 @@ class AdeptFactory < Factory
 
       anims_to_add = [:adept_idle,:adept_magic]
       anims_to_add.each do |name|
-        anim = args.state.anim_pail[name]
+        anim = args.state.all_anims[name]
         anim.ent = @ent
         anim.flip_horizontally = true
         Known_anims[@ent][name] = anim

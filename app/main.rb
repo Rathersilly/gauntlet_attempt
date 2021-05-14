@@ -12,6 +12,57 @@ module AnimationSystem
   # data is in the Anim class
 end
 
+class ComponentStore
+  #each componentcontainer has its own set of ids
+  #SpellContainer = ComponentContainer.new
+  # so going to have args.state.spells SpellContainer 
+  # and state.mobs = MobContainer
+  #
+  # each of these is an array, where index = entity_id.
+  # the mechanism for adding multiple behaviors is to use modules
+  # although, gonna need containers for anims anyway
+
+  # this class might also keep track of the active component of each
+  # collection - or delegate that to behavior?
+  attr_accessor :id, :xforms, :anims, :behaviors
+  attr_accessor :active_xforms, :active_anims, :active_behaviors
+  attr_accessor :anim_stores
+
+  def initialize
+    @xforms = []
+    @anims = []
+    @anim_stores = []
+    @behaviors = []
+    @id = -1
+  end
+
+  def <<(**components)
+    id = new_entity_id
+    @xforms[id] = components[:xform]
+    @behaviors[id] = components[:behavior]
+
+    @anim_stores[id] = components[:anim_store]
+    if @anim_stores[id].empty?
+      @anims[id] = nil
+    else
+      @anims[id] = @anim_stores[id][0]
+    end
+  end
+
+  def new_entity_id
+    @id += 1
+  end
+
+  def inspect
+    puts "inspecting Store"
+    p @xforms
+    p @anim_stores
+    p @anims
+    p @behaviors
+  end
+
+end
+
 class Game
   attr_gtk
 
@@ -27,9 +78,9 @@ class Game
   end
 
   def tick
-    behavior
+    #behavior
     do_animation
-    cleanup
+    #cleanup
   end
 
   def behavior
@@ -68,28 +119,28 @@ class Game
 
     # puts "CLEANUP"
     # p state.anims
-    state.anims.reject! do |anim|
+    # state.anims.reject! do |anim|
 
-      anim.state == :done 
-    end
+    #   anim.state == :done 
+    # end
 
-    state.spells.anims.reject! do |anim|
+    # state.spells.anims.reject! do |anim|
 
-      next unless anim
-      truthflag = false
-      if anim.state == :done 
-        puts "SPELL CLEANUP"
-        Tools.megainspect anim
-        truthflag = true
-      end
-      truthflag
-    end
+    #   next unless anim
+    #   truthflag = false
+    #   if anim.state == :done 
+    #     puts "SPELL CLEANUP"
+    #     Tools.megainspect anim
+    #     truthflag = true
+    #   end
+    #   truthflag
+    # end
 
     #state.anims.reject! { |anim| anim.state == :done }
     #state.spells.anims.reject! { |anim| anim.state == :done }
 
-    #state.behavior_signals.reject! { |bs| bs.handled == true }
-    #state.spells.behavior_signals.reject! { |bs| bs.handled == true }
+    state.behavior_signals.reject! { |bs| bs.handled == true }
+    state.spells.behavior_signals.reject! { |bs| bs.handled == true }
 
   end
 
@@ -100,7 +151,6 @@ def tick args
   $game.args = args
   $game.tick
   if args.state.tick_count % 60 == 0
-    Tools.megainspect args.state.anims
   end
     
   #puts args.state.xforms[1]

@@ -1,22 +1,28 @@
 class SteelCladFactory < Factory
   class << self
-    def anim args
-      Known_anims[@ent] = {}
+    def xform args, **opts
+      @x          = opts[:x]       || 200
+      @y          = opts[:y]       || 200
+      @w          = opts[:w]       || 100
+      @h          = opts[:h]       || 100
+      {x: @x, y: @y, w: @w, h: @h}
+    end
+
+    def anim_store args, **opts
+      anims =[] 
 
       anims_to_add = [:steelclad_run]
       anims_to_add.each do |name|
-        anim = args.state.anim_pail[name]
-        anim.ent = @ent
+        anim = args.state.all_anims[name].dup
         anim.loop = true
-        #anim.flip_horizontally = true
-        Known_anims[@ent][name] = anim
+        anim.duration = 60
+        anims << anim
       end
-      args.state.anims[@ent] = Known_anims[@ent][:steelclad_run].dup
+      anims
     end
 
-    def behavior(args)
+    def behavior args, **opts
       b = SteelcladBehavior.new(ent: @ent, speed: 2)
-      args.state.behaviors << b
     end
 
   end

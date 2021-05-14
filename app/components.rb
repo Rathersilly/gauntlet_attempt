@@ -1,3 +1,6 @@
+class Xform
+
+end
 class Anim 
   attr_accessor :name, :ent, :angle, :path, :duration, :loop, :state
   attr_accessor :frames, :up, :upframes
