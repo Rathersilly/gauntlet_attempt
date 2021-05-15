@@ -1,6 +1,7 @@
 class System
 
   def initialize
+    # is view/filter even needed?
     @view = []
   end
 

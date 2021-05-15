@@ -36,14 +36,13 @@ class PlayerBehavior < Behavior
 
   def default_anim(args)
     # reset animation
-    puts 'DEFAULT ANIM'
+    #puts 'DEFAULT ANIM'
 
     anim = @container.anim_stores[@ent][0]
-    Tools.megainspect anim
     @container.anims[@ent] = anim
 
 
-    puts 'END DEFAULT'
+    #puts 'END DEFAULT'
     #Tools.megainspect anim
   end
 
@@ -58,10 +57,10 @@ class PlayerBehavior < Behavior
 
   def attack(args)
     puts "ATTACKING"
-    puts @ent
-    Tools.megainspect self
-    puts "ANIMS"
-    p args.state.anims
+    # puts @ent
+    # Tools.megainspect self
+    # puts "ANIMS"
+    # p args.state.anims
 
     xform = @container.xforms[@ent]
     #should change this from array index to :mage_attack_staff

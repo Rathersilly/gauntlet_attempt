@@ -12,9 +12,6 @@ class IceMissileFactory < Factory
 
 
     def xform args, **opts
-      puts "TESJKSETJLKSTRLJKESK"
-      p @parent
-      p @parent_container
       xform = @parent_container.xforms[@parent].dup
       xform.w = @w
       xform.h = @h

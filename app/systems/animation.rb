@@ -40,6 +40,7 @@ class Animation < System
         end
       end
       @registry.frames[ent] = anim.to_h
+
     end
   end
 

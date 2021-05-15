@@ -28,12 +28,10 @@ class Behavior < Component
 
   # args as first arg would be more consistent, but who could resist?
   def handle bs, args
-    puts "HANDLING BEHAVIOR SIGNAL"
-      Tools.megainspect bs
+    #puts "HANDLING BEHAVIOR SIGNAL"
+      #Tools.megainspect bs
 
     if bs.type == Anim && bs.state == :done
-      puts "SUPER HANDLING BS"
-      Tools.megainspect bs
       default_anim args if methods.include?(:default_anim)
     end
 

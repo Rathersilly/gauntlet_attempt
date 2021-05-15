@@ -8,11 +8,15 @@ class ComponentRegistry
 
   # this class might also keep track of the active component of each
   # collection - or delegate that to behavior?
-  attr_accessor :id, :max_ids, :xforms, :anims, :behaviors, :behavior_signals
-  attr_accessor :active_xforms, :active_anims, :active_behaviors
-  attr_accessor :anim_stores, :frames
+  attr_accessor :id, :max_ids
+  attr_accessor :xforms, :frames, :anims, :behaviors, :behavior_signals
+  attr_accessor :anim_stores
 
-  def initialize
+  # these are NYI and maybe unnecessary
+  attr_accessor :active_xforms, :active_anims, :active_behaviors
+
+  def initialize name = ""
+    @name = name
     @xforms = []
     @anims = []
     @frames = []
@@ -71,7 +75,7 @@ class ComponentRegistry
   end
 
   def inspect
-    puts "inspecting Store"
+    puts "inspecting Registry #{@name}"
     p @xforms
     p @anim_stores
     p @anims
