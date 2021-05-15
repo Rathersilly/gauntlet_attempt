@@ -57,18 +57,12 @@ class ComponentRegistry
         end
       end
     end
-    # puts "ANIMS ID"
-    # p @anims[id].ent
-    # p @anims[id].container
-  end
-
-  def components
   end
 
   def new_entity_id
     @id += 1
     if @max_ids && @id == @max_ids
-      # might need function to clear out this id - not all components might get overwritten
+      # might need function to clear out this id - if not all components get overwritten
       @id = 0
     end
     @id

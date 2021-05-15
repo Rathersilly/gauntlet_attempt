@@ -32,7 +32,8 @@ class SteelcladBehavior < Behavior
   attr_accessor :speed
   include Mob4d
 
-  def post_initialize(**opts)
+  def initialize(**opts)
+    super
     @speed = opts[:speed]
   end
 

@@ -18,25 +18,9 @@ class Render < System
 
   def render_sprites args
     args.outputs.sprites << @registry.xforms.map.with_index do |xf, i|
-
-      #TODO this is really oddly placed - only want to deal with the @viewed components here
-      anim = @registry.anims[i]
-
-
-      if anim && anim.state == :play
-        if anim.name == :ice_missile
-        # puts "RENDERING SPRITES".green
-        # p xf.to_h
-        # p @registry.frames[i]
-        # p @registry.anims
-        # p args.state.spells
-        end
-        xf.to_h.merge(@registry.frames[i])
-      else
-        nil
-      end
+      next unless @registry.frames[i]
+      xf.to_h.merge(@registry.frames[i])
     end
-
   end
 
   def render_labels args

@@ -1,23 +1,14 @@
-
 # These must be forward declared for reasons
-module Init
-end
+module Init;  end
+module Tools; end
 
-module Tools
-  # just tiny helper methods
-end
-class System
-end
-class Animation < System
-  # data is in the Anim class
-end
-class Render < System
-end
+class System;               end
+class Animation < System;   end
+class Render < System;      end
+class Cleanup < System;     end
+class Behaviorsys < System; end
+class ComponentRegistry;    end
 
-class Behaviorsys < System
-end
-class ComponentRegistry
-end
 require '/app/init/init.rb'
 
 class Game
@@ -29,6 +20,7 @@ class Game
   Systems << Animation.new
   Systems << Behaviorsys.new
   Systems << Render.new
+  Systems << Cleanup.new
 
   def tick
     Registries.each do |reg|
@@ -36,23 +28,6 @@ class Game
         sys.tick args, reg
       end
     end
-
-    # behavior
-    # do_animation
-    # cleanup
-  end
-
-  #
-  def cleanup
-    # need to call cleanup for each system
-    # could create a systemcontainer field in Game
-    # iterate through it
-    # and call BehaviorSystem#cleanup etc
-    # OR
-    # could instantiate the systems as classes
-
-    state.mobs.behavior_signals.reject! { |bs| bs.handled == true }
-    state.spells.behavior_signals.reject! { |bs| bs.handled == true }
   end
 
 end
@@ -60,13 +35,19 @@ end
 def daily_report args
   puts "##### DAILY REPORT#####".cyan
   if args.state.spells.behavior_signals.any?
-    puts "Behavior signals:\t\t\t: #{args.state.spells.behavior_signals}"
+    puts "Behavior signals:\t\t: #{args.state.spells.behavior_signals}"
   end
   puts "Mob anims:\t\t\t: #{args.state.mobs.anims}"
   puts "Spell anims:\t\t\t: #{args.state.spells.anims}"
   #puts "#######################".cyan
   puts ""
 
+end
+def report2 args
+  args.outputs.labels << [800,700,"Mobs: #{args.state.mobs}"]
+  args.outputs.labels << [800,680,"Spells: #{args.state.spells}"]
+  args.outputs.labels << [800,660,"BS: #{args.state.mobs.behavior_signals}"]
+  args.outputs.labels << [800,640,"BS: #{args.state.mobs.behavior_signals.class}"]
 end
 
 def tick args
@@ -76,6 +57,7 @@ def tick args
   if args.state.tick_count % 60 == 0
     daily_report args
   end
+  report2 args
 
   args.outputs.debug << args.gtk.framerate_diagnostics_primitives
 end

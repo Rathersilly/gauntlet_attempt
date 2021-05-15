@@ -2,8 +2,8 @@
 class Frame < Component
   attr_accessor :path, :angle
   attr_accessor :flip_horizontally, :flip_vertically
-  
 end
+
 class Anim < Component
   #TODO yeah these are not all necessary
   attr_accessor :name, :ent, :angle, :duration, :loop, :state
@@ -29,7 +29,6 @@ class Anim < Component
     @upframes     = []    # for animations with 4 directions (incl flip)
     @frame_index  = 0
     @cur_time     = 0
-    @spell        = false
   end
 
   def to_h

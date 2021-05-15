@@ -1,6 +1,5 @@
 class Behaviorsys < System
 
-
   def tick args, reg
     super
 

@@ -22,7 +22,7 @@ class MageFactory < Factory
     end
 
     def behavior args, **opts
-      b = PlayerBehavior.new(ent: @ent, speed: 5)
+      b = PlayerBehavior.new(speed: 5)
     end
   end
 end
@@ -30,7 +30,8 @@ end
 class PlayerBehavior < Behavior
   attr_accessor :speed
 
-  def post_initialize(**opts)
+  def initialize(**opts)
+    super
     @speed = opts[:speed]
   end
 

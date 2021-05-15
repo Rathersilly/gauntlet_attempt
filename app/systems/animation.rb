@@ -8,8 +8,6 @@ class Animation < System
 
   def tick args, reg
     super
-    # puts "ANIMATION TICK"
-    # @registry.inspect
     calc_sprites args
   end
 
@@ -23,30 +21,31 @@ class Animation < System
       # p @registry.anims
       # p @registry.frames
       # p @ent
+      if anim.state != :play
+        @registry.frames[ent] = nil
+      else
+        anim.cur_time += 1
 
-      anim.cur_time += 1
-
-      if anim.cur_time == anim.frame_duration
-        anim.cur_time = 0
-        anim.frame_index += 1
-
-        if anim.frame_index == anim.frames.size
-          if anim.loop == true
-            reset_anim anim
-          else
-            finish_anim anim
+        if anim.cur_time == anim.frame_duration
+          anim.cur_time = 0
+          anim.frame_index += 1
+          if anim.frame_index == anim.frames.size
+            if anim.loop == true
+              reset_anim anim
+            else
+              finish_anim anim
+            end
           end
-
         end
-      end
-      @registry.frames[ent] = anim.to_h
 
+        @registry.frames[ent] = anim.to_h
+      end
     end
   end
 
 
   ##### anim controls #####
-  # possibly should be moved but they are ok here
+  # possibly should be moved but they are ok here for now
 
   def reset_anim anim
     anim.state       = :play
@@ -67,7 +66,6 @@ class Animation < System
                                                           info: anim.name)
     end
   end
-
 
   def play anim
     anim.state = :play

@@ -1,7 +1,7 @@
 class Factory
   class << self
 
-    def create(args, **opts)
+    def create args, **opts
       before args, opts
       {
         xform: xform(args, opts),

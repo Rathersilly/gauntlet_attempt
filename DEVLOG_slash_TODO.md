@@ -100,7 +100,14 @@ fixed anim component so upward animations work again!
   and its own container of components, which are accessed by index = entity_id
   this MIGHT make it more performant, we'll see!
 
-  rename to registry?
+renamed ComponentStore to ComponentRegistry
+myriad other changes
+program structure is really looking nicer now, however still get only 20fps with
+50 steelclads
+
+TODO: created input component, have to populate it
+still gotta learn maps stop putting it off
+
 
 
 

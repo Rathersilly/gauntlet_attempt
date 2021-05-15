@@ -4,8 +4,9 @@ module Mob4d
   def move_to_hero args
     hero = args.state.hero
     hero_xform = args.state.mobs.xforms[hero]
-    set_dir(args, [hero_xform.x,hero_xform.y])
+    @dirx, @diry = Tools.set_dir(@container.xforms[@ent], [hero_xform.x,hero_xform.y])
   end
+
   def on_tick args
 
     if args.state.tick_count % 30 == 0

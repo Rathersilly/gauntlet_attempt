@@ -15,11 +15,6 @@ class Behavior < Component
     @ent          = opts[:ent]         || nil
     @name         = opts[:name]        || nil
     @default      = opts[:default]     || false
-    post_initialize opts
-  end
-
-  def post_initialize opts
-    # to be overridden if needed in subclasses
   end
 
   def known_anims ent, name
@@ -43,16 +38,6 @@ class Behavior < Component
     if access == true
       singleton_class.class_eval { attr_accessor name}
     end
-  end
-
-  def set_dir args, dest_vector
-    # expect dest_vector = [x,y]
-    xform = @container.xforms[@ent]
-    x = dest_vector[0] - xform.x
-    y = dest_vector[1] - xform.y
-    norm = Tools.normalize([x,y])
-    @dirx = norm[0]
-    @diry = norm[1]
   end
 
   def set_dest args, dest_vector

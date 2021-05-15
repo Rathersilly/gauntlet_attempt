@@ -26,6 +26,7 @@ require '/app/systems/animation.rb'
 require '/app/systems/render.rb'
 require '/app/systems/behavior.rb'
 require '/app/systems/behavior_mods.rb'
+require '/app/systems/cleanup.rb'
 
 require '/app/init/init_anims.rb'
 
@@ -33,11 +34,11 @@ require '/app/factories/factory.rb'
 require '/app/factories/mage_factory.rb'
 # require '/app/factories/archmage_factory.rb'
 require '/app/factories/steelclad_factory.rb'
-# require '/app/factories/adept_factory.rb'
+require '/app/factories/adept_factory.rb'
 require '/app/factories/spell_factory.rb'
 
 module Init
-  # this will be included in world class
+  # this will be included in World class
 
   def initialize args
 
@@ -49,8 +50,6 @@ module Init
     Registries << Mobs
     Registries << Spells
 
-    # would like to see check if Registries updates with args
-    # if it is reference
     args.state.mobs       = Mobs
     args.state.spells     = Spells
     args.state.all_anims  = {}
@@ -64,13 +63,11 @@ module Init
     init_anims 
 
     Mobs << MageFactory.create(args)
-    p Mobs
     args.state.hero = 0
-    # AdeptFactory.create args, {x: 900,y:400}
-    3.times do |i|
+    Mobs << AdeptFactory.create(args, {x: 900,y:400})
+    50.times do |i|
       Mobs << SteelCladFactory.create(args, {x: rand(1280),y:rand(720)})
     end
-    p Mobs
   end
 end
 

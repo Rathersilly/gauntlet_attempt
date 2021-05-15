@@ -10,13 +10,13 @@ class IceMissileFactory < Factory
       @h ||= 50
     end
 
-
     def xform args, **opts
       xform = @parent_container.xforms[@parent].dup
       xform.w = @w
       xform.h = @h
       xform
     end
+
     def anim_store args, **opts
       anims =[] 
 
@@ -39,16 +39,20 @@ class IceMissileFactory < Factory
   end
 end
 
+# dir, dirx, and diry are kinda messy
 class SpellBehavior < Behavior
   attr_accessor :dirx, :diry,:speed
-  def post_initialize **opts
+  def initialize **opts
+    super
     @speed = opts[:speed] || 0
     @dir = opts[:dir] || 0
   end
 
   def on_tick args
-    set_dir(args, @dest) unless @dirx
     xform = @container.xforms[@ent]
+    if !@dirx
+      @dirx, @diry = Tools.set_dir(xform, @dest)
+    end
     xform.x += @dirx * speed
     xform.y += @diry * speed
   end
