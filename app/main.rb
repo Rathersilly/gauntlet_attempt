@@ -8,65 +8,43 @@ module Tools
   # just tiny helper methods
 end
 
-module AnimationSystem
-  # data is in the Anim class
-end
+# module AnimationSystem
+#   # data is in the Anim class
+# end
+
+# module BehaviorSystem
+# end
 
 class Game
   attr_gtk
 
   include Init
-  include AnimationSystem
+  # include AnimationSystem
+  # include BehaviorSystem
+  Systems = []
+  Systems << AnimationSystem
+  Systems << BehaviorSystem
 
   def tick
-    behavior
-    do_animation
-    cleanup
+    Systems.each do |system|
+      system.tick args
+    end
+    # behavior
+    # do_animation
+    # cleanup
   end
 
-  def behavior
-
-    # this might get out of hand if many behaviors/signals
-    # also these can be dried
-    if state.spells.behavior_signals.any?
-      state.spells.behavior_signals.each do |bs|
-        state.spells.behaviors.each do |b|
-          if b.ent == bs.ent
-            b.handle(bs, args)
-          end
-        end
-      end
-    end
-
-    if state.mobs.behavior_signals.any?
-      state.mobs.behavior_signals.each do |bs|
-        state.mobs.behaviors.each do |b|
-          if b.ent == bs.ent
-            b.handle(bs, args)
-          end
-        end
-      end
-    end
-
-    # there's probably a better way to iterate here - maybe a container
-    # with all the behaviors that respond to input
-    if inputs.mouse.down
-      state.mobs.behaviors.each do |b|
-        b.send(:on_mouse_down, args) if b.respond_to?(:on_mouse_down)
-      end
-    end
-
-    state.mobs.behaviors.each do |b|
-      b.send(:on_key_down, args) if b.respond_to?(:on_key_down)
-      b.send(:on_tick, args) if b.respond_to?(:on_tick)
-    end
-    state.spells.behaviors.each do |b|
-      b.send(:on_tick, args) if b.respond_to?(:on_tick)
-    end
-
-  end
-
+  #
   def cleanup
+    # need to call cleanup for each system
+    # could create a systemcontainer field in Game
+    # iterate through it
+    # and call BehaviorSystem#cleanup etc
+    # OR
+    # could instantiate the systems as classes
+    # would be elegant to have tick be just systems.each {|s| s.on_tick }
+    # on_tick is in behaviors though, so maybe #invoke?
+
     state.mobs.behavior_signals.reject! { |bs| bs.handled == true }
     state.spells.behavior_signals.reject! { |bs| bs.handled == true }
   end

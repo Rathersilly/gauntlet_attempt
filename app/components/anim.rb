@@ -15,7 +15,7 @@ class Anim < Component
     @angle        = opts[:angle]       || 0
     @loop         = opts[:loop]        || false
     @duration     = opts[:duration]    || 60
-    
+
     # possible states: play, stop, pause, done
     @state        = opts[:state]       || :play
     @up           = opts[:up]          || false
@@ -27,11 +27,19 @@ class Anim < Component
   end
 
   def to_h
-    { path: @frames[@frame_index],
-      angle: @angle,
-      flip_horizontally: @flip_horizontally,
-      flip_vertically: @flip_vertically
-    }
+    if !@up
+      { path: @frames[@frame_index],
+        angle: @angle,
+        flip_horizontally: @flip_horizontally,
+        flip_vertically: @flip_vertically
+      }
+    else
+      { path: @upframes[@frame_index],
+        angle: @angle,
+        flip_horizontally: @flip_horizontally,
+        flip_vertically: @flip_vertically
+      }
+    end
   end
 
   def << path

@@ -54,6 +54,7 @@ def init_anims
   anim.inspect
 
   ##### Hero (mage-female) #####
+
   anim = Anim.new(name: :mage_idle, loop: true)
   anim << "sprites/mage-female/mage+female.png"
   anim << "sprites/mage-female/mage+female-attack-magic#{1}.png"

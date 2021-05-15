@@ -1,6 +1,6 @@
-module AnimationSystem
+class AnimationSystem
 
-  def do_animation
+  def tick args
     render_background
     render_mobs
     render_spells

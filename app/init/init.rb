@@ -23,6 +23,7 @@ require '/app/component_store.rb'
 
 require '/app/systems/animation.rb'
 require '/app/systems/behavior.rb'
+require '/app/systems/behavior_mods.rb'
 
 require '/app/init/init_anims.rb'
 
@@ -34,6 +35,7 @@ require '/app/factories/adept_factory.rb'
 require '/app/factories/spell_factory.rb'
 
 module Init
+  # this will be included in world class
 
   def initialize args
 

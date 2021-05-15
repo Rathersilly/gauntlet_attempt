@@ -1,36 +1,45 @@
-# module to handle mobs with 4 directional anims (including horiz flip)
-# module to be included in a Behavior class
-module Mob4d
-  def move_to_hero args
-    hero = args.state.hero
-    hero_xform = args.state.mobs.xforms[hero]
-    set_dir(args, [hero_xform.x,hero_xform.y])
-  end
-  def on_tick args
+class BehaviorSystem
 
-    if args.state.tick_count % 30 == 0
-      move_to_hero args
-    end
-    xform = @container.xforms[@ent]
-    anim = @container.anims[@ent]
-    
-    xform.x += @dirx * speed
-    xform.y += @diry * speed
-    if @dirx <= 0
-      anim.flip_horizontally = true
-    else
-      anim.flip_horizontally = false
-    end
-    if @diry <= 0
-      anim.up = false
-    else
-      anim.up = true
-    end
-    #puts anim.frame_index
-    #print "#{anim.cur_time} / #{anim.frame_duration}\n"
-  end
+  def tick args
 
+    state = args.state
+    # this might get out of hand if many behaviors/signals
+    # also these can be dried
+    if state.spells.behavior_signals.any?
+      state.spells.behavior_signals.each do |bs|
+        state.spells.behaviors.each do |b|
+          if b.ent == bs.ent
+            b.handle(bs, args)
+          end
+        end
+      end
+    end
+
+    if state.mobs.behavior_signals.any?
+      state.mobs.behavior_signals.each do |bs|
+        state.mobs.behaviors.each do |b|
+          if b.ent == bs.ent
+            b.handle(bs, args)
+          end
+        end
+      end
+    end
+
+    # there's probably a better way to iterate here - maybe a container
+    # with all the behaviors that respond to input
+    if inputs.mouse.down
+      state.mobs.behaviors.each do |b|
+        b.send(:on_mouse_down, args) if b.respond_to?(:on_mouse_down)
+      end
+    end
+
+    state.mobs.behaviors.each do |b|
+      b.send(:on_key_down, args) if b.respond_to?(:on_key_down)
+      b.send(:on_tick, args) if b.respond_to?(:on_tick)
+    end
+    state.spells.behaviors.each do |b|
+      b.send(:on_tick, args) if b.respond_to?(:on_tick)
+    end
+
+  end
 end
-    
-
-

@@ -1,5 +1,4 @@
-#TODO - actually its turned into more of a log
-
+#TODO - actually its turned into more of a devlog
 
 ##5/8/21
 Adding new ents is a mess - but it's already solved wrt icemissile.
@@ -71,6 +70,35 @@ of them, and limit the number of components in them (ie limit spells for perf)
 fps is still not great in vm, but foundation is now solid i think
 
 TODO: blocks, map, collision, damage, etc etc
+oh, also the ne animations
+
+##5/15/21
+fixed anim component so upward animations work again!
+
+-settled on 4 main Classes so far
+  0. Entity
+    - imaginary class: an entity_id(integer) that links many components
+  1. Game/World/Scene
+    - probably rename World
+    - is mainly a container for systems
+    - has tick function that calls those systems
+  2. Component
+    - building blocks for entities (which are just an integer)
+    - goal is for these to ONLY have data needed for systems to function
+    - extra misc data/functions should be moved to helpers of some type
+  3. Systems
+    - manipulate groups of components
+    - only methods, no fields (for sure none that carry state)
+  4. Factories
+    - used to initialize Entities
+
+  sill remaining - class to initialize systems? or is that just World
+
+  OH, theres also 
+  - ComponentStore - each ComponentStore has its own incrementing entity_id
+  and its own container of components, which are accessed by index = entity_id
+  this MIGHT make it more performant, we'll see!
+
 
 
 
