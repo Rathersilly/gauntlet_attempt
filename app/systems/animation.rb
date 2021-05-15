@@ -1,67 +1,48 @@
-class AnimationSystem
+class Animation < System
 
-  def tick args
-    render_background
-    render_mobs
-    render_spells
-    render_labels
+  def initialize
+    super
+    @view << Anim
+    @view << Frame
   end
 
-  def calc_sprite anim
-    anim.cur_time += 1
+  def tick args, reg
+    super
+    # puts "ANIMATION TICK"
+    # @registry.inspect
+    calc_sprites args
+  end
 
-    if anim.cur_time == anim.frame_duration
-      anim.cur_time = 0
-      anim.frame_index += 1
+  def calc_sprites args
+    # just update frame_index
+    @registry.anims.each.with_index do |anim, ent|
+      # puts "ANIM"
+      # Tools.megainspect anim
+      # puts "TO HASH"
+      # p anim.to_h
+      # p @registry.anims
+      # p @registry.frames
+      # p @ent
 
-      if anim.frame_index == anim.frames.size
-        if anim.loop == true
-          reset_anim anim
-        else
-          finish_anim anim
+      anim.cur_time += 1
+
+      if anim.cur_time == anim.frame_duration
+        anim.cur_time = 0
+        anim.frame_index += 1
+
+        if anim.frame_index == anim.frames.size
+          if anim.loop == true
+            reset_anim anim
+          else
+            finish_anim anim
+          end
+
         end
-
       end
-    end
-    anim.to_h
-  end
-
-  def render_background
-    outputs.background_color = Yellow
-  end
-
-  def render_mobs
-    outputs.sprites << state.mobs.xforms.map.with_index do |xf, i|
-
-      anim = state.mobs.anims[i]
-      
-      if anim && anim.state == :play
-        xf.to_h.merge(calc_sprite(state.mobs.anims[i]))
-      else
-        nil
-      end
-    end
-
-  end
-
-  def render_spells
-    outputs.sprites << state.spells.xforms.map.with_index do |xf, i|
-
-      anim = state.spells.anims[i]
-      if anim && anim.state == :play
-        xf.to_h.merge(calc_sprite(state.spells.anims[i]))
-      else
-        nil
-      end
+      @registry.frames[ent] = anim.to_h
     end
   end
 
-  def render_labels
-    outputs.labels << [100,40, "#{state.mobs.anims[1].cur_time}"]
-    outputs.labels << [100,60, "#{state.mobs.anims[1].frame_duration}"]
-    outputs.labels << [100,80, "#{state.mobs.anims[1].frame_index}"]
-    outputs.labels << [100,100, "#{state.mobs.anims[1].duration}"]
-  end
 
   ##### anim controls #####
   # possibly should be moved but they are ok here
@@ -75,6 +56,7 @@ class AnimationSystem
   def finish_anim anim
     puts "FINISHING ANIM"
     Tools.megainspect anim
+
     reset_anim anim
     anim.state = :done
     if anim.container.behaviors.any? { |b| b.ent == anim.ent }
@@ -84,6 +66,7 @@ class AnimationSystem
                                                           info: anim.name)
     end
   end
+
 
   def play anim
     anim.state = :play

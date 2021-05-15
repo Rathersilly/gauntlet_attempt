@@ -1,4 +1,4 @@
-class ComponentStore
+class ComponentRegistry
   # each ComponentStore has its own set of ids
   # can set @max_ids to limit entities for better perf
   
@@ -10,11 +10,12 @@ class ComponentStore
   # collection - or delegate that to behavior?
   attr_accessor :id, :max_ids, :xforms, :anims, :behaviors, :behavior_signals
   attr_accessor :active_xforms, :active_anims, :active_behaviors
-  attr_accessor :anim_stores
+  attr_accessor :anim_stores, :frames
 
   def initialize
     @xforms = []
     @anims = []
+    @frames = []
     @anim_stores = []
     @behaviors = []
     @behavior_signals = []
@@ -74,6 +75,7 @@ class ComponentStore
     p @xforms
     p @anim_stores
     p @anims
+    p @frames
     p @behaviors
   end
 

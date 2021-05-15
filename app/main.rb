@@ -1,4 +1,3 @@
-require '/app/init/init.rb'
 
 # These must be forward declared for reasons
 module Init
@@ -7,28 +6,37 @@ end
 module Tools
   # just tiny helper methods
 end
+class System
+end
+class Animation < System
+  # data is in the Anim class
+end
+class Render < System
+end
 
-# module AnimationSystem
-#   # data is in the Anim class
-# end
-
-# module BehaviorSystem
-# end
+class Behaviorsys < System
+end
+class ComponentRegistry
+end
+require '/app/init/init.rb'
 
 class Game
   attr_gtk
 
   include Init
-  # include AnimationSystem
-  # include BehaviorSystem
+
   Systems = []
-  Systems << AnimationSystem
-  Systems << BehaviorSystem
+  Systems << Animation.new
+  Systems << Behaviorsys.new
+  Systems << Render.new
 
   def tick
-    Systems.each do |system|
-      system.tick args
+    Registries.each do |reg|
+      Systems.each do |sys|
+        sys.tick args, reg
+      end
     end
+
     # behavior
     # do_animation
     # cleanup
@@ -42,8 +50,6 @@ class Game
     # and call BehaviorSystem#cleanup etc
     # OR
     # could instantiate the systems as classes
-    # would be elegant to have tick be just systems.each {|s| s.on_tick }
-    # on_tick is in behaviors though, so maybe #invoke?
 
     state.mobs.behavior_signals.reject! { |bs| bs.handled == true }
     state.spells.behavior_signals.reject! { |bs| bs.handled == true }

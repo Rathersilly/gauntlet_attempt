@@ -95,9 +95,12 @@ fixed anim component so upward animations work again!
   sill remaining - class to initialize systems? or is that just World
 
   OH, theres also 
+
   - ComponentStore - each ComponentStore has its own incrementing entity_id
   and its own container of components, which are accessed by index = entity_id
   this MIGHT make it more performant, we'll see!
+
+  rename to registry?
 
 
 
