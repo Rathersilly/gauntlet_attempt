@@ -113,6 +113,10 @@ in starting to make map, realize ComponentRegistries do not need to iterate thro
 they should be initialized with the component types they need, and perhaps have a separate hash
 of components to iterate through if needed
 
+another big refactor complete - registries are now initialized with a view - the
+components that it has access to. @view is a hash of arrays of components, where
+index = entity_id
+
 
 
 

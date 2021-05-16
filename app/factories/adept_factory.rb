@@ -26,7 +26,7 @@ class AdeptFactory < Factory
         anims << anim
         anim.flip_horizontally = true
       end
-      anims
+      AnimStore.new anims
 
     end
 

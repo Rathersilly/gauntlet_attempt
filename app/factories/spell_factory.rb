@@ -11,7 +11,7 @@ class IceMissileFactory < Factory
     end
 
     def xform args, **opts
-      xform = @parent_container.xforms[@parent].dup
+      xform = @parent_container.view[Xform][@parent].dup
       xform.w = @w
       xform.h = @h
       xform
@@ -26,7 +26,7 @@ class IceMissileFactory < Factory
         anim = args.state.all_anims[name].dup
         anims << anim
       end
-      anims
+      AnimStore.new anims
 
     end
 
@@ -49,7 +49,7 @@ class SpellBehavior < Behavior
   end
 
   def on_tick args
-    xform = @container.xforms[@ent]
+    xform = @container.view[Xform][@ent]
     if !@dirx
       @dirx, @diry = Tools.set_dir(xform, @dest)
     end

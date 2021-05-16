@@ -3,8 +3,8 @@
 module Mob4d
   def move_to_hero args
     hero = args.state.hero
-    hero_xform = args.state.mobs.xforms[hero]
-    @dirx, @diry = Tools.set_dir(@container.xforms[@ent], [hero_xform.x,hero_xform.y])
+    hero_xform = args.state.mobs.view[Xform][hero]
+    @dirx, @diry = Tools.set_dir(@container.view[Xform][@ent], [hero_xform.x,hero_xform.y])
   end
 
   def on_tick args
@@ -12,8 +12,8 @@ module Mob4d
     if args.state.tick_count % 30 == 0
       move_to_hero args
     end
-    xform = @container.xforms[@ent]
-    anim = @container.anims[@ent]
+    xform = @container.view[Xform][@ent]
+    anim = @container.view[Anim][@ent]
     
     xform.x += @dirx * speed
     xform.y += @diry * speed

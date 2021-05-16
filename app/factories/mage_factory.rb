@@ -39,8 +39,8 @@ class PlayerBehavior < Behavior
     # reset animation
     #puts 'DEFAULT ANIM'
 
-    anim = @container.anim_stores[@ent][0]
-    @container.anims[@ent] = anim
+    anim = @container.view[AnimStore][@ent][0]
+    @container.view[Anim][@ent] = anim
 
 
     #puts 'END DEFAULT'
@@ -63,11 +63,11 @@ class PlayerBehavior < Behavior
     # puts "ANIMS"
     # p args.state.anims
 
-    xform = @container.xforms[@ent]
+    xform = @container.view[Xform][@ent]
     #should change this from array index to :mage_attack_staff
-    anim = @container.anim_stores[@ent][1].dup
+    anim = @container.view[AnimStore][@ent][1].dup
     anim.flip_horizontally = true if args.inputs.mouse.x < xform.x
-    args.state.mobs.anims[@ent] = anim
+    args.state.mobs.view[Anim][@ent] = anim
 
     args.state.spells << IceMissileFactory.create(args, {parent_container: @container,parent: @ent})
 
@@ -75,8 +75,8 @@ class PlayerBehavior < Behavior
 
   def move(args)
 
-    xform = @container.xforms[@ent]
-    anim = @container.anims[@ent]
+    xform = @container.view[Xform][@ent]
+    anim = @container.view[Anim][@ent]
 
     chars = args.inputs.keyboard.keys[:down_or_held]
     xform.y += @speed if args.inputs.keyboard.up

@@ -1,10 +1,7 @@
 class Render < System
   def initialize
-    super
-    @view << Xform
-    @view << Frame
-
   end
+
   def tick args, reg
     super
     render_background args
@@ -17,9 +14,9 @@ class Render < System
   end
 
   def render_sprites args
-    args.outputs.sprites << @registry.view[Xform].map.with_index do |xf, i|
-      next unless @registry.view[Frame][i]
-      xf.to_h.merge(@registry.view[Frame][i])
+    args.outputs.sprites << @view[Xform].map.with_index do |xf, i|
+      next unless @view[Frame][i]
+      xf.to_h.merge(@view[Frame][i])
     end
   end
 

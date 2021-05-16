@@ -44,11 +44,11 @@ module Init
 
   def initialize args
 
-    # Spells = ComponentRegistry.new do |cr|
-    #   cr.name = "Spells"
-    #   cr.create_view Xform, Anim, Behavior
-    #   cr.max_ids = 3
-    # end
+    Spells = ComponentRegistry.new do |cr|
+      cr.name = "Spells"
+      cr.create_view Xform, Anim, Behavior
+      cr.max_ids = 3
+    end
 
     Mobs = ComponentRegistry.new do |cr|
       cr.name = "Mobs"
@@ -63,10 +63,10 @@ module Init
     Registries = []
     #Registries << Map
     Registries << Mobs
-    # Registries << Spells
+    Registries << Spells
 
     args.state.mobs       = Mobs
-    #args.state.spells     = Spells
+    args.state.spells     = Spells
     args.state.all_anims  = {}
 
     @args = args
@@ -79,8 +79,8 @@ module Init
 
     Mobs << MageFactory.create(args)
     args.state.hero = 0
-    #Mobs << AdeptFactory.create(args, {x: 900,y:400})
-    0.times do |i|
+    Mobs << AdeptFactory.create(args, {x: 900,y:400})
+    2.times do |i|
       Mobs << SteelCladFactory.create(args, {x: rand(1280),y:rand(720)})
     end
 
