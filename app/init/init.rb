@@ -18,6 +18,7 @@ require '/app/init/tools.rb'
 
 require '/app/components/components.rb'
 require '/app/components/anim.rb'
+require '/app/components/anim_store.rb'
 require '/app/components/behavior.rb'
 require '/app/component_registry.rb'
 
@@ -31,6 +32,7 @@ require '/app/systems/cleanup.rb'
 require '/app/init/init_anims.rb'
 
 require '/app/factories/factory.rb'
+require '/app/factories/block_factory.rb'
 require '/app/factories/mage_factory.rb'
 # require '/app/factories/archmage_factory.rb'
 require '/app/factories/steelclad_factory.rb'
@@ -42,16 +44,29 @@ module Init
 
   def initialize args
 
-    Spells = ComponentRegistry.new("Spells")
-    Spells.max_ids = 3
-    Mobs = ComponentRegistry.new("Mobs")
+    # Spells = ComponentRegistry.new do |cr|
+    #   cr.name = "Spells"
+    #   cr.create_view Xform, Anim, Behavior
+    #   cr.max_ids = 3
+    # end
+
+    Mobs = ComponentRegistry.new do |cr|
+      cr.name = "Mobs"
+      cr.create_view Xform, Anim, Behavior
+    end
+
+    # Map = ComponentRegistry.new do |cr|
+    #   cr.name = "Map"
+    #   cr.view Xform, Color
+    # end
 
     Registries = []
+    #Registries << Map
     Registries << Mobs
-    Registries << Spells
+    # Registries << Spells
 
     args.state.mobs       = Mobs
-    args.state.spells     = Spells
+    #args.state.spells     = Spells
     args.state.all_anims  = {}
 
     @args = args
@@ -64,10 +79,24 @@ module Init
 
     Mobs << MageFactory.create(args)
     args.state.hero = 0
-    Mobs << AdeptFactory.create(args, {x: 900,y:400})
-    50.times do |i|
+    #Mobs << AdeptFactory.create(args, {x: 900,y:400})
+    0.times do |i|
       Mobs << SteelCladFactory.create(args, {x: rand(1280),y:rand(720)})
     end
+
+    #create_map
+  end
+
+  def create_map
+    tile_size = 80
+    16.times do |x|
+      9.times do |y|
+        tile = BlockFactory.create(args, x:x* tile_size,y:y* tile_size,w:tile_size,h:tile_size)
+        p tile
+        Map << tile 
+      end
+    end
+
   end
 end
 

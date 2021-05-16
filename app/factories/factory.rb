@@ -6,7 +6,8 @@ class Factory
       {
         xform: xform(args, opts),
         anim_store: anim_store(args, opts),
-        behavior: behavior(args, opts)
+        behavior: behavior(args, opts),
+        color: color(args,opts)
       }
     end
 
@@ -20,6 +21,8 @@ class Factory
     def anim args, opts
     end
     def behavior args, opts
+    end
+    def color args, opts
     end
 
   end

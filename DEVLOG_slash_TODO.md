@@ -108,6 +108,11 @@ program structure is really looking nicer now, however still get only 20fps with
 TODO: created input component, have to populate it
 still gotta learn maps stop putting it off
 
+##5/16/21
+in starting to make map, realize ComponentRegistries do not need to iterate through each component type
+they should be initialized with the component types they need, and perhaps have a separate hash
+of components to iterate through if needed
+
 
 
 

@@ -17,9 +17,9 @@ class Render < System
   end
 
   def render_sprites args
-    args.outputs.sprites << @registry.xforms.map.with_index do |xf, i|
-      next unless @registry.frames[i]
-      xf.to_h.merge(@registry.frames[i])
+    args.outputs.sprites << @registry.view[Xform].map.with_index do |xf, i|
+      next unless @registry.view[Frame][i]
+      xf.to_h.merge(@registry.view[Frame][i])
     end
   end
 

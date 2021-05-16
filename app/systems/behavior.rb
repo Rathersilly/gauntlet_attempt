@@ -1,6 +1,7 @@
 class Behaviorsys < System
 
   def tick args, reg
+    return
     super
 
     if @registry.behavior_signals.any?

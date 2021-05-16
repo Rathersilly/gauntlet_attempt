@@ -1,44 +1,77 @@
 class ComponentRegistry
-  # each ComponentStore has its own set of ids
-  # can set @max_ids to limit entities for better perf
-  
-  # each of these is an array, where index = entity_id.
-  # the mechanism for adding multiple behaviors is to use modules
-  # although, gonna need containers for anims anyway
+  # each ComponentRegistry has its own set of ids
+  # set @max_ids to limit entities for better perf
 
-  # this class might also keep track of the active component of each
-  # collection - or delegate that to behavior?
-  attr_accessor :id, :max_ids
-  attr_accessor :xforms, :frames, :anims, :behaviors, :behavior_signals
-  attr_accessor :anim_stores
+  # @view is a hash of arrays, one array for each component type
+  # these arrays have index = component's entity_id
+  attr_accessor :id, :max_ids, :name, :view
 
-  # these are NYI and maybe unnecessary
-  attr_accessor :active_xforms, :active_anims, :active_behaviors
+  def initialize
+    @view = {}
+    yield self
 
-  def initialize name = ""
-    @name = name
-    @xforms = []
-    @anims = []
-    @frames = []
-    @anim_stores = []
-    @behaviors = []
-    @behavior_signals = []
+    if @view.keys.include? Behavior
+      @view[BehaviorSignal] = []
+    end
+    if @view.keys.include? Anim
+      @view[AnimStore] = []
+      @view[Frame] = []
+    end
+    puts "END INIT".cyan
+    p @view
+    p @view[AnimStore]
+    @name ||= ""
     @id = -1
-    @max_ids = nil
+    @max_ids ||= nil
   end
+
+  def create_view *types
+    puts "VIEWING".magenta
+    types.each do |t|
+      @view[t] = []
+    end
+    p @view
+    #create_accessors
+  end
+  # def create_accessors
+  #   @view.each_key do |key|
+  #   puts "<<<<<<<<<<<<<<<<<".green
+  #     p key
+  #     key = key.to_s.downcase.to_sym
+  #     p key
+  #     define_singleton_method key do
+  #       @view[key]
+  #     end
+  #     key = key.to_s.concat("=").to_sym
+  #     define_singleton_method key do |new_val|
+  #       @view[key] = new_val
+  #     end
+  #   end
+  # end
 
   def << **components
     id = new_entity_id
-    @xforms[id] = components[:xform]
-    @behaviors[id] = components[:behavior]
+    puts "<<<<<<<<<<<<<<<<<".green
 
-    @anim_stores[id] = components[:anim_store]
-    if @anim_stores[id].empty?
-      @anims[id] = nil
-    else
-      @anims[id] = @anim_stores[id][0]
+    components.each do |k,v|
+      @view.each do |type, container|
+
+        if v.class.ancestors.include? type
+          container[id] = v
+        else
+          #handle misc components - send them to a hash prob
+        end
+      end
     end
-    
+
+    p @name
+    p @view[AnimStore]
+    p @view[AnimStore][id].anims
+    if @view[AnimStore][id]
+      @view[Anim][id] = @view[AnimStore][id][0]
+      @view[Frame][id] = @view[Anim][id].frames[0]
+    end
+
     init_components id, components
   end
 
@@ -50,10 +83,10 @@ class ComponentRegistry
         component.ent = id
         component.container = self
       end
-      if component.class == Array
-        component.each do |subcomponent|
-          subcomponent.ent = id
-          subcomponent.container = self
+      if component.class == AnimStore
+        component.anims.each do |anim|
+          anim.ent = id
+          anim.container = self
         end
       end
     end
@@ -70,11 +103,7 @@ class ComponentRegistry
 
   def inspect
     puts "inspecting Registry #{@name}"
-    p @xforms
-    p @anim_stores
-    p @anims
-    p @frames
-    p @behaviors
+    p @view
   end
 
 end

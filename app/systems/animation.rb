@@ -13,16 +13,20 @@ class Animation < System
 
   def calc_sprites args
     # just update frame_index
-    @registry.anims.each.with_index do |anim, ent|
+    puts "CALC SPRITES".green
+    p @registry.view
+    puts "CALC SPRITES".brown
+    p @registry.view[Anim]
+    @registry.view[Anim].each.with_index do |anim, ent|
       # puts "ANIM"
       # Tools.megainspect anim
       # puts "TO HASH"
       # p anim.to_h
-      # p @registry.anims
-      # p @registry.frames
+      # p @registry.view.anims
+      # p @registry.view.frames
       # p @ent
       if anim.state != :play
-        @registry.frames[ent] = nil
+        @registry.view[Frame][ent] = nil
       else
         anim.cur_time += 1
 
@@ -38,7 +42,7 @@ class Animation < System
           end
         end
 
-        @registry.frames[ent] = anim.to_h
+        @registry.view[Frame][ent] = anim.to_h
       end
     end
   end

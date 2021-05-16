@@ -17,7 +17,7 @@ class MageFactory < Factory
         anim = args.state.all_anims[name].dup
         anims << anim
       end
-      anims
+      AnimStore.new anims
 
     end
 

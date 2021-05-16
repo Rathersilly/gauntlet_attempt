@@ -1,5 +1,13 @@
 class AdeptFactory < Factory
   class << self
+
+    def before args, opts
+      @x          = opts[:x]       || 200
+      @y          = opts[:y]       || 200
+      @w          = opts[:w]       || 100
+      @h          = opts[:h]       || 100
+    end
+
     def xform args, **opts
       @x          = opts[:x]       || 200
       @y          = opts[:y]       || 200

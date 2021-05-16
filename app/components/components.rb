@@ -22,3 +22,19 @@ class Xform < Component
     { x: @x, y: @y, w: @w, h: @h }
   end
 end
+
+class Color < Component
+  attr_accessor :r, :g, :b, :a
+
+  def initialize(**opts)
+    super
+    @r = opts[:r]  || 0
+    @g = opts[:g]  || 0
+    @b = opts[:b]  || 0
+    @a = opts[:a]  || 0
+  end
+
+  def to_h
+    { r: @r, g: @g, b: @b, a: @a }
+  end
+end

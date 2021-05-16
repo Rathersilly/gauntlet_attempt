@@ -55,9 +55,9 @@ def tick args
   $game.args = args
   $game.tick
   if args.state.tick_count % 60 == 0
-    daily_report args
+    #daily_report args
   end
-  report2 args
+  #report2 args
 
   args.outputs.debug << args.gtk.framerate_diagnostics_primitives
 end

@@ -9,7 +9,7 @@ class SteelCladFactory < Factory
     end
 
     def anim_store args, **opts
-      anims =[] 
+      anims = [] 
 
       anims_to_add = [:steelclad_run]
       anims_to_add.each do |name|
@@ -18,7 +18,7 @@ class SteelCladFactory < Factory
         anim.duration = 60
         anims << anim
       end
-      anims
+      AnimStore.new anims
     end
 
     def behavior args, **opts
