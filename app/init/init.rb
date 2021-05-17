@@ -43,6 +43,11 @@ module Init
   # this will be included in World class
 
   def initialize args
+    Systems = []
+    Systems << Animation.new
+    Systems << Behaviorsys.new
+    Systems << Render.new
+    Systems << Cleanup.new
 
     Spells = ComponentRegistry.new do |cr|
       cr.name = "Spells"

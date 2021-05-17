@@ -101,8 +101,8 @@ fixed anim component so upward animations work again!
   this MIGHT make it more performant, we'll see!
 
 renamed ComponentStore to ComponentRegistry
-myriad other changes
 program structure is really looking nicer now, however still get only 20fps with
+myriad other changes
 50 steelclads
 
 TODO: created input component, have to populate it
@@ -117,6 +117,10 @@ another big refactor complete - registries are now initialized with a view - the
 components that it has access to. @view is a hash of arrays of components, where
 index = entity_id
 
+So ComponentRegistry needs to reveal the the components it holds
+Systems need to compare that to the components it affects/requires.
+Systems @requires could be split up into @reads and @writes.  things that are only read
+could be threaded
 
 
 

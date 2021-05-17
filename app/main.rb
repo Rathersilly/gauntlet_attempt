@@ -16,16 +16,28 @@ class Game
 
   include Init
 
-  Systems = []
-  Systems << Animation.new
-  Systems << Behaviorsys.new
-  Systems << Render.new
-  Systems << Cleanup.new
 
   def tick
+      # puts "tick".green
     Registries.each do |reg|
+      # want reg.view.each {|sys| sys.tick}
+      # or something similar
+      # puts "loop".blue
+      # p reg.view
+      # p reg.view.keys
+      
       Systems.each do |sys|
-        sys.tick args, reg
+        # p sys.reads
+        # p sys.writes
+        # p sys.requires
+        if reg.views? sys.requires
+          sys.tick args, reg
+          # puts  "INCLUDING #{sys.requires}"
+          #puts "INCLUDING #{reg.name} #{reg.view} and #{sys.class.inspect}"
+        else
+          # puts  "NOT"
+          #puts "NOT #{reg.name} #{reg.view} and #{sys.class.inspect}"
+        end
       end
     end
   end

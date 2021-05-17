@@ -33,6 +33,15 @@ class ComponentRegistry
     p @view
     #create_accessors
   end
+
+  def views? array
+    array.each do |item|
+      if !@view.keys.include? item
+        return false
+      end
+    end
+    true
+  end
   # def create_accessors
   #   @view.each_key do |key|
   #   puts "<<<<<<<<<<<<<<<<<".green

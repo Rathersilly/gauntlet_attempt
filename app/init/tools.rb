@@ -20,6 +20,10 @@ module Tools
     norm = Tools.normalize([x,y])
     [norm[0],norm[1]]
   end
+  
+  # TODO - use or make an actual set class - but then again Hash#keys is array
+  def self.subset? 
+  end
 end
 
 class String

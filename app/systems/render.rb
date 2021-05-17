@@ -1,5 +1,7 @@
 class Render < System
   def initialize
+    super
+    @reads += [Xform, Frame]
   end
 
   def tick args, reg
