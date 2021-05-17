@@ -16,7 +16,7 @@ class AdeptFactory < Factory
       Xform.new(x: @x, y: @y, w: @w, h: @h)
     end
 
-    def anim_store args, **opts
+    def anim_group args, **opts
       anims =[] 
 
       anims_to_add = %i[adept_idle adept_magic]
@@ -26,7 +26,7 @@ class AdeptFactory < Factory
         anims << anim
         anim.flip_horizontally = true
       end
-      AnimStore.new anims
+      AnimGroup.new anims
 
     end
 

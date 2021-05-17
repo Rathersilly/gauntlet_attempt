@@ -122,6 +122,11 @@ Systems need to compare that to the components it affects/requires.
 Systems @requires could be split up into @reads and @writes.  things that are only read
 could be threaded
 
+##5/17/21
+ok some mega success! 3+ days of 6 hour refactoring sessions has paid off!
+adding new systems and components should be so smooth now, although it will take 
+practice to get fast at it
+
 
 
 

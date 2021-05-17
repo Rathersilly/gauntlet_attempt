@@ -5,7 +5,7 @@ class Factory
       before args, opts
       {
         xform: xform(args, opts),
-        anim_store: anim_store(args, opts),
+        anim_group: anim_group(args, opts),
         behavior: behavior(args, opts),
         color: color(args,opts)
       }
@@ -16,7 +16,7 @@ class Factory
     end
     def xform args, opts
     end
-    def anim_store args, opts
+    def anim_group args, opts
     end
     def anim args, opts
     end

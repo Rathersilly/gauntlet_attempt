@@ -1,4 +1,4 @@
-class AnimStore
+class AnimGroup
   attr_accessor :anims
 
   def initialize anims

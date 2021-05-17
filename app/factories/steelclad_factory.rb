@@ -8,7 +8,7 @@ class SteelCladFactory < Factory
       Xform.new(x: @x, y: @y, w: @w, h: @h)
     end
 
-    def anim_store args, **opts
+    def anim_group args, **opts
       anims = [] 
 
       anims_to_add = [:steelclad_run]
@@ -18,7 +18,7 @@ class SteelCladFactory < Factory
         anim.duration = 60
         anims << anim
       end
-      AnimStore.new anims
+      AnimGroup.new anims
     end
 
     def behavior args, **opts

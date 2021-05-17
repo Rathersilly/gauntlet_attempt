@@ -12,7 +12,7 @@ class ComponentRegistry
 
     @view[BehaviorSignal] = [] if @view.keys.include? Behavior
     if @view.keys.include? Anim
-      @view[AnimStore] = []
+      @view[AnimGroup] = []
       @view[Frame] = []
     end
 
@@ -56,11 +56,8 @@ class ComponentRegistry
       end
     end
 
-    if @view[AnimStore]
-      # p @name
-      # p @view[AnimStore]
-      # p @view[AnimStore][id].anims
-      @view[Anim][id] = @view[AnimStore][id][0]
+    if @view[AnimGroup]
+      @view[Anim][id] = @view[AnimGroup][id][0]
     end
 
     init_components id, components
@@ -74,7 +71,7 @@ class ComponentRegistry
         component.ent = id
         component.container = self
       end
-      next unless component.instance_of?(AnimStore)
+      next unless component.instance_of?(AnimGroup)
 
       component.anims.each do |anim|
         anim.ent = id

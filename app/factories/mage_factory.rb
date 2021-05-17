@@ -8,7 +8,7 @@ class MageFactory < Factory
       Xform.new(x: @x, y: @y, w: @w, h: @h)
     end
 
-    def anim_store args, **opts
+    def anim_group args, **opts
       anims =[] 
 
       anims_to_add = %i[mage_idle mage_attack_staff]
@@ -17,7 +17,7 @@ class MageFactory < Factory
         anim = args.state.all_anims[name].dup
         anims << anim
       end
-      AnimStore.new anims
+      AnimGroup.new anims
 
     end
 
@@ -39,7 +39,7 @@ class PlayerBehavior < Behavior
     # reset animation
     #puts 'DEFAULT ANIM'
 
-    anim = @container.view[AnimStore][@ent][0]
+    anim = @container.view[AnimGroup][@ent][0]
     @container.view[Anim][@ent] = anim
 
 
@@ -66,8 +66,13 @@ class PlayerBehavior < Behavior
     xform = @container.view[Xform][@ent]
 
     # give mage their attack animation
-    anim = @container.view[AnimStore][@ent][1].dup
-    anim.flip_horizontally = true if args.inputs.mouse.x < xform.x
+    current_anim = @container.view[AnimGroup][@ent][0]
+    anim = @container.view[AnimGroup][@ent][1].dup
+    if args.inputs.mouse.x < xform.x
+      anim.flip_horizontally = true 
+    elsif args.inputs.mouse.x > xform.x && current_anim.flip_horizontally == true
+    end
+    current_anim.flip_horizontally = anim.flip_horizontally
     args.state.mobs.view[Anim][@ent] = anim
 
     args.state.spells << IceMissileFactory.create(args, {parent_container: @container,parent: @ent})

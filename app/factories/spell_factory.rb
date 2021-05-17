@@ -17,7 +17,7 @@ class IceMissileFactory < Factory
       xform
     end
 
-    def anim_store args, **opts
+    def anim_group args, **opts
       anims =[] 
 
       anims_to_add = %i[ice_missile]
@@ -26,7 +26,7 @@ class IceMissileFactory < Factory
         anim = args.state.all_anims[name].dup
         anims << anim
       end
-      AnimStore.new anims
+      AnimGroup.new anims
 
     end
 

@@ -1,11 +1,10 @@
-# Frame is not currently needed - a hash with the correct data is sufficient
 class Frame < Component
   attr_accessor :path, :angle
   attr_accessor :flip_horizontally, :flip_vertically
 end
 
 class Anim < Component
-  #TODO yeah these are not all necessary
+  #TODO surely these are not all necessary
   attr_accessor :name, :ent, :angle, :duration, :loop, :state
   attr_accessor :frames, :up, :upframes
   attr_accessor :flip_horizontally, :flip_vertically
