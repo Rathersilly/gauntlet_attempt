@@ -42,7 +42,6 @@ def init_anims
   end
   anim.duration = 120
   state.all_anims[anim.name] = anim
-  puts "Adding anim to pail:"
   anim.inspect
 
   anim = Anim.new(name: :hero_attack_staff)
@@ -50,7 +49,6 @@ def init_anims
     anim << "sprites/archmage/arch-mage+female-attack-staff-#{i}.png"
   end
   state.all_anims[anim.name] = anim
-  puts "Adding anim to pail:"
   anim.inspect
 
   ##### Hero (mage-female) #####
@@ -62,7 +60,6 @@ def init_anims
   anim << "sprites/mage-female/mage+female-attack-magic#{1}.png"
   anim.duration = 60
   state.all_anims[anim.name] = anim
-  puts "Adding anim to pail:"
   anim.inspect
 
   anim = Anim.new(name: :mage_attack_staff)
@@ -71,7 +68,6 @@ def init_anims
   anim << "sprites/mage-female/mage+female-attack-staff#{2}.png"
   anim.duration = 30
   state.all_anims[anim.name] = anim
-  puts "Adding anim to pail:"
   anim.inspect
 
   ##### Steelclad #####
@@ -85,7 +81,6 @@ def init_anims
      anim.add_upframe "sprites/steelclad/steelclad-ne-run#{i}.png"
    end
   state.all_anims[anim.name] = anim
-  puts "Adding anim to pail:"
   Tools.megainspect anim
 
   ##### Others #####
@@ -95,7 +90,6 @@ def init_anims
     anim << "sprites/necromancer/adept-idle-#{i}.png"
   end
   state.all_anims[anim.name] = anim
-  puts "Adding anim to pail:"
   anim.inspect
 
   anim = Anim.new(name: :adept_magic)
@@ -103,7 +97,6 @@ def init_anims
     anim << "sprites/necromancer/adept-magic-#{i}.png"
   end
   state.all_anims[anim.name] = anim
-  puts "Adding anim to pail:"
   anim.inspect
 
   anim = Anim.new(name: :ice_missile)
@@ -111,7 +104,6 @@ def init_anims
     anim << "sprites/icemissile-ne-#{i}.png"
   end
   state.all_anims[anim.name] = anim
-  puts "Adding anim to pail:"
   anim.inspect
 
   anim = Anim.new(name: :siegetrooper_attack)
@@ -120,7 +112,6 @@ def init_anims
   end
   anim << "sprites/siegetrooper-attack-3.png"
   state.all_anims[anim.name] = anim
-  puts "Adding anim to pail:"
   anim.inspect
 
 

@@ -1,8 +1,13 @@
 class Cleanup < System
-  def tick args, reg
-    return
+  def initialize
     super
-    @view[Behavior_signal].reject! { |bs| bs.handled == true }
+    @writes += [BehaviorSignal]
+  end
+  def tick args, reg
+    super
+    # puts "CLEANUP".red
+    # p @view[BehaviorSignal]
+    @view[BehaviorSignal].reject! { |bs| bs.handled == true }
   end
 end
 

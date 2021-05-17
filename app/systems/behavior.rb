@@ -1,5 +1,9 @@
 class Behaviorsys < System
 
+  def initialize
+    super
+    @writes += [Behavior, BehaviorSignal]
+  end
   def tick args, reg
     super
 

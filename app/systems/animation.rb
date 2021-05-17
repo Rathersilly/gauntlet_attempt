@@ -2,10 +2,7 @@ class Animation < System
 
   def initialize
     super
-    puts "INIT ANIM(((((((((((((((((((((((((((((((((((((((((((((((((((((((((((((".red
     @writes += [Anim, Frame, Behavior, BehaviorSignal]
-    puts "INIT ANIM(((((((((((((((((((((((((((((((("
-    p @writes
   end
 
   def tick args, reg

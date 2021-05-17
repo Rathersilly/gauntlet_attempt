@@ -64,7 +64,8 @@ class PlayerBehavior < Behavior
     # p args.state.anims
 
     xform = @container.view[Xform][@ent]
-    #should change this from array index to :mage_attack_staff
+
+    # give mage their attack animation
     anim = @container.view[AnimStore][@ent][1].dup
     anim.flip_horizontally = true if args.inputs.mouse.x < xform.x
     args.state.mobs.view[Anim][@ent] = anim

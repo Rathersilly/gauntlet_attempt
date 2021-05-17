@@ -31,7 +31,7 @@ class Color < Component
     @r = opts[:r]  || 0
     @g = opts[:g]  || 0
     @b = opts[:b]  || 0
-    @a = opts[:a]  || 0
+    @a = opts[:a]  || 255
   end
 
   def to_h

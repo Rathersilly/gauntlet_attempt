@@ -4,7 +4,8 @@ module Tools; end
 
 class System;               end
 class Animation < System;   end
-class Render < System;      end
+class RenderSprite < System;      end
+class RenderSolids < System;      end
 class Cleanup < System;     end
 class Behaviorsys < System; end
 class ComponentRegistry;    end
@@ -18,25 +19,15 @@ class Game
 
 
   def tick
-      # puts "tick".green
-    Registries.each do |reg|
-      # want reg.view.each {|sys| sys.tick}
-      # or something similar
-      # puts "loop".blue
-      # p reg.view
-      # p reg.view.keys
-      
-      Systems.each do |sys|
-        # p sys.reads
-        # p sys.writes
-        # p sys.requires
-        if reg.views? sys.requires
+    #puts "\nWorld tick".magenta
+
+    Systems.each do |sys|
+      Registries.each do |reg|
+        if reg.views? sys.requirements
+          # puts  "Invoking  #{sys.class} on #{reg.name}".green
           sys.tick args, reg
-          # puts  "INCLUDING #{sys.requires}"
-          #puts "INCLUDING #{reg.name} #{reg.view} and #{sys.class.inspect}"
         else
-          # puts  "NOT"
-          #puts "NOT #{reg.name} #{reg.view} and #{sys.class.inspect}"
+          # puts  "NOT Invoking  #{sys.class} on #{reg.name}".red
         end
       end
     end

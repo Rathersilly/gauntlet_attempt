@@ -24,7 +24,9 @@ require '/app/component_registry.rb'
 
 require '/app/systems/system.rb'
 require '/app/systems/animation.rb'
-require '/app/systems/render.rb'
+require '/app/systems/render_static_solids.rb'
+require '/app/systems/render_solids.rb'
+require '/app/systems/render_sprites.rb'
 require '/app/systems/behavior.rb'
 require '/app/systems/behavior_mods.rb'
 require '/app/systems/cleanup.rb'
@@ -46,7 +48,9 @@ module Init
     Systems = []
     Systems << Animation.new
     Systems << Behaviorsys.new
-    Systems << Render.new
+    #Systems << RenderSolids.new
+    # Systems << RenderStaticSolids.new
+    Systems << RenderSprites.new
     Systems << Cleanup.new
 
     Spells = ComponentRegistry.new do |cr|
@@ -60,13 +64,14 @@ module Init
       cr.create_view Xform, Anim, Behavior
     end
 
-    # Map = ComponentRegistry.new do |cr|
-    #   cr.name = "Map"
-    #   cr.view Xform, Color
-    # end
+    Map = ComponentRegistry.new do |cr|
+      cr.name = "Map"
+      cr.create_view Xform, Color
+    end
 
     Registries = []
-    #Registries << Map
+
+    Registries << Map
     Registries << Mobs
     Registries << Spells
 
@@ -85,23 +90,32 @@ module Init
     Mobs << MageFactory.create(args)
     args.state.hero = 0
     Mobs << AdeptFactory.create(args, {x: 900,y:400})
-    2.times do |i|
+    50.times do |i|
       Mobs << SteelCladFactory.create(args, {x: rand(1280),y:rand(720)})
     end
 
-    #create_map
+    create_map
+    render_map
   end
-
   def create_map
+    puts "Create map".cyan
+    p Spells
     tile_size = 80
     16.times do |x|
       9.times do |y|
-        tile = BlockFactory.create(args, x:x* tile_size,y:y* tile_size,w:tile_size,h:tile_size)
+        tile = BlockFactory.create(args, x:x* tile_size,y:y* tile_size,w:tile_size,h:tile_size,
+                                  r: rand(255),g:rand(255),b:rand(255))
         p tile
         Map << tile 
       end
     end
 
+    puts "MAP"
+    p Map
+    p Spells
+  end
+  def render_map
+    RenderStaticSolids.new.tick args, Map
   end
 end
 

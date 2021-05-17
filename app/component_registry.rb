@@ -10,93 +10,75 @@ class ComponentRegistry
     @view = {}
     yield self
 
-    if @view.keys.include? Behavior
-      @view[BehaviorSignal] = []
-    end
+    @view[BehaviorSignal] = [] if @view.keys.include? Behavior
     if @view.keys.include? Anim
       @view[AnimStore] = []
       @view[Frame] = []
     end
-    puts "END INIT".cyan
-    p @view
-    p @view[AnimStore]
-    @name ||= ""
+
+    puts "InitComponentRegistry:".cyan
+    puts "\t- name: #{@name}"
+    puts "\t- views: #{@view}"
+    puts "\t- max_ids: #{@max_ids}\n"
+
+    @name ||= ''
     @id = -1
     @max_ids ||= nil
   end
 
-  def create_view *types
-    puts "VIEWING".magenta
+  def create_view(*types)
+    puts 'VIEWING'.magenta
     types.each do |t|
       @view[t] = []
     end
     p @view
-    #create_accessors
   end
 
-  def views? array
+  def views?(array)
     array.each do |item|
-      if !@view.keys.include? item
-        return false
-      end
+      return false unless @view.keys.include? item
     end
     true
   end
-  # def create_accessors
-  #   @view.each_key do |key|
-  #   puts "<<<<<<<<<<<<<<<<<".green
-  #     p key
-  #     key = key.to_s.downcase.to_sym
-  #     p key
-  #     define_singleton_method key do
-  #       @view[key]
-  #     end
-  #     key = key.to_s.concat("=").to_sym
-  #     define_singleton_method key do |new_val|
-  #       @view[key] = new_val
-  #     end
-  #   end
-  # end
 
-  def << **components
+  def <<(**components)
     id = new_entity_id
-    puts "<<<<<<<<<<<<<<<<<".green
+    puts '<<<<<<<<<<<<<<<<<'.cyan
 
-    components.each do |k,v|
+    components.each do |_k, v|
       @view.each do |type, container|
-
         if v.class.ancestors.include? type
           container[id] = v
         else
-          #handle misc components - send them to a hash prob
+          # handle misc components - send them to a hash prob
+          # or maybe make a subclass that can handles such things
         end
       end
     end
 
-    p @name
-    p @view[AnimStore]
-    p @view[AnimStore][id].anims
-    if @view[AnimStore][id]
+    if @view[AnimStore]
+      # p @name
+      # p @view[AnimStore]
+      # p @view[AnimStore][id].anims
       @view[Anim][id] = @view[AnimStore][id][0]
-      @view[Frame][id] = @view[Anim][id].frames[0]
     end
 
     init_components id, components
   end
 
-  def init_components id, **components
-    print "INITIALIZING COMPONENTS: ".green
-    p components
+  def init_components(id, **components)
+    # print 'INITIALIZING COMPONENTS: '.green
+    # p components
     components.each_value do |component|
       if component.class.ancestors.include?(Component)
         component.ent = id
         component.container = self
       end
-      if component.class == AnimStore
-        component.anims.each do |anim|
-          anim.ent = id
-          anim.container = self
-        end
+      next unless component.instance_of?(AnimStore)
+
+      component.anims.each do |anim|
+        anim.ent = id
+        anim.container = self
       end
     end
   end
@@ -114,6 +96,4 @@ class ComponentRegistry
     puts "inspecting Registry #{@name}"
     p @view
   end
-
 end
-

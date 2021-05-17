@@ -1,13 +1,13 @@
-class Render < System
+class RenderSolids < System
   def initialize
     super
-    @reads += [Xform, Frame]
+    @reads += [Xform, Color]
   end
 
   def tick args, reg
     super
     render_background args
-    render_sprites args
+    render_solids args
     #render_labels args
   end
 
@@ -15,10 +15,9 @@ class Render < System
     args.outputs.background_color = Yellow
   end
 
-  def render_sprites args
-    args.outputs.sprites << @view[Xform].map.with_index do |xf, i|
-      next unless @view[Frame][i]
-      xf.to_h.merge(@view[Frame][i])
+  def render_solids args
+    args.outputs.solids << @view[Xform].map.with_index do |xf, i|
+      xf.to_h.merge(@view[Color][i].to_h)
     end
   end
 
