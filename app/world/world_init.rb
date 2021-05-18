@@ -17,12 +17,14 @@ module InitWorld
 
     args.state.all_anims  = {}
     init_anims 
+    
+    Teams = {player: Team.new(name: :player), enemy: Team.new(name: :enemy)}
 
-    Mobs << MageFactory.create(args)
+    Mobs << MageFactory.create(args, team: Teams[:player])
     args.state.hero = 0
     Mobs << AdeptFactory.create(args, {x: 900,y:400})
     3.times do |i|
-      Mobs << SteelCladFactory.create(args, {x: rand(1280),y:rand(720)})
+      Mobs << SteelCladFactory.create(args, x: rand(1280),y:rand(720), team: Teams[:enemy])
     end
 
     create_map
@@ -42,13 +44,13 @@ module InitWorld
   def init_registries
     Spells = ComponentRegistry.new do |cr|
       cr.name = "Spells"
-      cr.create_view Xform, Anim, Behavior, Team
-      cr.max_ids = 3
+      cr.create_view Xform, Anim, Behavior, Collider, Team
+      cr.max_ids = 3 
     end
 
     Mobs = ComponentRegistry.new do |cr|
       cr.name = "Mobs"
-      cr.create_view Xform, Anim, Behavior, Team
+      cr.create_view Xform, Anim, Behavior, Collider, Team
     end
 
     Map = ComponentRegistry.new do |cr|
@@ -70,7 +72,7 @@ module InitWorld
       9.times do |y|
         tile = BlockFactory.create(args, x:x* tile_size,y:y* tile_size,w:tile_size,h:tile_size,
                                    r: rand(255),g:rand(255),b:rand(255))
-        p tile
+        #p tile
         Map << tile 
       end
     end

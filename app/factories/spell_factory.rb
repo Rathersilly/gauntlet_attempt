@@ -25,7 +25,7 @@ class IceMissileFactory < Factory
     end
 
     def collider args, opts
-      Collider.new(xform:@xform, collides_with: [Mobs])
+      Collider.new(xform:@xform, collides_with: [args.state.spells])
     end
 
     def xform args, **opts

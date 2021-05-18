@@ -5,12 +5,12 @@ class MageFactory < Factory
       @xform = xform(args, opts)
       {
         xform: @xform,
-        collider: Collider.new(xform: @xform),
+        collider: Collider.new(xform: @xform, collides_with: []),
 
         anim_group: anim_group(args, opts),
         behavior: behavior(args, opts),
         color: color(args,opts),
-        team: :player
+        team: opts[:team]
       }
     end
       
@@ -89,9 +89,9 @@ class PlayerBehavior < Behavior
     current_anim.flip_horizontally = anim.flip_horizontally
     args.state.mobs.view[Anim][@ent] = anim
 
-    Spells << IceMissileFactory.create(args, parent_container: @container,
+    args.state.spells << IceMissileFactory.create(args, parent_container: @container,
                                               parent: @ent,
-                                              team: @ent.team)
+                                              team: @container.view[Team][@ent])
 
   end
 

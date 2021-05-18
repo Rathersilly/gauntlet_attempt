@@ -21,6 +21,10 @@ class Xform < Component
   def to_h
     { x: @x, y: @y, w: @w, h: @h }
   end
+
+  def rect
+    [@x,@y,@w,@h]
+  end
 end
 
 class Color < Component
@@ -40,11 +44,11 @@ class Color < Component
 end
 
 class Team < Component
-  attr_accessor :team
+  attr_accessor :name
 
   def initialize(**opts)
     super
-    @team = opts[:team]  || 0
+    @name = opts[:name]  || 0
   end
 
   def to_h

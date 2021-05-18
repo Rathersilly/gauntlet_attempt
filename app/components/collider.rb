@@ -5,8 +5,12 @@ class Collider < Component
     super
       @xform = optarray[:xform]
       @offset = optarray[:offset]
-      @collides_with = optarray[:collides_with]
+      @collides_with = optarray[:collides_with] || []
 
+  end
+
+  def rect
+    @xform.rect
   end
 
 end

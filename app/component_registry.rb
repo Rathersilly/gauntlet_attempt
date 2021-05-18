@@ -34,8 +34,8 @@ class ComponentRegistry
     p @view
   end
 
-  def views?(array)
-    array.each do |item|
+  def views? requirements
+    requirements.each do |item|
       return false unless @view.keys.include? item
     end
     true
@@ -43,7 +43,7 @@ class ComponentRegistry
 
   def <<(**components)
     id = new_entity_id
-    puts '<<<<<<<<<<<<<<<<<'.cyan
+    #puts '<<<<<<<<<<<<<<<<<'.cyan
 
     components.each do |_k, v|
       @view.each do |type, container|

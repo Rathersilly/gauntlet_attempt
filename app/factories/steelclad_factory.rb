@@ -5,12 +5,12 @@ class SteelCladFactory < Factory
       @xform = xform(args, opts)
       {
         xform: @xform,
-        collider: Collider.new(xform: @xform),
+        collider: Collider.new(xform: @xform, collides_with: [args.state.spells]),
 
         anim_group: anim_group(args, opts),
         behavior: behavior(args, opts),
         color: color(args,opts),
-        team: :enemy
+        team: opts[:team]
       }
     end
 
@@ -62,6 +62,9 @@ class SteelcladBehavior < Behavior
   #   p args.state.anims
 
   # end
+  def on_collision args, **info
+    puts "steelclas on_collision"
+  end
 
   # # TODO
   # def attack args
