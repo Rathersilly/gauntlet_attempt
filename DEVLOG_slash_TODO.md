@@ -127,7 +127,13 @@ ok some mega success! 3+ days of 6 hour refactoring sessions has paid off!
 adding new systems and components should be so smooth now, although it will take 
 practice to get fast at it
 
+added collision class - it currently shares xform of parent
 
+TODO - dry out factories - possibly rename factory to entity
+need to have big behavior rewrite - behavior should perform collisions
+need to collide things with things in other registries
+need to set collision types in World class
+is collision a subsystem of behavior? should subsystems be a thing?
 
 
 

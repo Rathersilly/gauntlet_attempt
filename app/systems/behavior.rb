@@ -2,7 +2,7 @@ class Behaviorsys < System
 
   def initialize
     super
-    @writes += [Behavior, BehaviorSignal]
+    @writes += [Behavior, BehaviorSignal]#, Collider]
   end
   def tick args, reg
     super
@@ -28,5 +28,10 @@ class Behaviorsys < System
       b.send(:on_tick, args) if b.respond_to?(:on_tick)
     end
 
+    #@view[Collider].each do |c|
+      # check collision (loop through other colliders
+      # if there's collision,
+      # find behavior components of end that collided
+      # send(:on_collision, args, thing_collidedr_with)
   end
 end

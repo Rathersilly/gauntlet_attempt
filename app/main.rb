@@ -1,12 +1,11 @@
-# These must be forward declared for reasons
-
 require '/app/init/tools.rb'
 require '/app/init/init_anims.rb'
 
 require '/app/components/components.rb'
 require '/app/components/anim.rb'
-require '/app/components/anim_group.rb'
+require '/app/components/component_groups.rb'
 require '/app/components/behavior.rb'
+require '/app/components/collider.rb'
 require '/app/component_registry.rb'
 
 require '/app/systems/system.rb'
@@ -14,6 +13,7 @@ require '/app/systems/animation.rb'
 require '/app/systems/render_static_solids.rb'
 require '/app/systems/render_solids.rb'
 require '/app/systems/render_sprites.rb'
+require '/app/systems/collision.rb'
 require '/app/systems/behavior.rb'
 require '/app/systems/behavior_mods.rb'
 require '/app/systems/cleanup.rb'

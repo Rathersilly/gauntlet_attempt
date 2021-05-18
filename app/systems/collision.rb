@@ -8,4 +8,5 @@ class Collision < System
   def tick args, reg
     
   end
+
 end

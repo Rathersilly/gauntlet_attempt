@@ -1,5 +1,18 @@
 class SteelCladFactory < Factory
   class << self
+    def create args, **opts
+      before args, opts
+      @xform = xform(args, opts)
+      {
+        xform: @xform,
+        collider: Collider.new(xform: @xform),
+
+        anim_group: anim_group(args, opts),
+        behavior: behavior(args, opts),
+        color: color(args,opts)
+      }
+    end
+
     def xform args, **opts
       @x          = opts[:x]       || 200
       @y          = opts[:y]       || 200
