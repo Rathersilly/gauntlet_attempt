@@ -9,7 +9,8 @@ class SteelCladFactory < Factory
 
         anim_group: anim_group(args, opts),
         behavior: behavior(args, opts),
-        color: color(args,opts)
+        color: color(args,opts),
+        team: :enemy
       }
     end
 

@@ -42,13 +42,13 @@ module InitWorld
   def init_registries
     Spells = ComponentRegistry.new do |cr|
       cr.name = "Spells"
-      cr.create_view Xform, Anim, Behavior
+      cr.create_view Xform, Anim, Behavior, Team
       cr.max_ids = 3
     end
 
     Mobs = ComponentRegistry.new do |cr|
       cr.name = "Mobs"
-      cr.create_view Xform, Anim, Behavior
+      cr.create_view Xform, Anim, Behavior, Team
     end
 
     Map = ComponentRegistry.new do |cr|

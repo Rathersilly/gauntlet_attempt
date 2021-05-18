@@ -38,3 +38,16 @@ class Color < Component
     { r: @r, g: @g, b: @b, a: @a }
   end
 end
+
+class Team < Component
+  attr_accessor :team
+
+  def initialize(**opts)
+    super
+    @team = opts[:team]  || 0
+  end
+
+  def to_h
+    { team: @team }
+  end
+end

@@ -26,9 +26,12 @@ class Behavior < Component
     #puts "HANDLING BEHAVIOR SIGNAL"
       #Tools.megainspect bs
 
+
     if bs.type == Anim && bs.state == :done
       default_anim args if methods.include?(:default_anim)
+    elsif bs.type == Collider && bs.state == :done
     end
+
 
     bs.handled = true
   end
@@ -62,7 +65,8 @@ class BehaviorSignal < Component
     @type         = opts[:type]        || nil
     @state        = opts[:state]       || nil
     @info         = opts[:info]        || nil
-    @spell         = opts[:spell]      || nil
+
+    @target       = opts[:target]      || nil
     @handled      = opts[:handled]     || false
   end
 

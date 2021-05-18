@@ -135,6 +135,9 @@ need to collide things with things in other registries
 need to set collision types in World class
 is collision a subsystem of behavior? should subsystems be a thing?
 
+##5/18/21
+added teams
+working on behavior/collision and confusing myself so hard
 
 
 

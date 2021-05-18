@@ -80,6 +80,13 @@ class ComponentRegistry
     end
   end
 
+  def delete id
+    @view.each do |type|
+      @view[id] = nil
+    end
+  end
+
+
   def new_entity_id
     @id += 1
     if @max_ids && @id == @max_ids

@@ -7,6 +7,7 @@ class Factory
         xform: xform(args, opts),
         anim_group: anim_group(args, opts),
         behavior: behavior(args, opts),
+        collider: behavior(args, opts),
         color: color(args,opts)
       }
     end

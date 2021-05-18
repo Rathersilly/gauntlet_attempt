@@ -5,11 +5,12 @@ class IceMissileFactory < Factory
       @xform = xform(args, opts)
       {
         xform: @xform,
-        collider: Collider.new(xform:@xform),
+        collider: collider(args, opts),
 
         anim_group: anim_group(args, opts),
         behavior: behavior(args, opts),
-        color: color(args,opts)
+        color: color(args,opts),
+        team: @team
       }
     end
 
@@ -17,9 +18,14 @@ class IceMissileFactory < Factory
       puts "BEFORE ICEMISSILE"
       @parent = opts[:parent]
       @parent_container = opts[:parent_container]
+      @team = opts[:team]
       @spell = true
       @w ||= 50
       @h ||= 50
+    end
+
+    def collider args, opts
+      Collider.new(xform:@xform, collides_with: [Mobs])
     end
 
     def xform args, **opts
@@ -45,6 +51,7 @@ class IceMissileFactory < Factory
     def behavior args, **opts
       b = SpellBehavior.new(name: :ice_missile, speed: 10)
       b.set_dest(args, [args.inputs.mouse.x, args.inputs.mouse.y])
+      b.set_dest(args, [args.inputs.mouse.x, args.inputs.mouse.y])
       b
     end
 
@@ -58,6 +65,7 @@ class SpellBehavior < Behavior
     super
     @speed = opts[:speed] || 0
     @dir = opts[:dir] || 0
+    @damage = opts[:damage] || 1
   end
 
   def on_tick args
@@ -67,6 +75,15 @@ class SpellBehavior < Behavior
     end
     xform.x += @dirx * speed
     xform.y += @diry * speed
+  end
+
+  def on_collision args, **info
+    @container.delete(@id)
+    #if info[:reg][Team][info[:ent]] == enemy team
+    #if info[:team] == #enemy team
+        # mark this spell as being done
+        #end
+
   end
 end
 

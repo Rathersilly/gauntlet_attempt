@@ -9,7 +9,8 @@ class MageFactory < Factory
 
         anim_group: anim_group(args, opts),
         behavior: behavior(args, opts),
-        color: color(args,opts)
+        color: color(args,opts),
+        team: :player
       }
     end
       
@@ -88,7 +89,9 @@ class PlayerBehavior < Behavior
     current_anim.flip_horizontally = anim.flip_horizontally
     args.state.mobs.view[Anim][@ent] = anim
 
-    args.state.spells << IceMissileFactory.create(args, {parent_container: @container,parent: @ent})
+    Spells << IceMissileFactory.create(args, parent_container: @container,
+                                              parent: @ent,
+                                              team: @ent.team)
 
   end
 
