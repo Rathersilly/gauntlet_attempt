@@ -6,6 +6,7 @@ require '/app/components/anim.rb'
 require '/app/components/component_groups.rb'
 require '/app/components/behavior.rb'
 require '/app/components/collider.rb'
+require '/app/components/health.rb'
 require '/app/component_registry.rb'
 
 require '/app/systems/system.rb'

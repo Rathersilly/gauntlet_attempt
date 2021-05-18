@@ -22,7 +22,7 @@ module InitWorld
 
     Mobs << MageFactory.create(args, team: Teams[:player])
     args.state.hero = 0
-    Mobs << AdeptFactory.create(args, {x: 900,y:400})
+    #Mobs << AdeptFactory.create(args, {x: 900,y:400})
     3.times do |i|
       Mobs << SteelCladFactory.create(args, x: rand(1280),y:rand(720), team: Teams[:enemy])
     end
@@ -50,7 +50,7 @@ module InitWorld
 
     Mobs = ComponentRegistry.new do |cr|
       cr.name = "Mobs"
-      cr.create_view Xform, Anim, Behavior, Collider, Team
+      cr.create_view Xform, Anim, Behavior, Collider, Team, Health
     end
 
     Map = ComponentRegistry.new do |cr|

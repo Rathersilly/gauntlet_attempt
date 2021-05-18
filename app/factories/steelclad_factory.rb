@@ -10,8 +10,12 @@ class SteelCladFactory < Factory
         anim_group: anim_group(args, opts),
         behavior: behavior(args, opts),
         color: color(args,opts),
-        team: opts[:team]
+        team: opts[:team],
+        health: health(args, **opts)
       }
+    end
+    def health args, **opts
+      Health.new(health: opts[:health])
     end
 
     def xform args, **opts
@@ -63,7 +67,27 @@ class SteelcladBehavior < Behavior
 
   # end
   def on_collision args, **info
-    puts "steelclas on_collision"
+    puts "steelclad on_collision"
+    p info[:ent]
+    p info[:reg].name
+    if info[:reg].name == "Spells"
+      take_damage
+      puts "SPELLS"
+    end
+  end
+
+  def take_damage
+    puts "TAKING DAMAGE"
+    p @ent
+    p @container.name
+    p @container
+    puts "OKOKOKOK".blue
+    p @container.view[Xform]
+    p @container.view[Xform][@ent]
+    puts "OKOKOKOK".red
+    p @container.view[Health][@ent].health
+    @container.view[Health][@ent].health -= 1
+    p @container.view[Health][@ent].health
   end
 
   # # TODO

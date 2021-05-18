@@ -42,10 +42,10 @@ class Behaviorsys < System
             # or just call on collision wtf
 
             puts "COLLISION FOUND".green
-            p collider.container
-            p collider.ent
-            p target.container
-            p target.ent
+            # p collider.container
+            # p collider.ent
+            # p target.container
+            # p target.ent
             @view[Behavior][ent].send(:on_collision, args,
                                       ent: target.ent,
                                       reg: target.container)
