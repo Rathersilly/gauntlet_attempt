@@ -92,6 +92,8 @@ class PlayerBehavior < Behavior
     args.state.spells << IceMissileFactory.create(args, parent_container: @container,
                                               parent: @ent,
                                               team: @container.view[Team][@ent])
+    puts "END ATTACK"
+    p args.state.spells
 
   end
 

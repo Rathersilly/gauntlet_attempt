@@ -1,4 +1,4 @@
-class Animation < System
+class AnimSystem < System
 
   def initialize
     super
@@ -24,6 +24,7 @@ class Animation < System
       # p @view.anims
       # p @view.frames
       # p @ent
+      next if anim.nil?
       if anim.state != :play
         @view[Frame][ent] = nil
       else

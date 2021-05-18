@@ -78,18 +78,17 @@ class SteelcladBehavior < Behavior
 
   def take_damage
     puts "TAKING DAMAGE"
-    p @ent
-    p @container.name
-    p @container
-    puts "OKOKOKOK".blue
     p @container.view[Xform]
     p @container.view[Xform][@ent]
-    puts "OKOKOKOK".red
     p @container.view[Health][@ent].health
     @container.view[Health][@ent].health -= 1
-    p @container.view[Health][@ent].health
   end
 
+  def on_zero_health args
+    puts "ZERO HP"
+    @container.delete @ent
+
+  end
   # # TODO
   # def attack args
   # end

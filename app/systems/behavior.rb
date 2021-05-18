@@ -1,4 +1,4 @@
-class Behaviorsys < System
+class BehaviorSystem < System
 
   def initialize
     super
@@ -25,6 +25,7 @@ class Behaviorsys < System
 
     puts "here"
     @view[Collider].each_with_index do |collider, ent|
+      next if collider.nil?
       # check collision (loop through other colliders)
       # if there's collision,
       # find behavior components of end that collided
@@ -32,6 +33,7 @@ class Behaviorsys < System
       collider.collides_with.each do |colliding_reg|
         puts "Colliding #{reg.name} and #{colliding_reg.name}"
         colliding_reg.view[Collider].each do |target|
+          next if target.nil?
           if collider.rect.intersect_rect? target.rect
 
             # eg if spell collides with mob, spell needs to react(change anim, then die)
@@ -69,6 +71,7 @@ class Behaviorsys < System
     if @view[BehaviorSignal].any?
       @view[BehaviorSignal].each do |bs|
         @view[Behavior].each do |b|
+          next if b.nil?
           if b.ent == bs.ent && bs.handled == false
             b.handle(bs, args)
           end

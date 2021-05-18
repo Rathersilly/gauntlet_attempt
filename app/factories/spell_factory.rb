@@ -15,7 +15,7 @@ class IceMissileFactory < Factory
     end
 
     def before args, **opts
-      puts "BEFORE ICEMISSILE"
+      puts "CREATING ICEMISSILE"
       @parent = opts[:parent]
       @parent_container = opts[:parent_container]
       @team = opts[:team]
@@ -78,7 +78,15 @@ class SpellBehavior < Behavior
   end
 
   def on_collision args, **info
-    @container.delete(@id)
+    puts "SPELL on_collision".blue
+    p self
+    p self.ent
+    p @container
+    puts "OTHER TEAM"
+    #puts info[:reg][Team][info[:ent]]
+    if @container.view[Team][info[:ent]] != info[:reg].view[Team][info[:ent]]
+      @container.delete(@ent)
+    end
     #if info[:reg][Team][info[:ent]] == enemy team
     #if info[:team] == #enemy team
         # mark this spell as being done

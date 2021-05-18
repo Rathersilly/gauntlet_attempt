@@ -138,6 +138,9 @@ is collision a subsystem of behavior? should subsystems be a thing?
 ##5/18/21
 added teams
 working on behavior/collision and confusing myself so hard
+ok the following things work: collision, health, deleting things with 0 hp
+collision needs to be cleaned up though - should only check the collision one way
+because theres a bug where one of the colliders gets punished but other doesnt
 
 
 

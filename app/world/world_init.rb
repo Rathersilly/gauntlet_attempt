@@ -24,7 +24,8 @@ module InitWorld
     args.state.hero = 0
     #Mobs << AdeptFactory.create(args, {x: 900,y:400})
     3.times do |i|
-      Mobs << SteelCladFactory.create(args, x: rand(1280),y:rand(720), team: Teams[:enemy])
+      Mobs << SteelCladFactory.create(args, x: rand(1280),y:rand(720),
+                                      team: Teams[:enemy])
     end
 
     create_map
@@ -33,8 +34,9 @@ module InitWorld
 
   def init_systems
     Systems = []
-    Systems << Animation.new
-    Systems << Behaviorsys.new
+    Systems << AnimSystem.new
+    Systems << BehaviorSystem.new
+    Systems << HealthSystem.new
     #Systems << RenderSolids.new
     # Systems << RenderStaticSolids.new
     Systems << RenderSprites.new

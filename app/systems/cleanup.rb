@@ -7,7 +7,9 @@ class Cleanup < System
     super
     # puts "CLEANUP".red
     # p @view[BehaviorSignal]
-    @view[BehaviorSignal].reject! { |bs| bs.handled == true }
+    @view[BehaviorSignal].reject! do
+      |bs| bs.nil? || bs.handled == true
+    end
   end
 end
 

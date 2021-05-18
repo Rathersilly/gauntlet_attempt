@@ -3,7 +3,7 @@ class Health < Component
 
   def initialize(**opts)
     super
-    @health = opts[:health]
+    @health = opts[:health] || 1
   end
 
 end

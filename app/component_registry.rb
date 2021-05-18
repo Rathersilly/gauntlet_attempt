@@ -45,7 +45,7 @@ class ComponentRegistry
     id = new_entity_id
     #puts '<<<<<<<<<<<<<<<<<'.cyan
 
-    components.each do |_k, v|
+    components.each do |k, v|
       @view.each do |type, container|
         if v.class.ancestors.include? type
           container[id] = v
@@ -80,10 +80,20 @@ class ComponentRegistry
     end
   end
 
-  def delete id
-    @view.each do |type|
-      @view[id] = nil
+  def delete ent
+    puts "DELETING #{ent} from #{name}".red
+    p @view
+    @view.each_key do |type|
+      puts "Before"
+      p type
+      p @view[type][ent]
+      @view[type][ent] = nil
+      puts "AFTER"
+      p @view[type][ent]
     end
+    puts "DELETED".red
+    p @view[Anim][ent]
+    p @view[Xform][ent]
   end
 
 
@@ -97,7 +107,9 @@ class ComponentRegistry
   end
 
   def inspect
-    puts "inspecting Registry #{@name}"
-    p @view
+    puts "inspecting Registry \"#{@name}\" @view:".cyan
+    @view.each do |k,v|
+      puts "#{k}:\t #{v}"
+    end
   end
 end
