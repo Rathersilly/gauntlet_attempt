@@ -12,7 +12,7 @@ class Spawner < BeingFactory
     end
 
     def health args, **opts
-      Health.new(health: 10)
+      Health.new(health: 1)
     end
 
     def behavior args, **opts
@@ -31,7 +31,7 @@ class SpawnerBehavior < Behavior
   end
 
   def on_tick args
-    return if @state != :active
+    return if @status != :active
     if args.state.tick_count % 60 == 0
       @cooldown -= 1
       if @cooldown == 0
@@ -56,8 +56,8 @@ class SpawnerBehavior < Behavior
 
   def on_zero_health args
     puts "SPAWNER ZERO HP"
-    @state = :dead
-    @view[Frame][@ent] = {path: 'sprites/scenery/rubble.png'}
+    @status = :dead
+    @container.view[Frame][@ent] = {path: 'sprites/scenery/rubble.png'}
     # change frame
     #@container.delete @ent
   end

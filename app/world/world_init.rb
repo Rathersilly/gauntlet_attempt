@@ -22,10 +22,12 @@ module InitWorld
     init_anims 
     
 
+
     Mobs << MageFactory.create(args, team: Teams[:player])
     Mobs << SorceressFactory.create(args, x: 300, y: 300, team: Teams[:player])
     args.state.hero = 0
     #Mobs << AdeptFactory.create(args, {x: 900,y:400})
+    # Mobs << DoodadFactory.create(args, x: 300, y: 300)
     0.times do |i|
       Mobs << SteelCladFactory.create(args, x: rand(1280),y:rand(720),
                                       team: Teams[:enemy])
@@ -35,8 +37,8 @@ module InitWorld
     Mobs << Spawner.create(args, x: 600, y: 100, team: Teams[:enemy])
     Mobs << Spawner.create(args, x: 600, y: 600, team: Teams[:enemy])
 
-    create_map
-    render_map
+    create_map args
+    render_map args
   end
 
   def init_systems
@@ -64,7 +66,7 @@ module InitWorld
 
     Map = ComponentRegistry.new do |cr|
       cr.name = "Map"
-      cr.create_view Xform, Color
+      cr.create_view Xform, Color, Frame
     end
 
     Registries = []
@@ -73,7 +75,7 @@ module InitWorld
     Registries << Spells
   end
 
-  def create_map
+  def create_map args
     puts "Create map".cyan
     p Spells
     tile_size = 80
@@ -91,7 +93,7 @@ module InitWorld
     p Spells
   end
 
-  def render_map
+  def render_map args
     RenderStaticSolids.new.tick args, Map
   end
 end

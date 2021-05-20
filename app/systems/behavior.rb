@@ -13,11 +13,13 @@ class BehaviorSystem < System
 
     if args.inputs.mouse.down
       @view[Behavior].each do |b|
+        next if b.nil?
         b.send(:on_mouse_down, args) if b.respond_to?(:on_mouse_down)
       end
     end
 
     @view[Behavior].each do |b|
+      next if b.nil?
       b.send(:on_key_down, args) if b.respond_to?(:on_key_down)
       b.send(:on_tick, args) if b.respond_to?(:on_tick)
     end
@@ -30,6 +32,8 @@ class BehaviorSystem < System
         colliding_reg.view[Collider].each do |target|
           next if target.nil?
           next if colliding_reg.view[Team][target.ent] == @view[Team][ent]
+          next if colliding_reg.view[Behavior][target.ent].status != :active
+
           if collider.rect.intersect_rect? target.rect
 
             # eg if spell collides with mob, spell needs to react(change anim, then die)

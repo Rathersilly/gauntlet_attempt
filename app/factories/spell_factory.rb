@@ -31,8 +31,8 @@ class IceMissileFactory < Factory
       xform = @parent_container.view[Xform][@parent].dup
       xform.x += 20
       xform.y += 20
-      xform.w = @w/2
-      xform.h = @h/2
+      xform.w = @w#/2
+      xform.h = @h#/2
       xform
     end
 

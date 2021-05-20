@@ -160,6 +160,12 @@ projectiles destroy things properly, but as expected there is a bug when there a
 multiple simultaneous collisions
 -fixed by breaking out of loop after collision (obv)
 
+-created spawners, they can be destroyed
+-entities can have a single frame
+
+-not sure why trees are rendering in front of sprites
+-also, theres more draw calls than i expected
+
 
 
 

@@ -6,8 +6,19 @@ class RenderSprites < System
 
   def tick args, reg
     super
+    render_trees args
     render_sprites args
     #render_labels args
+  end
+  def render_trees args
+    args.outputs.sprites << {path:'sprites/scenery/oak-leaning.png',
+                                    x: 200,y:300, w:200,h:200}
+    args.outputs.sprites << {path:'sprites/scenery/oak-leaning.png',
+                                    x: 300,y:300, w:200,h:200}
+    args.outputs.sprites << {path:'sprites/scenery/oak-leaning.png',
+                                    x: 300,y:200, w:200,h:200}
+    args.outputs.sprites << {path:'sprites/scenery/oak-leaning.png',
+                                    x: 200,y:200, w:200,h:200}
   end
 
   def render_sprites args
