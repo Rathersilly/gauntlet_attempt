@@ -31,6 +31,7 @@ class SpawnerBehavior < Behavior
   end
 
   def on_tick args
+    return if @state != :active
     if args.state.tick_count % 60 == 0
       @cooldown -= 1
       if @cooldown == 0
@@ -55,7 +56,10 @@ class SpawnerBehavior < Behavior
 
   def on_zero_health args
     puts "SPAWNER ZERO HP"
-    @container.delete @ent
+    @state = :dead
+    @view[Frame][@ent] = {path: 'sprites/scenery/rubble.png'}
+    # change frame
+    #@container.delete @ent
   end
 
 end

@@ -4,6 +4,7 @@ class Component
   def initialize(**opts)
     @ent          = opts[:ent]
     @container    = opts[:container]
+    @view    = opts[:container].view
   end
 end
 
