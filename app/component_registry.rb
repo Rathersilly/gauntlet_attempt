@@ -21,7 +21,7 @@ class ComponentRegistry
     puts "\t- views: #{@view}"
     puts "\t- max_ids: #{@max_ids}\n"
 
-    @name ||= ''
+    @name ||= "unnamed registry"
     @id = -1
     @max_ids ||= nil
   end

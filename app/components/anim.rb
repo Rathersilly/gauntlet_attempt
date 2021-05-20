@@ -16,7 +16,7 @@ class Anim < Component
     @flip_horizontally      = opts[:flip_horizontally]     || false
     @flip_vertically        = opts[:flip_vertically]       || false
 
-    @name         = opts[:name]        || nil
+    @name         = opts[:name]        || "unnamed anim"
     @ent          = opts[:ent]         || nil
     @angle        = opts[:angle]       || 0
     @end_action   = opts[:end_action]  || nil 

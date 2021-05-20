@@ -29,8 +29,10 @@ class IceMissileFactory < Factory
 
     def xform args, **opts
       xform = @parent_container.view[Xform][@parent].dup
-      xform.w = @w
-      xform.h = @h
+      xform.x += 20
+      xform.y += 20
+      xform.w = @w/2
+      xform.h = @h/2
       xform
     end
 

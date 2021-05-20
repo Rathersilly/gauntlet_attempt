@@ -14,7 +14,7 @@ class Behavior < Component
   def initialize(**opts)
     super
     @ent          = opts[:ent]         || nil
-    @name         = opts[:name]        || nil
+    @name         = opts[:name]        || "unnamed behavior"
     @default      = opts[:default]     || false
   end
 
