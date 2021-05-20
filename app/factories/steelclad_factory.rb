@@ -5,7 +5,7 @@ class SteelCladFactory < Factory
       @xform = xform(args, opts)
       {
         xform: @xform,
-        collider: Collider.new(xform: @xform, collides_with: [args.state.spells]),
+        collider: Collider.new(xform: @xform, collides_with: []),
 
         anim_group: anim_group(args, opts),
         behavior: behavior(args, opts),
@@ -67,7 +67,7 @@ class SteelcladBehavior < Behavior
 
   # end
   def on_collision args, **info
-    puts "steelclad on_collision"
+    puts "steelclad on_collision".blue
     p info[:ent]
     p info[:reg].name
     if info[:reg].name == "Spells"
@@ -89,9 +89,7 @@ class SteelcladBehavior < Behavior
     @container.delete @ent
 
   end
-  # # TODO
-  # def attack args
-  # end
+
 
 end
 

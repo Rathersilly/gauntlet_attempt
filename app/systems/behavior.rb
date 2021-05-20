@@ -6,7 +6,6 @@ class BehaviorSystem < System
   end
   def tick args, reg
     super
-    puts "BEHAVIOR"
 
     # if the behaviorsys sends behaviorsignal, do we have to loop through it again?
     # or have one of these loops at beginning, one at end?
@@ -23,7 +22,6 @@ class BehaviorSystem < System
       b.send(:on_tick, args) if b.respond_to?(:on_tick)
     end
 
-    puts "here"
     @view[Collider].each_with_index do |collider, ent|
       next if collider.nil?
       # check collision (loop through other colliders)
@@ -31,7 +29,7 @@ class BehaviorSystem < System
       # find behavior components of end that collided
       # send(:on_collision, args, thing_collidedr_with)
       collider.collides_with.each do |colliding_reg|
-        puts "Colliding #{reg.name} and #{colliding_reg.name}"
+        # puts "Colliding #{reg.name} and #{colliding_reg.name}"
         colliding_reg.view[Collider].each do |target|
           next if target.nil?
           if collider.rect.intersect_rect? target.rect
@@ -44,13 +42,17 @@ class BehaviorSystem < System
             # or just call on collision wtf
 
             puts "COLLISION FOUND".green
-            # p collider.container
-            # p collider.ent
-            # p target.container
-            # p target.ent
+            p collider.container
+            p collider.ent
+            p target.container
+            p target.ent
             @view[Behavior][ent].send(:on_collision, args,
                                       ent: target.ent,
                                       reg: target.container)
+
+            colliding_reg.view[Behavior][target.ent].send(:on_collision, args, 
+                                                       ent: ent,
+                                                       reg: collider.container)
 
             # @view[BehaviorSignal] << BehaviorSignal.new(ent: collider.ent,
             #                                             reg: collider.container

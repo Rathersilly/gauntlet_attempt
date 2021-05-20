@@ -114,6 +114,10 @@ class PlayerBehavior < Behavior
       anim.flip_horizontally = false if anim.name != :mage_attack_staff
     end
   end
+
+  def on_collision args, **info
+    puts "mage on_collision".blue
+  end
 end
 
 class ArchmageBehavior < PlayerBehavior

@@ -84,7 +84,7 @@ class SpellBehavior < Behavior
     p @container
     puts "OTHER TEAM"
     #puts info[:reg][Team][info[:ent]]
-    if @container.view[Team][info[:ent]] != info[:reg].view[Team][info[:ent]]
+    if @container.view[Team][@ent] != info[:reg].view[Team][info[:ent]]
       @container.delete(@ent)
     end
     #if info[:reg][Team][info[:ent]] == enemy team

@@ -142,6 +142,12 @@ ok the following things work: collision, health, deleting things with 0 hp
 collision needs to be cleaned up though - should only check the collision one way
 because theres a bug where one of the colliders gets punished but other doesnt
 
+##5/20/21
+-need to find out why some projectiles are disappearing - collision found immediately
+something with teams probs - actually its only the first of 3 projectiles that works
+-fixed that bug - was using the target ent intex as the projectiles index
+
+
 
 
 

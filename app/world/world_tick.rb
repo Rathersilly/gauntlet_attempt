@@ -9,10 +9,10 @@ class World
     Systems.each do |sys|
       Registries.each do |reg|
         if reg.views? sys.requirements
-          puts  "Invoking  #{sys.class} on #{reg.name}".green
+          # puts  "Invoking  #{sys.class} on #{reg.name}".green
           sys.tick args, reg
         else
-          puts  "NOT Invoking  #{sys.class} on #{reg.name}".red
+          # puts  "NOT Invoking  #{sys.class} on #{reg.name}".red
         end
       end
     end
