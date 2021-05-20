@@ -43,7 +43,7 @@ class ComponentRegistry
 
   def <<(**components)
     id = new_entity_id
-    #puts '<<<<<<<<<<<<<<<<<'.cyan
+    puts '<<<<<<<<<<<<<<<<<'.cyan
 
     components.each do |k, v|
       @view.each do |type, container|
@@ -55,9 +55,11 @@ class ComponentRegistry
         end
       end
     end
+    # p @view
+    p id
 
-    if @view[AnimGroup]
-      @view[Anim][id] = @view[AnimGroup][id][0]
+    if @view[AnimGroup] && @view[AnimGroup][id]
+        @view[Anim][id] = @view[AnimGroup][id][0]
     end
 
     init_components id, components

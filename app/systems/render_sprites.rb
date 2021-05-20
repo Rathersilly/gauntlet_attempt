@@ -11,6 +11,7 @@ class RenderSprites < System
   end
 
   def render_sprites args
+    p @view[Frame]
     # puts "RENDER SPRITES".blue
     args.outputs.sprites << @view[Xform].map.with_index do |xf, i|
       next unless @view[Frame][i]

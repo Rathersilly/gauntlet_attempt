@@ -3,8 +3,13 @@ class Spawner < BeingFactory
   #static sprite? 
   class << self
 
+    def frame args, **opts
+      Frame.new(path: 'sprites/scenery/dwarven-doors-closed.png')
+      {path: 'sprites/scenery/dwarven-doors-closed.png'}
+    end
+
     def health args, **opts
-      Health.new(health: opts[:health])
+      Health.new(health: 10)
     end
 
     def behavior args, **opts
@@ -14,9 +19,41 @@ class Spawner < BeingFactory
   end
 end
 class SpawnerBehavior < Behavior
-  attr_accessor 
+  attr_accessor :max_cooldown
 
   def initialize(**opts)
     super
+    @max_cooldown = opts[:cooldown] || 1
+    @cooldown = @max_cooldown
   end
+
+  def on_tick args
+    return
+    if args.state.tick_count % 60 == 0
+      @cooldown -= 1
+      if @cooldown == 0
+        @cooldown = @max_cooldown
+        args.state.mobs << SteelCladFactory.create(args, xform: @container.view[Xform][@ent].dup,
+                                                   team: args.state.teams[:enemy])
+      end
+    end
+  end
+
+  def on_collision args, **info
+      take_damage
+  end
+
+  def take_damage
+    puts "SPAWNER TAKING DAMAGE"
+    # p @container.view[Xform]
+    # p @container.view[Xform][@ent]
+    # p @container.view[Health][@ent].health
+    @container.view[Health][@ent].health -= 1
+  end
+
+  def on_zero_health args
+    puts "SPAWNER ZERO HP"
+    @container.delete @ent
+  end
+
 end

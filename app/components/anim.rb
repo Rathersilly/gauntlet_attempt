@@ -1,6 +1,9 @@
 class Frame < Component
   attr_accessor :path, :angle
   attr_accessor :flip_horizontally, :flip_vertically
+  def to_h
+    #{ path: @pathx, y: @y, w: @w, h: @h }
+  end
 end
 
 class Anim < Component

@@ -11,11 +11,15 @@ class BeingFactory < Factory
         behavior: behavior(args, opts),
         color: color(args,opts),
         team: opts[:team],
-        health: health(args, **opts)
+        health: health(args, **opts),
+        frame: frame(args,opts)
       }
     end
       
     def xform args, **opts
+      if opts[:xform]
+        return opts[:xform].dup
+      end
       @x          = opts[:x]       || 200
       @y          = opts[:y]       || 200
       @w          = opts[:w]       || 100

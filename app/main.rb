@@ -29,6 +29,7 @@ require '/app/factories/sorceress_factory.rb'
 require '/app/factories/steelclad_factory.rb'
 require '/app/factories/adept_factory.rb'
 require '/app/factories/spell_factory.rb'
+require '/app/factories/spawner.rb'
 
 require '/app/world/world_init.rb'
 require '/app/world/world_tick.rb'
