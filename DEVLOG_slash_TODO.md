@@ -147,10 +147,18 @@ because theres a bug where one of the colliders gets punished but other doesnt
 something with teams probs - actually its only the first of 3 projectiles that works
 -fixed that bug - was using the target ent intex as the projectiles index
 
+-ice missiles now have correct angle
 
+-animations need a Color - added to AnimGroup or Anim?
 
+-made spells check team before checking collision - saves some fps
+but OMG typing container.view[Component][ent] really sucks lol
+there's probably a really elegant way to do this.
+could use method_missing but would that poorly affect performance?
 
-
+projectiles destroy things properly, but as expected there is a bug when there are 
+multiple simultaneous collisions
+-fixed by breaking out of loop after collision (obv)
 
 
 

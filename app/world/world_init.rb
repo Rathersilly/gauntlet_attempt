@@ -20,10 +20,11 @@ module InitWorld
     
     Teams = {player: Team.new(name: :player), enemy: Team.new(name: :enemy)}
 
-    Mobs << MageFactory.create(args, team: Teams[:player])
+    # Mobs << MageFactory.create(args, team: Teams[:player])
+    Mobs << SorceressFactory.create(args, team: Teams[:player])
     args.state.hero = 0
     #Mobs << AdeptFactory.create(args, {x: 900,y:400})
-    3.times do |i|
+    0.times do |i|
       Mobs << SteelCladFactory.create(args, x: rand(1280),y:rand(720),
                                       team: Teams[:enemy])
     end
@@ -47,7 +48,7 @@ module InitWorld
     Spells = ComponentRegistry.new do |cr|
       cr.name = "Spells"
       cr.create_view Xform, Anim, Behavior, Collider, Team
-      cr.max_ids = 3 
+      cr.max_ids = 10
     end
 
     Mobs = ComponentRegistry.new do |cr|

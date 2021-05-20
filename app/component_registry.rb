@@ -82,18 +82,17 @@ class ComponentRegistry
 
   def delete ent
     puts "DELETING #{ent} from #{name}".red
-    p @view
     @view.each_key do |type|
-      puts "Before"
-      p type
-      p @view[type][ent]
+      # puts "Before"
+      # p type
+      # p @view[type][ent]
       @view[type][ent] = nil
-      puts "AFTER"
-      p @view[type][ent]
+      # puts "AFTER"
+      # p @view[type][ent]
     end
-    puts "DELETED".red
-    p @view[Anim][ent]
-    p @view[Xform][ent]
+    # puts "DELETED".red
+    # p @view[Anim][ent]
+    # p @view[Xform][ent]
   end
 
 

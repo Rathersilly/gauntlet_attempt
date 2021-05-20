@@ -11,8 +11,11 @@ class RenderSprites < System
   end
 
   def render_sprites args
+    # puts "RENDER SPRITES".blue
     args.outputs.sprites << @view[Xform].map.with_index do |xf, i|
       next unless @view[Frame][i]
+      # puts @view[Frame][i].angle
+      # p xf.to_h.merge(@view[Frame][i])
       xf.to_h.merge(@view[Frame][i])
     end
   end

@@ -24,14 +24,12 @@ class BehaviorSystem < System
 
     @view[Collider].each_with_index do |collider, ent|
       next if collider.nil?
-      # check collision (loop through other colliders)
-      # if there's collision,
-      # find behavior components of end that collided
-      # send(:on_collision, args, thing_collidedr_with)
+
       collider.collides_with.each do |colliding_reg|
         # puts "Colliding #{reg.name} and #{colliding_reg.name}"
         colliding_reg.view[Collider].each do |target|
           next if target.nil?
+          next if colliding_reg.view[Team][target.ent] == @view[Team][ent]
           if collider.rect.intersect_rect? target.rect
 
             # eg if spell collides with mob, spell needs to react(change anim, then die)
@@ -42,10 +40,7 @@ class BehaviorSystem < System
             # or just call on collision wtf
 
             puts "COLLISION FOUND".green
-            p collider.container
-            p collider.ent
-            p target.container
-            p target.ent
+            puts "#{collider.container}, #{collider.ent} - #{target.container}, #{target.ent}"
             @view[Behavior][ent].send(:on_collision, args,
                                       ent: target.ent,
                                       reg: target.container)
@@ -54,6 +49,7 @@ class BehaviorSystem < System
                                                        ent: ent,
                                                        reg: collider.container)
 
+            break
             # @view[BehaviorSignal] << BehaviorSignal.new(ent: collider.ent,
             #                                             reg: collider.container
             #                                             type: Collider,

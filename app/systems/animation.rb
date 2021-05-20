@@ -34,8 +34,10 @@ class AnimSystem < System
           anim.cur_time = 0
           anim.frame_index += 1
           if anim.frame_index == anim.frames.size
-            if anim.loop == true
+            if anim.end_action == :loop
               reset_anim anim
+            elsif anim.end_action == :stay
+              anim.frame_index -= 1
             else
               finish_anim anim
             end

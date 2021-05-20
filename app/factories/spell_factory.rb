@@ -7,8 +7,8 @@ class IceMissileFactory < Factory
         xform: @xform,
         collider: collider(args, opts),
 
-        anim_group: anim_group(args, opts),
         behavior: behavior(args, opts),
+        anim_group: anim_group(args, opts),
         color: color(args,opts),
         team: @team
       }
@@ -19,7 +19,6 @@ class IceMissileFactory < Factory
       @parent = opts[:parent]
       @parent_container = opts[:parent_container]
       @team = opts[:team]
-      @spell = true
       @w ||= 50
       @h ||= 50
     end
@@ -42,6 +41,7 @@ class IceMissileFactory < Factory
 
       anims_to_add.each do |name|
         anim = args.state.all_anims[name].dup
+        anim.angle = @angle
         anims << anim
       end
       AnimGroup.new anims
@@ -50,10 +50,17 @@ class IceMissileFactory < Factory
 
     def behavior args, **opts
       b = SpellBehavior.new(name: :ice_missile, speed: 10)
-      b.set_dest(args, [args.inputs.mouse.x, args.inputs.mouse.y])
-      b.set_dest(args, [args.inputs.mouse.x, args.inputs.mouse.y])
+      dest = b.set_dest(args, [args.inputs.mouse.x, args.inputs.mouse.y])
+      @angle = set_icemissile_angle [@xform.x, @xform.y], dest
+
+      # compare dest to xform and adjust angle
       b
     end
+    
+    def set_icemissile_angle vec1, vec2
+      Math.atan2(vec2[1]-vec1[1], vec2[0] - vec1[0]) * 180 / Math::PI - 30
+    end
+      
 
   end
 end

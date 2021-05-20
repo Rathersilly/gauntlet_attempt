@@ -32,7 +32,7 @@ class SteelCladFactory < Factory
       anims_to_add = [:steelclad_run]
       anims_to_add.each do |name|
         anim = args.state.all_anims[name].dup
-        anim.loop = true
+        anim.end_action = :loop
         anim.duration = 60
         anims << anim
       end
@@ -78,9 +78,9 @@ class SteelcladBehavior < Behavior
 
   def take_damage
     puts "TAKING DAMAGE"
-    p @container.view[Xform]
-    p @container.view[Xform][@ent]
-    p @container.view[Health][@ent].health
+    # p @container.view[Xform]
+    # p @container.view[Xform][@ent]
+    # p @container.view[Health][@ent].health
     @container.view[Health][@ent].health -= 1
   end
 

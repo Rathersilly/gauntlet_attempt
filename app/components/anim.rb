@@ -5,11 +5,12 @@ end
 
 class Anim < Component
   #TODO surely these are not all necessary
-  attr_accessor :name, :ent, :angle, :duration, :loop, :state
+  attr_accessor :name, :ent, :angle, :duration, :end_action, :state, :color
   attr_accessor :frames, :up, :upframes
   attr_accessor :flip_horizontally, :flip_vertically
   attr_accessor :cur_time, :frame_duration, :frame_index
 
+  # @when_over options: nil, :loop, :stay
   def initialize **opts
     super
     @flip_horizontally      = opts[:flip_horizontally]     || false
@@ -18,8 +19,9 @@ class Anim < Component
     @name         = opts[:name]        || nil
     @ent          = opts[:ent]         || nil
     @angle        = opts[:angle]       || 0
-    @loop         = opts[:loop]        || false
+    @end_action   = opts[:end_action]  || nil 
     @duration     = opts[:duration]    || 60
+    @color        = opts[:color]       || nil
 
     # possible states: play, stop, pause, done
     @state        = opts[:state]       || :play
