@@ -27,11 +27,11 @@ class ComponentRegistry
   end
 
   def create_view(*types)
-    puts 'VIEWING'.magenta
     types.each do |t|
       @view[t] = []
     end
-    p @view
+    # puts 'VIEWING'.magenta
+    # p @view
   end
 
   def views? requirements
@@ -81,7 +81,7 @@ class ComponentRegistry
   end
 
   def delete ent
-    puts "DELETING #{ent} from #{name}".red
+    # puts "DELETING #{ent} from #{name}".red
     @view.each_key do |type|
       # puts "Before"
       # p type

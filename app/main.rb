@@ -21,6 +21,7 @@ require '/app/systems/behavior_mods.rb'
 require '/app/systems/cleanup.rb'
 
 require '/app/factories/factory.rb'
+require '/app/factories/being_factory.rb'
 require '/app/factories/block_factory.rb'
 require '/app/factories/mage_factory.rb'
 require '/app/factories/sorceress_factory.rb'

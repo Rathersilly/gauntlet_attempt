@@ -60,8 +60,8 @@ class AnimSystem < System
   end
 
   def finish_anim anim
-    puts "FINISHING ANIM"
-    Tools.megainspect anim
+    # puts "FINISHING ANIM"
+    # Tools.megainspect anim
 
     reset_anim anim
     anim.state = :done

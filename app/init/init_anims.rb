@@ -103,8 +103,13 @@ def init_anims
 
   anim = Anim.new(name: :sorceress_run, end_action: :loop)
     anim << "sprites/sorceress/sorceress.png"
+  (1..3).each do |i|
+    anim << "sprites/sorceress/sorceress-magic-#{i}.png"
+  end
     anim << "sprites/sorceress/sorceress-melee-attack-1.png"
-    anim << "sprites/sorceress/sorceress-melee-attack-2.png"
+    # anim << "sprites/sorceress/sorceress-melee-attack-1.png"
+    # anim << "sprites/sorceress/sorceress-melee-attack-2.png"
+    #anim << "sprites/sorceress/sorceress-defend-1.png"
   state.all_anims[anim.name] = anim
   anim.inspect
  

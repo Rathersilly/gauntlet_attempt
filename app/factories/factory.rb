@@ -25,6 +25,8 @@ class Factory
     end
     def color args, opts
     end
+    def health args, opts
+    end
 
   end
 end

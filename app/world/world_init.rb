@@ -20,11 +20,11 @@ module InitWorld
     
     Teams = {player: Team.new(name: :player), enemy: Team.new(name: :enemy)}
 
-    # Mobs << MageFactory.create(args, team: Teams[:player])
-    Mobs << SorceressFactory.create(args, team: Teams[:player])
+    Mobs << MageFactory.create(args, team: Teams[:player])
+    Mobs << SorceressFactory.create(args, x: 300, y: 300, team: Teams[:player])
     args.state.hero = 0
     #Mobs << AdeptFactory.create(args, {x: 900,y:400})
-    0.times do |i|
+    40.times do |i|
       Mobs << SteelCladFactory.create(args, x: rand(1280),y:rand(720),
                                       team: Teams[:enemy])
     end
