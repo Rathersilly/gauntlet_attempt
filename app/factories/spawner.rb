@@ -4,8 +4,11 @@ class Spawner < BeingFactory
   class << self
 
     def frame args, **opts
-      Frame.new(path: 'sprites/scenery/dwarven-doors-closed.png')
-      {path: 'sprites/scenery/dwarven-doors-closed.png'}
+      puts "SETTING FRAME".blue
+      @path =  'sprites/scenery/dwarven-doors-closed.png'
+      puts @path
+      Frame.new(path: @path)
+
     end
 
     def health args, **opts
@@ -28,7 +31,6 @@ class SpawnerBehavior < Behavior
   end
 
   def on_tick args
-    return
     if args.state.tick_count % 60 == 0
       @cooldown -= 1
       if @cooldown == 0

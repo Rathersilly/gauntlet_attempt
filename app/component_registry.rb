@@ -43,23 +43,36 @@ class ComponentRegistry
 
   def <<(**components)
     id = new_entity_id
-    puts '<<<<<<<<<<<<<<<<<'.cyan
+    # puts '<<<<<<<<<<<<<<<<<'.cyan
 
     components.each do |k, v|
       @view.each do |type, container|
         if v.class.ancestors.include? type
+          if type == Frame
+            puts "FOUND FRAME".blue
+            p k
+            p v
+            p v.path
+
+          end
           container[id] = v
         else
+
           # handle misc components - send them to a hash prob
           # or maybe make a subclass that can handles such things
         end
       end
     end
     # p @view
-    p id
-
+    # p id
+    if  @view[Frame] && @view[Frame][id]
+      @view[Frame][id] = @view[Frame][id].to_h
+      # @view[Anim][id] = nil
+      # puts "FRAME".green
+      # p @view[Frame][id] 
+    end
     if @view[AnimGroup] && @view[AnimGroup][id]
-        @view[Anim][id] = @view[AnimGroup][id][0]
+      @view[Anim][id] = @view[AnimGroup][id][0]
     end
 
     init_components id, components

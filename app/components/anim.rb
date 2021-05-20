@@ -1,8 +1,13 @@
 class Frame < Component
   attr_accessor :path, :angle
   attr_accessor :flip_horizontally, :flip_vertically
+
+  def initialize **opts
+    @path = opts[:path]
+  end
+
   def to_h
-    #{ path: @pathx, y: @y, w: @w, h: @h }
+    { path: @path}
   end
 end
 

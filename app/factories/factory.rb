@@ -3,7 +3,7 @@ class Factory
 
     def create args, **opts
       before args, opts
-      asdf={
+      {
         xform: xform(args, opts),
         anim_group: anim_group(args, opts),
         behavior: behavior(args, opts),
@@ -11,9 +11,6 @@ class Factory
         color: color(args,opts),
         frame: frame(args,opts)
       }
-      puts "CREATING:".magenta
-      p asdf
-      asdf
     end
 
     # override these in subclass as needed

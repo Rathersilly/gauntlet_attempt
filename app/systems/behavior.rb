@@ -39,8 +39,8 @@ class BehaviorSystem < System
             # send behavior signal with relevant info - collidee xform and type (mob/spell)
             # or just call on collision wtf
 
-            puts "COLLISION FOUND".green
-            puts "#{collider.container}, #{collider.ent} - #{target.container}, #{target.ent}"
+            # puts "COLLISION FOUND".green
+            # puts "#{collider.container}, #{collider.ent} - #{target.container}, #{target.ent}"
             @view[Behavior][ent].send(:on_collision, args,
                                       ent: target.ent,
                                       reg: target.container)

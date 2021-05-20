@@ -3,7 +3,7 @@ class BeingFactory < Factory
     def create args, **opts
       before args, opts
       @xform = xform(args, opts)
-      {
+      asdf={
         xform: @xform,
         collider: Collider.new(xform: @xform, collides_with: []),
 
@@ -11,9 +11,12 @@ class BeingFactory < Factory
         behavior: behavior(args, opts),
         color: color(args,opts),
         team: opts[:team],
-        health: health(args, **opts),
+        health: health(args, opts),
         frame: frame(args,opts)
       }
+      puts "CREATING:".magenta
+      p asdf
+      asdf
     end
       
     def xform args, **opts
