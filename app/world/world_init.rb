@@ -33,9 +33,9 @@ module InitWorld
                                       team: Teams[:enemy])
     end
     Mobs << Spawner.create(args, x: 900, y: 100, team: Teams[:enemy])
-    Mobs << Spawner.create(args, x: 900, y: 600, team: Teams[:enemy])
-    Mobs << Spawner.create(args, x: 600, y: 100, team: Teams[:enemy])
-    Mobs << Spawner.create(args, x: 600, y: 600, team: Teams[:enemy])
+    # Mobs << Spawner.create(args, x: 900, y: 600, team: Teams[:enemy])
+    # Mobs << Spawner.create(args, x: 600, y: 100, team: Teams[:enemy])
+    # Mobs << Spawner.create(args, x: 600, y: 600, team: Teams[:enemy])
 
     create_map args
     render_map args
