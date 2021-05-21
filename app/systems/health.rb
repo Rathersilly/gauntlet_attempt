@@ -10,9 +10,7 @@ class HealthSystem < System
     # puts "HEALTH TICK".green
     # p @view[Health]
     @view[Health].each_with_index do |h, ent|
-      if h.nil? || @view[Behavior][ent].status != :active
-
-        
+      if h.nil? || @view[Behavior][ent].enabled == false
         next
       end
       # puts "HEALTH INNER"
@@ -20,7 +18,6 @@ class HealthSystem < System
       # p h.health
 
       if h.health < 1
-        p @view[Behavior][ent].status 
         @view[Behavior][ent].send(:on_zero_health, args)
       end
     end

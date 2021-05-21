@@ -1,10 +1,10 @@
 class System
-  attr_accessor :reads, :writes, :status
+  attr_accessor :reads, :writes, :enabled
 
   def initialize
     @reads = []
     @writes = []
-    @status = :enabled  # status can be  :enabled or :disabled
+    @enabled = true
   end
   def requirements
     @reads + @writes
@@ -18,11 +18,19 @@ class System
   end
 
   def enable
-    @status = :enabled
+    @enabled = true
   end
 
   def disable
-    @status = :disabled
+    @enabled = false
+  end
+
+  def enabled?
+    @enabled == true
+  end
+
+  def disable
+    @enabled == false
   end
 
 end 

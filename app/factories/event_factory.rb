@@ -23,3 +23,14 @@ class EventBehavior < Behavior
   end
 
 end
+
+class SpeechFactory < Factory
+  class << self
+    
+    def behavior args, opts
+      EventBehavior.new
+    end
+
+  end
+
+end

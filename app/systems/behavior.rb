@@ -32,7 +32,7 @@ class BehaviorSystem < System
         colliding_reg.view[Collider].each do |target|
           next if target.nil?
           next if colliding_reg.view[Team][target.ent] == @view[Team][ent]
-          next if colliding_reg.view[Behavior][target.ent].status != :active
+          next if colliding_reg.view[Behavior][target.ent].enabled == false
 
           if collider.rect.intersect_rect? target.rect
 

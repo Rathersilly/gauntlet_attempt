@@ -41,6 +41,10 @@ class ComponentRegistry
     true
   end
 
+  def [] component
+    @view[component]
+  end
+
   def <<(**components)
     id = new_entity_id
     # puts '<<<<<<<<<<<<<<<<<'.cyan

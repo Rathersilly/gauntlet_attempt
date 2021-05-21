@@ -6,20 +6,20 @@ class World
   def tick
     #puts "\nWorld tick".magenta
     
-    if args.state.tick_count >= 10 && @paused != false
-      puts @paused
+    if args.state.tick_count >= 10 && @paused != true
+      # puts @paused
       pause_world
       acquire_politeness
       wait_for_key
       if @paused == false
         resume_world
       end
-      puts @paused
+      msg
 
     end
 
     Systems.each do |sys|
-      next unless sys.status == :enabled
+      next unless sys.enabled?
       Registries.each do |reg|
         if reg.views? sys.requirements
           # puts  "Invoking  #{sys.class} on #{reg.name}".green
@@ -59,7 +59,6 @@ class World
       if args.state.tick_count - @msg_start > 60
       args.outputs.labels << [1280/2,720/2-100,"(press any key)",6,1, *White]
       end
-
   end
 
   def acquire_sternness
@@ -68,6 +67,21 @@ class World
   def wait_for_key
     if args.inputs.mouse.down
       @paused = false
+    end
+  end
+
+  def msg
+    @time ||= args.state.tick_count
+    @time += 1
+
+    msg = "No! The DWARVES are cutting down the SACRED GROVE"
+    return if @time >= msg.length
+    args.outputs.labels << [1280/2,720/2-200, msg[0..@time],6,1, *White]
+  end
+
+  def system_check
+    Systems.each do |sys|
+      puts "#{sys.class}:\t\t#{sys.enabled?}"
     end
   end
 end

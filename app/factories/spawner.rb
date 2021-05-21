@@ -31,7 +31,7 @@ class SpawnerBehavior < Behavior
   end
 
   def on_tick args
-    return if @status != :active
+    return unless @enabled
     if args.state.tick_count % 60 == 0
       @cooldown -= 1
       if @cooldown == 0

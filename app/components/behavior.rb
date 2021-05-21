@@ -10,13 +10,14 @@ class Behavior < Component
 
   # the current plan: add methods here to singleton class.  But have templates for things
   # that need to be repeated. or actually subclasses would work I think.
-  attr_accessor :name, :status
+  attr_accessor :name, :enabled, :status
   def initialize(**opts)
     super
     @ent          = opts[:ent]         || nil
     @name         = opts[:name]        || "unnamed behavior"
     @default      = opts[:default]     || false
-    @status       = opts[:status]      || :active
+    @enabled      = opts[:enabled]     || true
+    @status       = opts[:status]      || nil
   end
 
   def known_anims ent, name
