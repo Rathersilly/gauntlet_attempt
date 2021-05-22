@@ -7,7 +7,7 @@ class Factory
         xform: xform(args, opts),
         anim_group: anim_group(args, opts),
         behavior: behavior(args, opts),
-        collider: behavior(args, opts),
+        collider: collider(args, opts),
         color: color(args,opts),
         frame: frame(args,opts)
       }
@@ -25,6 +25,8 @@ class Factory
     def frame args, opts
     end
     def behavior args, opts
+    end
+    def collider args, opts
     end
     def color args, opts
     end

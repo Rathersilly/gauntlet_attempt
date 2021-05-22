@@ -26,9 +26,12 @@ class BehaviorSystem < System
 
     @view[Collider].each_with_index do |collider, ent|
       next if collider.nil?
+      if @reg.name == "Misc"
+        puts "Colliding #{@reg.name}".blue
+      end
 
       collider.collides_with.each do |colliding_reg|
-        # puts "Colliding #{reg.name} and #{colliding_reg.name}"
+        puts "Colliding #{reg.name} and #{colliding_reg.name}"
         colliding_reg.view[Collider].each do |target|
           next if target.nil?
           next if colliding_reg.view[Team][target.ent] == @view[Team][ent]
@@ -43,8 +46,8 @@ class BehaviorSystem < System
             # send behavior signal with relevant info - collidee xform and type (mob/spell)
             # or just call on collision wtf
 
-            # puts "COLLISION FOUND".green
-            # puts "#{collider.container}, #{collider.ent} - #{target.container}, #{target.ent}"
+            puts "COLLISION FOUND".green
+            puts "#{collider.container.name}, #{collider.ent} - #{target.container.name}, #{target.ent}"
             @view[Behavior][ent].send(:on_collision, args,
                                       ent: target.ent,
                                       reg: target.container)

@@ -11,14 +11,18 @@ class RenderSprites < System
     #render_labels args
   end
   def render_trees args
-    args.outputs.sprites << {path:'sprites/scenery/oak-leaning.png',
-                                    x: 200,y:300, w:200,h:200}
-    args.outputs.sprites << {path:'sprites/scenery/oak-leaning.png',
-                                    x: 300,y:300, w:200,h:200}
-    args.outputs.sprites << {path:'sprites/scenery/oak-leaning.png',
-                                    x: 300,y:200, w:200,h:200}
-    args.outputs.sprites << {path:'sprites/scenery/oak-leaning.png',
-                                    x: 200,y:200, w:200,h:200}
+    midx = 1280/2
+    midy = 720/2
+    trees = []
+    12.times do |i|
+      trees << {path:'sprites/scenery/oak-leaning.png',
+                x: 200+ i*100,y:midy, w:200,h:200}
+      trees << {path:'sprites/scenery/oak-leaning.png',
+                x: 200+ i*100,y:midy-200, w:200,h:200}
+    end
+    args.outputs.sprites << trees
+    # args.outputs.sprites << {path:'sprites/scenery/oak-leaning.png',
+    #                                 x: midx-200,y:midy-200, w:200,h:200}
   end
 
   def render_sprites args

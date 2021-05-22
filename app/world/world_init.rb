@@ -26,10 +26,10 @@ module InitWorld
     # Events = []
     # Events << Event.new
 
-    Misc << TriggerFactory.create(args, x:200,y:0,w:1,h: 720)
+    Misc << TriggerFactory.create(args, x:400,y:0,w:1,h: 720)
 
-    Mobs << MageFactory.create(args, team: Teams[:player])
     Mobs << SorceressFactory.create(args, x: 100, y: 400, team: Teams[:player])
+    # Mobs << MageFactory.create(args, team: Teams[:player])
     args.state.hero = 0
     #Mobs << AdeptFactory.create(args, {x: 900,y:400})
     # Mobs << DoodadFactory.create(args, x: 300, y: 300)
@@ -45,6 +45,8 @@ module InitWorld
 
     create_map args
     render_map args
+    puts "END OF INIT WORLD".green
+    p Registries
   end
 
   def init_systems
@@ -56,6 +58,7 @@ module InitWorld
     # Systems << RenderStaticSolids.new
     Systems << RenderSprites.new
     Systems << Cleanup.new
+    $systems = Systems
   end
 
   def init_registries
@@ -77,7 +80,7 @@ module InitWorld
 
     Misc = ComponentRegistry.new do |cr|
       cr.name = "Misc"
-      cr.create_view Xform, Collider, Behavior
+      cr.create_view Xform, Collider, Behavior, Team
     end
 
 

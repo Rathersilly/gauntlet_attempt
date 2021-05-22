@@ -32,8 +32,8 @@ class TriggerBehavior < Behavior
     @cooldown            = opts[:cooldown]        || 0
     @times_triggered     = opts[:times_triggered] || 0
     @event               = opts[:event]
-    @target_ent               = opts[:target_ent]
-    @target_container               = opts[:target_container]
+    @target_ent          = opts[:target_ent]      || 0
+    # @target_container    = opts[:target_container] || args.state.mobs
   end
 
   def on_collision args, **info
@@ -42,9 +42,9 @@ class TriggerBehavior < Behavior
     if info[:ent] == 0
       @times_triggered += 1
 
-      @target_container[BehaviorSignal] << BehaviorSignal.new(ent: @target_ent,
-                                                              type: Event,
+      args.state.mobs[BehaviorSignal] << BehaviorSignal.new(ent: @target_ent,
                                                               message: :first_speech)
+      @container.delete(@ent)
     end
   end
 

@@ -7,22 +7,19 @@ class World
     args.outputs.labels << [700,700,"Player Info"]
     args.outputs.labels << [700,680,"Status: #{args.state.mobs[Behavior][0].status}"]
     args.outputs.labels << [700,660,"Weapon: #{args.state.mobs[Behavior][0].weapon}"]
-    args.outputs.labels << [700,640,"Player Info"]
+    args.outputs.labels << [700,640,"Cooldown: #{args.state.mobs[Behavior][0].cooldown}"]
   end
   def tick
     #puts "\nWorld tick".magenta
     
-    @paused ||= :hi
-    if args.state.tick_count >= 10 || @paused == true
-      # puts @paused
+    if args.state.tick_count == 10
       pause_world
+    end
+    if @paused == true
       acquire_politeness
+      pause_world
       wait_for_key
-      if @paused == false
-        resume_world
-      end
       msg
-
     end
 
     Systems.each do |sys|
@@ -44,7 +41,8 @@ class World
   end
 
   def pause_world
-    @paused ||= true
+    puts "PAUSING"
+    @paused = true
     Systems.each do |sys|
       case sys
       when BehaviorSystem
@@ -79,6 +77,7 @@ class World
 
   def wait_for_key
     if args.inputs.mouse.down
+      resume_world
       @paused = false
     end
   end

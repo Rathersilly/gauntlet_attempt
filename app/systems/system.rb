@@ -11,6 +11,7 @@ class System
   end
 
   def tick args, reg
+    @reg = reg
     @view = reg.view
     # puts "SYSTEM TICK".cyan
     # puts self.class
@@ -29,7 +30,7 @@ class System
     @enabled == true
   end
 
-  def disable
+  def disabled?
     @enabled == false
   end
 

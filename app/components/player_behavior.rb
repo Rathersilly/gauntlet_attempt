@@ -1,5 +1,5 @@
 class PlayerBehavior < Behavior
-  attr_accessor :speed, :weapon
+  attr_accessor :speed, :weapon, :cooldown
 
   def initialize **opts
     super
@@ -48,11 +48,14 @@ class PlayerBehavior < Behavior
     if @status == :wait_for_input
       @message_index += 1 unless @message_index = @messages.size - 1
       unfreeze
+      @status = :default
       @time = 0
+      @cooldown = 1
       return 
     end
-    return if @cooldown > 0
-    attack args
+    if @cooldown == 0
+      attack args
+    end
   end
 
   def on_key_down args
@@ -128,7 +131,6 @@ class PlayerBehavior < Behavior
     if dist < 100 && target_ent > 2
       freeze
       @status = :talking
-      talk args
     end
   end
 
