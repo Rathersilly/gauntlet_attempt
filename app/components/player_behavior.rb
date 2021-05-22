@@ -1,30 +1,56 @@
 class PlayerBehavior < Behavior
   attr_accessor :speed, :weapon
 
-  def initialize(**opts)
+  def initialize **opts
     super
     @speed = opts[:speed]
     @weapon = :ice_missile
-    @weapon = :politeness
-    @status = :busy
+    @weapon = :nothing
+    #@prev_status = :busy #to use when unfreezing a character
+    @status = :default
     @cooldown = 2
     @mobile = true
+    @message_index = 0
+    @messages = ["No! The DWARVES are cutting down the SACRED GROVE",
+                 "Um, excuse me Mr. Dwarf, but this is the SACRED GROVE, you can't chop these trees!",
+                 "But these trees contain the souls of my ancestors!",
+                 "NO! I can't let you do this!",
+                 "AHEM! YOU WILL CEASE THIS AT ONCE!",
+                 "DROP YOUR AXES OR FACE ELVISH FURY!"]
+
   end
 
-  def default_anim(args)
-    # reset animation
-    #puts 'DEFAULT ANIM'
+  def handle bs, args
+    super
+    if bs.message == :first_speech
+      first_speech args
+    end
+  end
 
+  def freeze
+    @mobile = false
+    @prev_status = @status
+    # @status = #wait for something
+  end
+
+  def unfreeze
+    @mobile = true
+    @status = @prev_status
+  end
+
+  def default_anim args
     anim = @container.view[AnimGroup][@ent][0]
     @container.view[Anim][@ent] = anim
-
-
-    #puts 'END DEFAULT'
-    #Tools.megainspect anim
   end
 
-  # INPUT HANDLING
   def on_mouse_down args
+    return if @status == :talking
+    if @status == :wait_for_input
+      @message_index += 1 unless @message_index = @messages.size - 1
+      unfreeze
+      @time = 0
+      return 
+    end
     return if @cooldown > 0
     attack args
   end
@@ -34,8 +60,8 @@ class PlayerBehavior < Behavior
   end
 
   def attack args
-    #return if @busy == true
-    puts "ATTACKING"
+    # puts "ATTACKING"
+
     # puts @ent
     # Tools.megainspect self
     # puts "ANIMS"
@@ -44,34 +70,15 @@ class PlayerBehavior < Behavior
     if @weapon == :ice_missile
       shoot_ice_missile args
     elsif @weapon == :politeness
+      talk args
 
-      # check range - if range is too short, give helpful arrow and help message
-
-      xform = @container[Xform][@ent]
-      puts "POLITENESS"
-      dist = args.geometry.distance(xform, args.inputs.mouse)
-      p dist
-      # find the dwarf you're speaking to
-      target = 0
-      args.state.mobs.view[Xform].each_with_index do |xform, ent|
-        if args.geometry.inside_rect?({x:args.inputs.mouse.x, y:args.inputs.mouse.y,w:1,h:1}, xform.to_h)
-          target = ent
-        end
-      end
-
-      if dist < 100 && target > 2
-        @status = :talking
-        @mobile = false
-        talk args
-      end
     end
   end
 
   def on_tick args
-    if @status == :talking
+    if @status == :talking || @status == :wait_for_input
       talk args
-    end
-    if args.state.tick_count % 60 == 0
+    elsif args.state.tick_count % 60 == 0
       if @cooldown > 0
         @status = :default
         @cooldown -= 1 
@@ -79,65 +86,50 @@ class PlayerBehavior < Behavior
     end
   end
 
+  def first_speech args
+    freeze
+    @status = :talking
+    talk args
+  end
+
   def talk args
-    puts "TALKING"
+    puts "TALKING: weapon = #{@weapon}"
+    if @status != :talking
+      check_talk_target args
+    end
+    return unless @status == :talking || :wait_for_input
+
+    msg = @messages[@message_index]
     @time ||= 0
-    @time += 1
+
+    if @time < msg.length - 1
+      @time += 1
+    elsif @time == msg.length - 1
+      @status = :wait_for_input
+    end
 
     xform = @container[Xform][@ent]
-    msg = "No! The DWARVES are cutting down the SACRED GROVE"
-    if @time >= msg.length
-      @status = :default
-      @mobile = true
-      @time = nil
-      return 
-    end
-    args.outputs.labels << [xform.x,xform.y + 120, msg[0..@time],6,1, *White,255]
+    args.outputs.labels << [xform.x,xform.y + 120, @messages[@message_index][0..@time],6,1, *White,255]
 
   end
 
-  def shoot_ice_missile
-    xform = @container.view[Xform][@ent]
+  def check_talk_target args
+    xform = @container[Xform][@ent]
+    dist = args.geometry.distance(xform, args.inputs.mouse)
 
-    # give mage their attack animation
-    current_anim = @container.view[AnimGroup][@ent][0]
-    anim = @container.view[AnimGroup][@ent][1].dup
-    if args.inputs.mouse.x < xform.x
-      anim.flip_horizontally = true 
-    elsif args.inputs.mouse.x > xform.x && current_anim.flip_horizontally == true
+    # find the dwarf you're talking to
+    target_ent = 0 # initialize target ent - we dont want to talk to ourselves!
+    args.state.mobs.view[Xform].each_with_index do |xform, ent|
+      if args.geometry.inside_rect?({x:args.inputs.mouse.x, y:args.inputs.mouse.y,w:1,h:1}, xform.to_h)
+        target_ent = ent
+      end
     end
-    current_anim.flip_horizontally = anim.flip_horizontally
-    args.state.mobs.view[Anim][@ent] = anim
 
-    args.state.spells << IceMissileFactory.create(args, parent_container: @container,
-                                                  parent: @ent,
-                                                  team: @container.view[Team][@ent])
-  end
-
-  def move(args)
-    return unless @mobile == true
-
-    xform = @container.view[Xform][@ent]
-    anim = @container.view[Anim][@ent]
-
-    chars = args.inputs.keyboard.keys[:down_or_held]
-    xform.y += @speed if args.inputs.keyboard.up
-    if args.inputs.keyboard.left
-      xform.x -= @speed
-      anim.flip_horizontally = true if anim.name != :mage_attack_staff
-    end
-    xform.y -= @speed if args.inputs.keyboard.down
-    if args.inputs.keyboard.right
-      xform.x += @speed
-      anim.flip_horizontally = false if anim.name != :mage_attack_staff
+    if dist < 100 && target_ent > 2
+      freeze
+      @status = :talking
+      talk args
     end
   end
 
-  def on_collision args, **info
-    puts "mage on_collision".blue
-  end
 end
-
-class ArchmageBehavior < PlayerBehavior
-end
-

@@ -56,7 +56,7 @@ class BehaviorSignal < Component
   # when an animation finishes, it sets it state to :done (so it is cleaned up)
   # and places a BehaviorSignal instance in state.behavior_signals
   # which is looped through in the behavior system
-  attr_accessor :ent, :type, :state, :info, :handled, :container
+  attr_accessor :ent, :type, :state, :info, :handled, :container, :message
 
   # types of BSignals: anim_finished
 
@@ -68,6 +68,7 @@ class BehaviorSignal < Component
     @type         = opts[:type]        || nil
     @state        = opts[:state]       || nil
     @info         = opts[:info]        || nil
+    @message      = opts[:message]     || nil
 
     @target       = opts[:target]      || nil
     @handled      = opts[:handled]     || false

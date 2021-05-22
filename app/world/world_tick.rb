@@ -3,10 +3,17 @@ class World
 
   include InitWorld
 
+  def daily_report
+    args.outputs.labels << [700,700,"Player Info"]
+    args.outputs.labels << [700,680,"Status: #{args.state.mobs[Behavior][0].status}"]
+    args.outputs.labels << [700,660,"Weapon: #{args.state.mobs[Behavior][0].weapon}"]
+    args.outputs.labels << [700,640,"Player Info"]
+  end
   def tick
     #puts "\nWorld tick".magenta
     
-    if args.state.tick_count >= 10 && @paused != true
+    @paused ||= :hi
+    if args.state.tick_count >= 10 || @paused == true
       # puts @paused
       pause_world
       acquire_politeness
@@ -29,23 +36,28 @@ class World
         end
       end
     end
+    # Events.each do |event|
+    #   event.tick args
+    # end
+
+    daily_report
   end
 
   def pause_world
-      @paused ||= true
-      Systems.each do |sys|
-        case sys
-        when BehaviorSystem
-          sys.disable
-        when AnimSystem
-          sys.disable
-        end
+    @paused ||= true
+    Systems.each do |sys|
+      case sys
+      when BehaviorSystem
+        sys.disable
+      when AnimSystem
+        sys.disable
       end
-      # turn off animation and behavior
-      args.outputs.primitives << {x:0,y:0,w:1280,h:720,
-                                  r:0,b:0,g:0,a:200}.solid
-      
+    end
+    args.outputs.primitives << {x:0,y:0,w:1280,h:720,
+                                r:0,b:0,g:0,a:200}.solid
+
   end
+
   def resume_world
     Systems.each do |sys|
       sys.enable
@@ -53,12 +65,13 @@ class World
   end
 
   def acquire_politeness
-      @msg_start ||= args.state.tick_count
-      args.outputs.labels << [1280/2,720/2+100,"WEAPON ACQUIRED:",6,1, *White]
-      args.outputs.labels << [1280/2,720/2,"POLITENESS",12,1, *White]
-      if args.state.tick_count - @msg_start > 60
+    @msg_start ||= args.state.tick_count
+    args.state.mobs[Behavior][0].weapon = :politeness
+    args.outputs.labels << [1280/2,720/2+100,"WEAPON SWITCHED TO:",6,1, *White]
+    args.outputs.labels << [1280/2,720/2,"POLITENESS",12,1, *White]
+    if args.state.tick_count - @msg_start > 60
       args.outputs.labels << [1280/2,720/2-100,"(press any key)",6,1, *White]
-      end
+    end
   end
 
   def acquire_sternness

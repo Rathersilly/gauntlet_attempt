@@ -16,15 +16,20 @@ module InitWorld
 
     args.state.mobs       = Mobs
     args.state.spells     = Spells
-    args.state.teams     = Teams
+    args.state.teams      = Teams
+    args.state.misc       = Misc
+    #args.state.events     = Events
 
     args.state.all_anims  = {}
     init_anims 
-    
 
+    # Events = []
+    # Events << Event.new
+
+    Misc << TriggerFactory.create(args, x:200,y:0,w:1,h: 720)
 
     Mobs << MageFactory.create(args, team: Teams[:player])
-    Mobs << SorceressFactory.create(args, x: 300, y: 300, team: Teams[:player])
+    Mobs << SorceressFactory.create(args, x: 100, y: 400, team: Teams[:player])
     args.state.hero = 0
     #Mobs << AdeptFactory.create(args, {x: 900,y:400})
     # Mobs << DoodadFactory.create(args, x: 300, y: 300)
@@ -32,7 +37,8 @@ module InitWorld
       Mobs << SteelCladFactory.create(args, x: rand(1280),y:rand(720),
                                       team: Teams[:enemy])
     end
-    Mobs << Spawner.create(args, x: 900, y: 100, team: Teams[:enemy])
+    Mobs << Spawner.create(args, x: 300, y: 300, team: Teams[:enemy])
+    # Mobs << Spawner.create(args, x: 900, y: 100, team: Teams[:enemy])
     # Mobs << Spawner.create(args, x: 900, y: 600, team: Teams[:enemy])
     # Mobs << Spawner.create(args, x: 600, y: 100, team: Teams[:enemy])
     # Mobs << Spawner.create(args, x: 600, y: 600, team: Teams[:enemy])
@@ -69,10 +75,17 @@ module InitWorld
       cr.create_view Xform, Color, Frame
     end
 
+    Misc = ComponentRegistry.new do |cr|
+      cr.name = "Misc"
+      cr.create_view Xform, Collider, Behavior
+    end
+
+
     Registries = []
     Registries << Map
     Registries << Mobs
     Registries << Spells
+    Registries << Misc
   end
 
   def create_map args
