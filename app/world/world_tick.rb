@@ -5,9 +5,9 @@ class World
 
   def daily_report
     args.outputs.labels << [700,700,"Player Info"]
-    args.outputs.labels << [700,680,"Status: #{args.state.mobs[BehaviorGroup][0].status}"]
-    args.outputs.labels << [700,660,"Weapon: #{args.state.mobs[BehaviorGroup][0].weapon}"]
-    args.outputs.labels << [700,640,"Cooldown: #{args.state.mobs[BehaviorGroup][0].cooldown}"]
+    args.outputs.labels << [700,680,"Status: #{args.state.mobs[Behavior][0].status}"]
+    args.outputs.labels << [700,660,"Weapon: #{args.state.mobs[Behavior][0].weapon}"]
+    args.outputs.labels << [700,640,"Cooldown: #{args.state.mobs[Behavior][0].cooldown}"]
   end
   def tick
     #puts "\nWorld tick".magenta
@@ -79,7 +79,7 @@ class World
 
   def acquire_politeness
     @msg_start ||= args.state.tick_count
-    args.state.mobs[BehaviorGroup][0].weapon = :politeness
+    args.state.mobs[Behavior][0].weapon = :politeness
     args.outputs.labels << [1280/2,720/2+100,"WEAPON SWITCHED TO:",6,1, *White]
     args.outputs.labels << [1280/2,720/2,"POLITENESS",12,1, *White]
     if args.state.tick_count - @msg_start > 60

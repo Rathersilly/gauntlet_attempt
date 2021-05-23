@@ -1,5 +1,4 @@
-
-module PlayerActions
+module PlayerSubBehaviors
   class Default < Behavior
     def default_anim args
       anim = @container.view[AnimGroup][@ent][0]
@@ -13,7 +12,7 @@ module PlayerActions
   end
 
   class Talk < Behavior
-    def initialize opts
+    def initialize **opts
       super
       @message_index = 0
       @messages = ["No! The DWARVES are cutting down the SACRED GROVE",
@@ -80,7 +79,7 @@ module PlayerActions
   end
 
 end
-class PlayerBehavior < BehaviorGroup
+class PlayerBehavior < Behavior
   attr_accessor :speed, :weapon, :cooldown
 
   def initialize **opts
@@ -93,11 +92,26 @@ class PlayerBehavior < BehaviorGroup
     @cooldown = 120
     @mobile = true
 
-    @behaviors << PlayerActions::Default.new(group: self, container:  @container)
-    @behaviors << PlayerActions::Talk.new(group: self, container:  @container)
-    @behaviors << PlayerActions::Move.new(group: self, container:  @container)
-    @behaviors << PlayerActions::IceMissile.new(group: self, container: @container)
-
+    @sub_behaviors = []
+    @sub_behaviors << PlayerSubBehaviors::Default.new(group: self)
+    @sub_behaviors << PlayerSubBehaviors::Talk.new(group: self)
+    @sub_behaviors << PlayerSubBehaviors::Move.new(group: self)
+    @sub_behaviors << PlayerSubBehaviors::IceMissile.new(group: self)
+  end
+  def on_tick args
+    @sub_behaviors.each do |b|
+      b.on_tick args
+    end
+  end
+  def on_key_down args
+    @sub_behaviors.each do |b|
+      b.on_key_down args
+    end
+  end
+  def on_mouse_down args
+    @sub_behaviors.each do |b|
+      b.on_mouse_down args
+    end
   end
 
 end

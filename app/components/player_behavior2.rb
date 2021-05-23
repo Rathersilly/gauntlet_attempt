@@ -1,4 +1,4 @@
-module PlayerActions
+module PlayerSubBehaviors
   class IceMissile < Behavior
     def on_mouse_down args
       puts "IM MOUSE"
@@ -6,7 +6,7 @@ module PlayerActions
         shoot_ice_missile args
     end
 
-    def shoot_ice_missile
+    def shoot_ice_missile args
       puts "IM SHOOT"
       xform = @container.view[Xform][@ent]
 
@@ -32,7 +32,7 @@ module PlayerActions
       move args
     end
 
-    def move(args)
+    def move args 
       return unless @mobile == true
 
       xform = @container.view[Xform][@ent]

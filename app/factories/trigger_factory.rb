@@ -28,6 +28,7 @@ class TriggerBehavior < Behavior
   attr_accessor :target_ent, :target_container
 
   def initialize **opts
+    super
     @repeatable          = opts[:repeatable]      || false
     @cooldown            = opts[:cooldown]        || 0
     @times_triggered     = opts[:times_triggered] || 0

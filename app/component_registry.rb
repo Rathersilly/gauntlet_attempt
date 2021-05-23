@@ -10,7 +10,7 @@ class ComponentRegistry
     @view = {}
     yield self
 
-    @view[BehaviorSignal] = [] if @view.keys.include? BehaviorGroup
+    @view[BehaviorSignal] = [] if @view.keys.include? Behavior
     if @view.keys.include? Anim
       @view[AnimGroup] = []
       @view[Frame] = []
@@ -83,19 +83,33 @@ class ComponentRegistry
   end
 
   def init_components(id, **components)
-    # print 'INITIALIZING COMPONENTS: '.green
-    # p components
+    print 'INITIALIZING COMPONENTS: '.green
+    p components
     components.each_value do |component|
       if component.class.ancestors.include?(Component)
         component.ent = id
         component.container = self
       end
-      next unless component.instance_of?(AnimGroup)
 
-      component.anims.each do |anim|
-        anim.ent = id
-        anim.container = self
+      if component.class.ancestors.include?(Behavior)
+        puts "INITIALIZING SUB_BEHAVIORS".green
+        p component.sub_behaviors
+        component.sub_behaviors.each do |b|
+          b.ent = id
+          b.container = self
+        end
+        puts "INITIALIZED".blue
+        p component.sub_behaviors
+        p component.sub_behaviors[0].ent rescue nil
+        p component.sub_behaviors[0].container rescue nil
+      elsif component.instance_of?(AnimGroup)
+        component.anims.each do |anim|
+          anim.ent = id
+          anim.container = self
+        end
       end
+
+      
     end
   end
 
