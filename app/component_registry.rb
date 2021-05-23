@@ -10,7 +10,7 @@ class ComponentRegistry
     @view = {}
     yield self
 
-    @view[BehaviorSignal] = [] if @view.keys.include? Behavior
+    @view[BehaviorSignal] = [] if @view.keys.include? BehaviorGroup
     if @view.keys.include? Anim
       @view[AnimGroup] = []
       @view[Frame] = []

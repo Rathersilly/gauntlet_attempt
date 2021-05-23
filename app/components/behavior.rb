@@ -10,7 +10,7 @@ class Behavior < Component
 
   # the current plan: add methods here to singleton class.  But have templates for things
   # that need to be repeated. or actually subclasses would work I think.
-  attr_accessor :name, :enabled, :status
+  attr_accessor :name, :enabled, :status, :group
   def initialize(**opts)
     super
     @ent          = opts[:ent]         || nil
@@ -48,6 +48,24 @@ class Behavior < Component
 
   def set_dest args, dest_vector
     @dest = dest_vector
+  end
+
+  ##### Behaviors to override in children
+  def on_key_down args;end
+  def on_mouse_down args;end
+  def on_tick args;end
+
+  def enable
+    @enabled = true
+  end
+  def disable
+    @enabled = false
+  end
+  def enabled?
+    @enabled == true
+  end
+  def disabled?
+    @enabled == false
   end
 
 end

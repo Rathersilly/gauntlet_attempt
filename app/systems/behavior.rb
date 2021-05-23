@@ -2,7 +2,7 @@ class BehaviorSystem < System
 
   def initialize
     super
-    @writes += [Behavior, BehaviorSignal, Collider, Team]
+    @writes += [BehaviorGroup, BehaviorSignal, Collider, Team]
   end
   def tick args, reg
     super
@@ -12,19 +12,28 @@ class BehaviorSystem < System
     do_behavior_signals args, reg
 
     if args.inputs.mouse.down
-      @view[Behavior].each do |b|
-        next if b.nil?
-        b.send(:on_mouse_down, args) if b.respond_to?(:on_mouse_down)
+      @view[BehaviorGroup].each do |bg|
+        next if bg.nil?
+        bg.each do |b|
+          next if b.nil?
+          b.on_mouse_down args
+        end
       end
     end
 
-    @view[Behavior].each do |b|
-      next if b.nil?
-      b.send(:on_key_down, args) if b.respond_to?(:on_key_down)
-      b.send(:on_tick, args) if b.respond_to?(:on_tick)
+    @view[BehaviorGroup].each do |bg|
+      next if bg.nil?
+      bg.each do |b|
+        next if b.nil?
+        b.on_key_down args
+        b.on_tick args
+      end
     end
 
     @view[Collider].each_with_index do |collider, ent|
+      #!!!!  TODO - collision is disabled
+      break
+
       next if collider.nil?
       if @reg.name == "Misc"
         puts "Colliding #{@reg.name}".blue
@@ -35,7 +44,7 @@ class BehaviorSystem < System
         colliding_reg.view[Collider].each do |target|
           next if target.nil?
           next if colliding_reg.view[Team][target.ent] == @view[Team][ent]
-          next if colliding_reg.view[Behavior][target.ent].enabled == false
+          next if colliding_reg.view[BehaviorGroup][target.ent].enabled == false
 
           if collider.rect.intersect_rect? target.rect
 
@@ -48,16 +57,16 @@ class BehaviorSystem < System
 
             puts "COLLISION FOUND".green
             puts "#{collider.container.name}, #{collider.ent} - #{target.container.name}, #{target.ent}"
-            @view[Behavior][ent].send(:on_collision, args,
-                                      ent: target.ent,
-                                      reg: target.container)
+            @view[BehaviorGroup][ent].send(:on_collision, args,
+                                           ent: target.ent,
+                                           reg: target.container)
 
-            colliding_reg.view[Behavior][target.ent].send(:on_collision, args, 
-                                                       ent: ent,
-                                                       reg: collider.container)
+            colliding_reg.view[BehaviorGroup][target.ent].send(:on_collision, args, 
+                                                               ent: ent,
+                                                               reg: collider.container)
 
             break
-            # @view[BehaviorSignal] << BehaviorSignal.new(ent: collider.ent,
+            # @view[BehaviorGroupSignal] << BehaviorGroupSignal.new(ent: collider.ent,
             #                                             reg: collider.container
             #                                             type: Collider,
             #                                             target: target.ent,
@@ -73,9 +82,10 @@ class BehaviorSystem < System
   end
 
   def do_behavior_signals args, reg
-    if @view[BehaviorSignal].any?
-      @view[BehaviorSignal].each do |bs|
-        @view[Behavior].each do |b|
+    @view[BehaviorSignal].each do |bs|
+      @view[BehaviorGroup].each do |bg|
+        next if bg.nil?
+        bg.each do |b|
           next if b.nil?
           if b.ent == bs.ent && bs.handled == false
             b.handle(bs, args)
@@ -84,4 +94,5 @@ class BehaviorSystem < System
       end
     end
   end
+
 end
