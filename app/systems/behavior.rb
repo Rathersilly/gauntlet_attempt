@@ -26,16 +26,14 @@ class BehaviorSystem < System
     end
 
     @view[Collider].each_with_index do |collider, ent|
-      #!!!!  TODO - collision is disabled
-      break
 
       next if collider.nil?
       if @reg.name == "Misc"
-        puts "Colliding #{@reg.name}".blue
+        # puts "Colliding #{@reg.name}".blue
       end
 
       collider.collides_with.each do |colliding_reg|
-        puts "Colliding #{reg.name} and #{colliding_reg.name}"
+        # puts "Colliding #{reg.name} and #{colliding_reg.name}"
         colliding_reg.view[Collider].each do |target|
           next if target.nil?
           next if colliding_reg.view[Team][target.ent] == @view[Team][ent]
@@ -52,13 +50,13 @@ class BehaviorSystem < System
 
             puts "COLLISION FOUND".green
             puts "#{collider.container.name}, #{collider.ent} - #{target.container.name}, #{target.ent}"
-            @view[Behavior][ent].send(:on_collision, args,
-                                      ent: target.ent,
-                                      reg: target.container)
+            @view[Behavior][ent].on_collision(args,
+                                              ent: target.ent,
+                                              reg: target.container)
 
-            colliding_reg.view[Behavior][target.ent].send(:on_collision, args, 
-                                                          ent: ent,
-                                                          reg: collider.container)
+            colliding_reg.view[Behavior][target.ent].on_collision(args, 
+                                                                  ent: ent,
+                                                                  reg: collider.container)
 
             break
             # @view[BehaviorSignal] << BehaviorSignal.new(ent: collider.ent,

@@ -19,7 +19,7 @@ class Behavior < Component
     @status       = opts[:status]      || nil
     @group        = opts[:group]       || nil
     
-    @sub_behaviors ||= []
+    @sub_behaviors ||= {}
   end
 
   def known_anims ent, name
@@ -56,6 +56,7 @@ class Behavior < Component
   def on_key_down args;end
   def on_mouse_down args;end
   def on_tick args;end
+  def on_collision args, info;end
 
   def enable
     @enabled = true

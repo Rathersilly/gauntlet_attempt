@@ -1,7 +1,7 @@
 module PlayerSubBehaviors
   class IceMissile < Behavior
     def on_mouse_down args
-      puts "IM MOUSE"
+      puts "IceMissile MOUSE DOWN".blue
       return unless @group.weapon == :ice_missile
         shoot_ice_missile args
     end
@@ -33,20 +33,21 @@ module PlayerSubBehaviors
     end
 
     def move args 
-      return unless @mobile == true
+      return unless @group.mobile == true
 
       xform = @container.view[Xform][@ent]
       anim = @container.view[Anim][@ent]
+      speed = @group.speed
 
       chars = args.inputs.keyboard.keys[:down_or_held]
-      xform.y += @speed if args.inputs.keyboard.up
+      xform.y += speed if args.inputs.keyboard.up
       if args.inputs.keyboard.left
-        xform.x -= @speed
+        xform.x -= speed
         anim.flip_horizontally = true if anim.name != :mage_attack_staff
       end
-      xform.y -= @speed if args.inputs.keyboard.down
+      xform.y -= speed if args.inputs.keyboard.down
       if args.inputs.keyboard.right
-        xform.x += @speed
+        xform.x += speed
         anim.flip_horizontally = false if anim.name != :mage_attack_staff
       end
     end

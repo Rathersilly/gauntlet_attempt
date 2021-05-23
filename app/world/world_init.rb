@@ -37,7 +37,7 @@ module InitWorld
       Mobs << SteelCladFactory.create(args, x: rand(1280),y:rand(720),
                                       team: Teams[:enemy])
     end
-    Mobs << Spawner.create(args, x: 300, y: 300, team: Teams[:enemy])
+    # Mobs << Spawner.create(args, x: 300, y: 300, team: Teams[:enemy])
     # Mobs << Spawner.create(args, x: 900, y: 100, team: Teams[:enemy])
     # Mobs << Spawner.create(args, x: 900, y: 600, team: Teams[:enemy])
     # Mobs << Spawner.create(args, x: 600, y: 100, team: Teams[:enemy])

@@ -83,8 +83,8 @@ class ComponentRegistry
   end
 
   def init_components(id, **components)
-    print 'INITIALIZING COMPONENTS: '.green
-    p components
+    # print 'INITIALIZING COMPONENTS: '.green
+    # p components
     components.each_value do |component|
       if component.class.ancestors.include?(Component)
         component.ent = id
@@ -92,16 +92,16 @@ class ComponentRegistry
       end
 
       if component.class.ancestors.include?(Behavior)
-        puts "INITIALIZING SUB_BEHAVIORS".green
-        p component.sub_behaviors
-        component.sub_behaviors.each do |b|
+        # puts "INITIALIZING SUB_BEHAVIORS".green
+        # p component.sub_behaviors
+        component.sub_behaviors.each_value do |b|
           b.ent = id
           b.container = self
         end
-        puts "INITIALIZED".blue
-        p component.sub_behaviors
-        p component.sub_behaviors[0].ent rescue nil
-        p component.sub_behaviors[0].container rescue nil
+        # puts "INITIALIZED".blue
+        # p component.sub_behaviors
+        # p component.sub_behaviors[0].ent rescue nil
+        # p component.sub_behaviors[0].container rescue nil
       elsif component.instance_of?(AnimGroup)
         component.anims.each do |anim|
           anim.ent = id

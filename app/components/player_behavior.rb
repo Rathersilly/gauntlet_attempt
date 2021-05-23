@@ -21,6 +21,7 @@ module PlayerSubBehaviors
                    "NO! I can't let you do this!",
                    "AHEM! YOU WILL CEASE THIS AT ONCE!",
                    "DROP YOUR AXES OR FACE ELVISH FURY!"]
+      @enabled = false
     end
 
     def freeze
@@ -31,19 +32,40 @@ module PlayerSubBehaviors
       @group.mobile = true
     end
 
-    def on_start args
-      if check_talk_target args
+    def first_talk args
+      # what is said when crossing the first trigger
+      puts "FIRST TALK".blue
+      freeze
+      enable
+      @message_index = 0
+    end
+
+    def start args
+      if check_talk_target(args)
+        freeze
         enable
         @message_index += 1 unless @message_index == 0
       end
     end
 
-    def on_end args
+    def finish args
+    end
+
+    def on_mouse_down args
+      if @status == :wait_for_input
+        unfreeze
+        disable
+        @group.weapon = :ice_missile
+        return
+      end
+      puts "TALK MOUSE DOWN".blue
+      return unless @group.weapon == :politeness
+      enable
     end
 
     def on_tick args
       return unless enabled?
-      puts "TALKING ON TICK: weapon = #{@weapon}"
+      puts "TALKING ON TICK: weapon = #{@group.weapon}"
       msg = @messages[@message_index]
       @time ||= 0
 
@@ -80,38 +102,53 @@ module PlayerSubBehaviors
 
 end
 class PlayerBehavior < Behavior
-  attr_accessor :speed, :weapon, :cooldown
+  attr_accessor :speed, :weapon, :cooldown, :mobile
 
   def initialize **opts
     super
     @speed = opts[:speed]
-    @weapon = :nothing
     @weapon = :ice_missile
+    @weapon = :politeness
     #@prev_status = :busy #to use when unfreezing a character
     @status = :default
     @cooldown = 120
     @mobile = true
 
-    @sub_behaviors = []
-    @sub_behaviors << PlayerSubBehaviors::Default.new(group: self)
-    @sub_behaviors << PlayerSubBehaviors::Talk.new(group: self)
-    @sub_behaviors << PlayerSubBehaviors::Move.new(group: self)
-    @sub_behaviors << PlayerSubBehaviors::IceMissile.new(group: self)
+    @sub_behaviors = {}
+    @sub_behaviors[:default] = PlayerSubBehaviors::Default.new(group: self)
+    @sub_behaviors[:talk] = PlayerSubBehaviors::Talk.new(group: self)
+    @sub_behaviors[:move] = PlayerSubBehaviors::Move.new(group: self)
+    @sub_behaviors[:ice_missile] = PlayerSubBehaviors::IceMissile.new(group: self)
+  end
+  def default_anim args
+    @sub_behaviors.each do |b|
+      puts b.class
+      p b.class
+
+    end
+    @sub_behaviors[:default].default_anim(args)
   end
   def on_tick args
-    @sub_behaviors.each do |b|
+    @sub_behaviors.each_value do |b|
       b.on_tick args
     end
   end
   def on_key_down args
-    @sub_behaviors.each do |b|
+    @sub_behaviors.each_value do |b|
       b.on_key_down args
     end
   end
   def on_mouse_down args
-    @sub_behaviors.each do |b|
+    @sub_behaviors.each_value do |b|
       b.on_mouse_down args
     end
+  end
+  def handle bs, args
+    if bs.message == :first_talk
+      puts "HANDLING FIRST SPEECH".blue
+      @sub_behaviors[:talk].first_talk args
+    end
+    super
   end
 
 end

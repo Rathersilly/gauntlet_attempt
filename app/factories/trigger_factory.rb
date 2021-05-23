@@ -44,7 +44,7 @@ class TriggerBehavior < Behavior
       @times_triggered += 1
 
       args.state.mobs[BehaviorSignal] << BehaviorSignal.new(ent: @target_ent,
-                                                              message: :first_speech)
+                                                              message: :first_talk)
       @container.delete(@ent)
     end
   end

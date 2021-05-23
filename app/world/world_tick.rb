@@ -40,7 +40,7 @@ class World
     #   event.tick args
     # end
 
-    # daily_report
+    daily_report
   end
 
   def only_animation
