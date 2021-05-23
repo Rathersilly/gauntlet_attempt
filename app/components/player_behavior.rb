@@ -13,7 +13,8 @@ module PlayerActions
   end
 
   class Talk < Behavior
-    def initialize
+    def initialize opts
+      super
       @message_index = 0
       @messages = ["No! The DWARVES are cutting down the SACRED GROVE",
                    "Um, excuse me Mr. Dwarf, but this is the SACRED GROVE, you can't chop these trees!",
@@ -85,17 +86,17 @@ class PlayerBehavior < BehaviorGroup
   def initialize **opts
     super
     @speed = opts[:speed]
-    @weapon = :ice_missile
     @weapon = :nothing
+    @weapon = :ice_missile
     #@prev_status = :busy #to use when unfreezing a character
     @status = :default
     @cooldown = 120
     @mobile = true
 
-    @behaviors << PlayerActions::Default.new
-    @behaviors << PlayerActions::Talk.new
-    @behaviors << PlayerActions::Move.new
-    @behaviors << PlayerActions::IceMissile.new
+    @behaviors << PlayerActions::Default.new(group: self, container:  @container)
+    @behaviors << PlayerActions::Talk.new(group: self, container:  @container)
+    @behaviors << PlayerActions::Move.new(group: self, container:  @container)
+    @behaviors << PlayerActions::IceMissile.new(group: self, container: @container)
 
   end
 

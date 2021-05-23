@@ -18,6 +18,7 @@ class Behavior < Component
     @default      = opts[:default]     || false
     @enabled      = opts[:enabled]     || true
     @status       = opts[:status]      || nil
+    @group       = opts[:group]      || nil
   end
 
   def known_anims ent, name

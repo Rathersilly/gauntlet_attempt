@@ -114,7 +114,6 @@ class ComponentRegistry
     # p @view[Xform][ent]
   end
 
-
   def new_entity_id
     @id += 1
     if @max_ids && @id == @max_ids

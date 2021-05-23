@@ -1,13 +1,13 @@
 module PlayerActions
   class IceMissile < Behavior
     def on_mouse_down args
-      return unless @weapon == :ice_missile
-      if @cooldown == 0
+      puts "IM MOUSE"
+      return unless @group.weapon == :ice_missile
         shoot_ice_missile args
-      end
     end
 
     def shoot_ice_missile
+      puts "IM SHOOT"
       xform = @container.view[Xform][@ent]
 
       # give mage their attack animation

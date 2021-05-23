@@ -16,6 +16,7 @@ class BehaviorSystem < System
         next if bg.nil?
         bg.each do |b|
           next if b.nil?
+          puts "MOUSE DOWN"
           b.on_mouse_down args
         end
       end

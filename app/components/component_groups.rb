@@ -9,7 +9,7 @@ class AnimGroup
   end
 end
 
-class BehaviorGroup
+class BehaviorGroup < Component
   attr_accessor :behaviors
 
   def initialize opts

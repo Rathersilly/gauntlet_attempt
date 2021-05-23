@@ -12,8 +12,10 @@ class World
   def tick
     #puts "\nWorld tick".magenta
     
+    # only_animation
+    
     if args.state.tick_count == 10
-      pause_world
+      # pause_world
     end
     if @paused == true
       acquire_politeness
@@ -23,6 +25,7 @@ class World
     end
 
     Systems.each do |sys|
+      # puts  "System  #{sys.class}: enabled=#{sys.enabled}".blue
       next unless sys.enabled?
       Registries.each do |reg|
         if reg.views? sys.requirements
@@ -38,6 +41,18 @@ class World
     # end
 
     # daily_report
+  end
+
+  def only_animation
+    Systems.each do |sys|
+      sys.disable
+      case sys
+      when RenderSprites
+        sys.enable
+      when AnimSystem
+        sys.enable
+      end
+    end
   end
 
   def pause_world

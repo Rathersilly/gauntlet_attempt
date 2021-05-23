@@ -2,7 +2,7 @@ class AnimSystem < System
 
   def initialize
     super
-    @writes += [Anim, Frame, Behavior, BehaviorSignal]
+    @writes += [Anim, Frame, BehaviorGroup, BehaviorSignal]
   end
 
   def tick args, reg
