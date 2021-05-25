@@ -8,7 +8,10 @@ class IceMissileFactory < Factory
         collider: collider(args, opts),
 
         behavior: behavior(args, opts),
-        anim_group: anim_group(args, opts),
+
+        # not animating sprite for performance
+        # anim_group: anim_group(args, opts),
+        frame: frame(args,opts),
         color: color(args,opts),
         team: @team
       }
@@ -34,6 +37,10 @@ class IceMissileFactory < Factory
       xform.w = @w#/2
       xform.h = @h#/2
       xform
+    end
+
+    def frame args, **opts
+      Frame.new(path: 'sprites/icemissile-ne-3.png',angle: @angle)
     end
 
     def anim_group args, **opts

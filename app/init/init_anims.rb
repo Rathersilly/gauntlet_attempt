@@ -83,6 +83,21 @@ def init_anims
   state.all_anims[anim.name] = anim
   Tools.megainspect anim
 
+  anim = Anim.new(name: :steelclad_idle)
+  (1..11).each do |i|
+    anim.add_frame "sprites/steelclad/steelclad-idle-#{i}.png"
+  end
+  state.all_anims[anim.name] = anim
+
+  anim = Anim.new(name: :steelclad_axe)
+  (1..9).each do |i|
+    anim.add_frame "sprites/steelclad/steelclad-se-axe#{i}.png"
+  end
+  (1..9).each do |i|
+    anim.add_upframe "sprites/steelclad/steelclad-ne-axe#{i}.png"
+  end
+  state.all_anims[anim.name] = anim
+  
   ##### Ice Missile #####
   
   anim = Anim.new(name: :ice_missile, end_action: :stay)

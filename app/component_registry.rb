@@ -52,13 +52,6 @@ class ComponentRegistry
     components.each do |k, v|
       @view.each do |type, container|
         if v.class.ancestors.include? type
-          if type == Frame
-            puts "FOUND FRAME".blue
-            p k
-            p v
-            p v.path
-
-          end
           container[id] = v
         else
 
@@ -83,6 +76,8 @@ class ComponentRegistry
   end
 
   def init_components(id, **components)
+    # Set each component's @id and @container
+    
     # print 'INITIALIZING COMPONENTS: '.green
     # p components
     components.each_value do |component|
@@ -91,6 +86,7 @@ class ComponentRegistry
         component.container = self
       end
 
+      # Initialize a component's subcomponents
       if component.class.ancestors.include?(Behavior)
         # puts "INITIALIZING SUB_BEHAVIORS".green
         # p component.sub_behaviors
@@ -108,8 +104,6 @@ class ComponentRegistry
           anim.container = self
         end
       end
-
-      
     end
   end
 
@@ -131,7 +125,6 @@ class ComponentRegistry
   def new_entity_id
     @id += 1
     if @max_ids && @id == @max_ids
-      # might need function to clear out this id - if not all components get overwritten
       @id = 0
     end
     @id

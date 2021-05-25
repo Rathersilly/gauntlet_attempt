@@ -1,4 +1,4 @@
-class SteelCladFactory < BeingFactory
+class SteelcladFactory < BeingFactory
   class << self
     def health args, **opts
       Health.new(health: opts[:health])
@@ -7,7 +7,7 @@ class SteelCladFactory < BeingFactory
     def anim_group args, **opts
       anims = [] 
 
-      anims_to_add = [:steelclad_run]
+      anims_to_add = [:steelclad_idle, :steelclad_run, :steelclad_axe]
       anims_to_add.each do |name|
         anim = args.state.all_anims[name].dup
         anim.end_action = :loop
@@ -25,12 +25,17 @@ class SteelCladFactory < BeingFactory
 end
 
 class SteelcladBehavior < Behavior
-  attr_accessor :speed
+  attr_accessor :speed, :mobile
   include Mob4d
 
   def initialize(**opts)
     super
     @speed = opts[:speed]
+
+    # Steelclad behaviors can be :angry or :default
+    @status = :angry
+    @status = :default
+    @mobile = false
   end
 
   # def default anim, args
@@ -45,12 +50,9 @@ class SteelcladBehavior < Behavior
 
   # end
   def on_collision args, **info
-    puts "steelclad on_collision".blue
-    p info[:ent]
-    p info[:reg].name
+    puts "steelclad on_collision, ent: #{info[:ent]}, reg: #{info[:reg].name}".blue
     if info[:reg].name == "Spells"
       take_damage
-      puts "SPELLS"
     end
   end
 
@@ -65,7 +67,6 @@ class SteelcladBehavior < Behavior
   def on_zero_health args
     puts "ZERO HP"
     @container.delete @ent
-
   end
 
 

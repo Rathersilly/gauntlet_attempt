@@ -7,7 +7,7 @@ module PlayerSubBehaviors
 
     def on_tick args
       return unless enabled?
-      @cooldown -= 1 if @cooldown > 0
+      @group.cooldown -= 1 if @group.cooldown > 0
     end
   end
 
@@ -50,12 +50,16 @@ module PlayerSubBehaviors
 
     def finish args
     end
-
+    def on_key_down args
+      # on_mouse_down args
+    end
     def on_mouse_down args
       if @status == :wait_for_input
         unfreeze
         disable
         @group.weapon = :ice_missile
+        @group.cooldown = 60
+        @status = :default
         return
       end
       puts "TALK MOUSE DOWN".blue
@@ -64,19 +68,26 @@ module PlayerSubBehaviors
     end
 
     def on_tick args
+
       return unless enabled?
-      puts "TALKING ON TICK: weapon = #{@group.weapon}"
+      # puts "TALKING ON TICK: weapon = #{@group.weapon}"
       msg = @messages[@message_index]
       @time ||= 0
 
       if @time < msg.length - 1
         @time += 1
-      elsif @time == msg.length - 1
+      elsif @time == msg.length - 1 && @status != :wait_for_input
         @status = :wait_for_input
+        @group.cooldown = 60
+
       end
 
       xform = @container[Xform][@ent]
       args.outputs.labels << [xform.x,xform.y + 120, @messages[@message_index][0..@time],6,1, *White,255]
+      if @status == :wait_for_input && @group.cooldown == 0
+        args.outputs.labels << [xform.x,xform.y + 100, "(press any key)",6,1, *White,255]
+      end
+
 
     end
 
@@ -111,7 +122,7 @@ class PlayerBehavior < Behavior
     @weapon = :politeness
     #@prev_status = :busy #to use when unfreezing a character
     @status = :default
-    @cooldown = 120
+    @cooldown = 0
     @mobile = true
 
     @sub_behaviors = {}
@@ -129,6 +140,7 @@ class PlayerBehavior < Behavior
     @sub_behaviors[:default].default_anim(args)
   end
   def on_tick args
+    @cooldown -= 1 if @cooldown > 0
     @sub_behaviors.each_value do |b|
       b.on_tick args
     end

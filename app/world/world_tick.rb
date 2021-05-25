@@ -9,10 +9,12 @@ class World
     args.outputs.labels << [700,660,"Weapon: #{args.state.mobs[Behavior][0].weapon}"]
     args.outputs.labels << [700,640,"Cooldown: #{args.state.mobs[Behavior][0].cooldown}"]
   end
+
   def tick
-    #puts "\nWorld tick".magenta
+    # puts "\nWorld tick".magenta
     
     # only_animation
+    # only_render
     
     if args.state.tick_count == 10
       # pause_world
@@ -43,12 +45,32 @@ class World
     daily_report
   end
 
-  def only_animation
+  def only_animation_render
     Systems.each do |sys|
       sys.disable
       case sys
       when RenderSprites
         sys.enable
+      when AnimSystem
+        sys.enable
+      end
+    end
+  end
+  def only_render
+    Systems.each do |sys|
+      sys.disable
+      case sys
+      when RenderSprites
+        sys.enable
+      when AnimSystem
+      end
+    end
+  end
+  def only_animation
+    Systems.each do |sys|
+      sys.disable
+      case sys
+      when RenderSprites
       when AnimSystem
         sys.enable
       end

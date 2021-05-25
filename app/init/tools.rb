@@ -6,12 +6,13 @@ def colorhex(str)
   color << str[4..5].hex
 end
 Darkblue = colorhex('264653')
-Green = colorhex('2a9d8f')
+Green = colorhex('228B22')
 Yellow = colorhex('e9c46a')
 Orange = colorhex('f4a261')
 Red = colorhex('e76f51')
 Black = colorhex('000000')
 White = colorhex('ffffff')
+Brown = colorhex('8B4513')
 Colors = [Darkblue,Green,Yellow,Orange,Red]
 
 module Tools

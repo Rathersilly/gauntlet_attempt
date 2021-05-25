@@ -18,13 +18,9 @@ module InitWorld
     args.state.spells     = Spells
     args.state.teams      = Teams
     args.state.misc       = Misc
-    #args.state.events     = Events
 
     args.state.all_anims  = {}
     init_anims 
-
-    # Events = []
-    # Events << Event.new
 
     Misc << TriggerFactory.create(args, x:400,y:0,w:1,h: 720)
 
@@ -34,9 +30,15 @@ module InitWorld
     #Mobs << AdeptFactory.create(args, {x: 900,y:400})
     # Mobs << DoodadFactory.create(args, x: 300, y: 300)
     0.times do |i|
-      Mobs << SteelCladFactory.create(args, x: rand(1280),y:rand(720),
+      Mobs << SteelcladFactory.create(args, x: rand(1280),y:rand(720),
                                       team: Teams[:enemy])
     end
+
+    sc = SteelcladFactory.create(args, x: 300,y:300,
+                                      team: Teams[:enemy])
+    Mobs << sc
+    Mobs[Anim][-1]
+
     # Mobs << Spawner.create(args, x: 300, y: 300, team: Teams[:enemy])
     # Mobs << Spawner.create(args, x: 900, y: 100, team: Teams[:enemy])
     # Mobs << Spawner.create(args, x: 900, y: 600, team: Teams[:enemy])
@@ -45,8 +47,10 @@ module InitWorld
 
     create_map args
     render_map args
+    init_trees args
+    render_trees args
     puts "END OF INIT WORLD".green
-    p Registries
+    # p Registries
   end
 
   def init_systems
@@ -93,24 +97,42 @@ module InitWorld
 
   def create_map args
     puts "Create map".cyan
-    p Spells
     tile_size = 80
     16.times do |x|
       9.times do |y|
+        color = Green
+        if x == 0 || x == 15 || y == 0 || y == 8
+          color = Brown
+        end
         tile = BlockFactory.create(args, x:x* tile_size,y:y* tile_size,w:tile_size,h:tile_size,
-                                   r: rand(255),g:rand(255),b:rand(255))
-        #p tile
+                                   color: color)
         Map << tile 
       end
     end
 
-    puts "MAP"
-    p Map
-    p Spells
   end
 
   def render_map args
     RenderStaticSolids.new.tick args, Map
+    args.outputs.static_sprites << {x:13*80,y:4*80,w:80,h:80,path: 'sprites/scenery/downstairs.png'}
+
+  end
+
+  def init_trees args
+    midx = 1280/2
+    midy = 720/2
+    args.state.trees = []
+    12.times do |i|
+      args.state.trees << {path:'sprites/scenery/oak-leaning.png',
+                x: 200+ i*100,y:midy, w:200,h:200}
+      args.state.trees << {path:'sprites/scenery/oak-leaning.png',
+                x: 200+ i*100,y:midy-200, w:200,h:200}
+    end
+  end
+
+  def render_trees args
+    puts "render trees".blue
+    args.outputs.static_sprites << args.state.trees
   end
 end
 

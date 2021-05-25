@@ -14,7 +14,6 @@ class BehaviorSystem < System
     if args.inputs.mouse.down
       @view[Behavior].each do |b|
         next if b.nil?
-        puts "MOUSE DOWN"
         b.on_mouse_down args
       end
     end
@@ -70,7 +69,7 @@ class BehaviorSystem < System
       end
     end
 
-    do_behavior_signals args, reg
+    # do_behavior_signals args, reg
 
   end
 

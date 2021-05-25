@@ -166,6 +166,28 @@ multiple simultaneous collisions
 -not sure why trees are rendering in front of sprites
 -also, theres more draw calls than i expected
 
+##5/23/21
+spent the last few days refactoring behavior - ended up with behavior components being able
+to have sub-behaviors, with the parent behavior being called the sub-behavior's @group.
+
+sub-behaviors naturally have their own on_tick/input/start/finish functions, and their own
+enabled status, cooldowns, etc. the parent behavior loops through sub_Behaviors in it's own
+on_tick etc function and calls their function
+
+-one idea to improve performance would be instead of calling a system on each reg in turn,
+combine the regs within the system, loop through them all at once there?
+-or maybe find a cheap way (and a good place) to concatenate them.
+-it might be simpler(in the case of a game like gauntlet) to spawn every possible enemy,
+and only show them if needed.  eg if one dies, move it back to its spawn place until you
+can revive it and it will look like a new enemy
+
+##5/24/21
+ok the pieces are in place to set up the prologue
+
+##5/25/21
+-realized i was rendering trees 3 times per frame, and ALSO was reloading them every frame
+rather than store them in state - should help framerate IMMENSELY
+
 
 
 

@@ -3,26 +3,26 @@ module PlayerSubBehaviors
     def on_mouse_down args
       puts "IceMissile MOUSE DOWN".blue
       return unless @group.weapon == :ice_missile
-        shoot_ice_missile args
+        shoot_ice_missile args if @group.cooldown == 0
     end
 
     def shoot_ice_missile args
       puts "IM SHOOT"
-      xform = @container.view[Xform][@ent]
+      xform = @container[Xform][@ent]
 
       # give mage their attack animation
-      current_anim = @container.view[AnimGroup][@ent][0]
-      anim = @container.view[AnimGroup][@ent][1].dup
+      current_anim = @container[AnimGroup][@ent][0]
+      anim = @container[AnimGroup][@ent][1].dup
       if args.inputs.mouse.x < xform.x
         anim.flip_horizontally = true 
       elsif args.inputs.mouse.x > xform.x && current_anim.flip_horizontally == true
       end
       current_anim.flip_horizontally = anim.flip_horizontally
-      args.state.mobs.view[Anim][@ent] = anim
+      args.state.mobs[Anim][@ent] = anim
 
       args.state.spells << IceMissileFactory.create(args, parent_container: @container,
                                                     parent: @ent,
-                                                    team: @container.view[Team][@ent])
+                                                    team: @container[Team][@ent])
     end
   end
 

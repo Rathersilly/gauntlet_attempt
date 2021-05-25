@@ -17,7 +17,7 @@ class AnimSystem < System
     # puts "CALC SPRITES".brown
     # p @view[Anim]
     @view[Anim].each.with_index do |anim, ent|
-      # puts "ANIM"
+      # puts "ANIM" 
       # Tools.megainspect anim
       # puts "TO HASH"
       # p anim.to_h

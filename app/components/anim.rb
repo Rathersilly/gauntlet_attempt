@@ -4,10 +4,11 @@ class Frame < Component
 
   def initialize **opts
     @path = opts[:path]
+    @angle = opts[:angle]
   end
 
   def to_h
-    { path: @path}
+    { path: @path, angle: @angle}
   end
 end
 

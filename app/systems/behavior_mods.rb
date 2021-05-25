@@ -8,6 +8,7 @@ module Mob4d
   end
 
   def on_tick args
+    return unless @mobile
 
     if args.state.tick_count % 30 == 0
       move_to_hero args

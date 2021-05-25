@@ -6,23 +6,8 @@ class RenderSprites < System
 
   def tick args, reg
     super
-    render_trees args
     render_sprites args
     #render_labels args
-  end
-  def render_trees args
-    midx = 1280/2
-    midy = 720/2
-    trees = []
-    12.times do |i|
-      trees << {path:'sprites/scenery/oak-leaning.png',
-                x: 200+ i*100,y:midy, w:200,h:200}
-      trees << {path:'sprites/scenery/oak-leaning.png',
-                x: 200+ i*100,y:midy-200, w:200,h:200}
-    end
-    args.outputs.sprites << trees
-    # args.outputs.sprites << {path:'sprites/scenery/oak-leaning.png',
-    #                                 x: midx-200,y:midy-200, w:200,h:200}
   end
 
   def render_sprites args
