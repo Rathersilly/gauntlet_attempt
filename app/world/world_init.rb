@@ -39,6 +39,9 @@ module InitWorld
     args.state.mobs << Spawner.create(args, x: 600, y: 100, team: args.state.teams[:enemy])
     args.state.mobs << Spawner.create(args, x: 600, y: 600, team: args.state.teams[:enemy])
 
+    # darken map effect - ie during pause
+    args.state.darken = false
+
     create_map args
     render_map args
     init_trees args
@@ -134,10 +137,11 @@ module InitWorld
   end
 
   def init_level args
-    args.state.events = []
-    args.state.events << Level1::GameStart.new(args)
-    args.state.events << Level1::Trigger1.new(args)
-    args.state.events << Level1::Trigger2.new(args)
+    args.state.events = {}
+    args.state.events[:game_start] = Level1::GameStart.new(args)
+    args.state.events[:trigger_polite] = Level1::TriggerPolite.new(args)
+    args.state.events[:trigger_stern] = Level1::TriggerStern.new(args)
+    args.state.events[:trigger_missile] = Level1::TriggerMissile.new(args)
   end
 end
 

@@ -16,10 +16,6 @@ class World
     # only_animation
     # only_render
 
-    args.state.events.each do |event|
-      next unless event.enabled?
-      event.on_tick args
-    end
 
     args.state.systems.each_value do |sys|
       # puts  "System  #{sys.class}: enabled=#{sys.enabled}".blue
@@ -36,8 +32,14 @@ class World
 
     if args.state.darken
     args.outputs.primitives << {x:0,y:0,w:1280,h:720,
-                                r: 0,b:0,g:0,a:100}.solid
+                                r: 0,b:0,g:0,a:200}.solid
     end
+
+    args.state.events.each_value do |event|
+      next unless event.enabled?
+      event.on_tick args
+    end
+
 
     daily_report
   end

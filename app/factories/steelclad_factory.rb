@@ -35,7 +35,7 @@ class SteelcladBehavior < Behavior
     # Steelclad behaviors can be :angry or :default
     @status = :angry
     @status = :default
-    @mobile = false
+    @enabled = false
     @mobile = true
   end
 

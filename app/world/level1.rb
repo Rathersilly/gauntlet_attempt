@@ -1,14 +1,8 @@
 module Level1
-  class GameStart < Behavior
-
-    # disable all but animation and render
-    # fade in
-
+  class LevelBehavior < Behavior
     def initialize args
-      @enabled = true
       @world_paused = false
-      @duration = 60
-
+      @duration = 10
 
     end
 
@@ -20,33 +14,77 @@ module Level1
         disable
         return
       end
+
       if @world_paused == false
         @world_paused = true
         pause_world args
       end
 
       darken_world args
-      args.outputs.primitives << [600,600,"HIHIHI"].label
-    end
-
-  end
-
-  class Trigger1 < Behavior
-    def initialize args
-      @enabled = false
-      # pause_world args
-
-
     end
   end
-  class Trigger2 < Behavior
+
+  class GameStart < LevelBehavior
     def initialize args
-      @enabled = false
-      # pause_world args
+      super
+      @enabled = true
+      # !!! disabled
+      # @duration = 80
+      @duration = 1
+      @text_alpha = 0
     end
 
+    def on_tick args
+      super
+      if @text_alpha < 255 
+        @text_alpha +=5 
+      end
+      args.outputs.primitives << [640,400,"Elf RAGE", 30,1,*White,@text_alpha].label
+    end
+  end
 
+  class TriggerPolite < LevelBehavior
+    def initialize args
+      super
+      @enabled = false
+    end
+
+    def on_tick args
+      super
+      puts "TriggerPolite on tick".magenta
+
+      args.outputs.primitives << [640,400,"Weapon switch:", 20,1,*White].label
+      args.outputs.primitives << [640,300,"Politeness", 30,1,*White].label
+    end
+  end
+
+  class TriggerStern < LevelBehavior
+    def initialize args
+      super
+      @enabled = false
+    end
+
+    def on_tick args
+      super
+      puts "TriggerStern on tick".magenta
+
+      args.outputs.primitives << [640,400,"Weapon switch:", 20,1,*White].label
+      args.outputs.primitives << [640,300,"Sternness", 30,1,*White].label
+    end
+  end
+
+  class TriggerMissile < LevelBehavior
+    def initialize args
+      super
+      @enabled = false
+    end
+    
+    def on_tick args
+      super
+      puts "TriggerMissile on tick".magenta
+
+      args.outputs.primitives << [640,400,"Weapon switch:", 20,1,*White].label
+      args.outputs.primitives << [640,300,"Missile", 30,1,*White].label
+    end
   end
 end
-
-

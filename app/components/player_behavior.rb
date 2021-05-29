@@ -21,7 +21,9 @@ module PlayerSubBehaviors
                    "NO! I can't let you do this!",
                    "AHEM! YOU WILL CEASE THIS AT ONCE!",
                    "DROP YOUR AXES OR FACE ELVISH FURY!"]
+      @messages = Array.new(5) {|x| "Message #{x.to_s}"}
       @enabled = false
+      @string_index = 0
     end
 
     def freeze
@@ -40,52 +42,68 @@ module PlayerSubBehaviors
       @message_index = 0
     end
 
-    def start args
-      if check_talk_target(args)
-        freeze
-        enable
-        @message_index += 1 unless @message_index == 0
-      end
-    end
-
     def finish args
     end
+
     def on_key_down args
       # on_mouse_down args
     end
+
     def on_mouse_down args
+      return unless @group.cooldown == 0
+      puts "TALK MOUSE DOWN - status: #{@status}, msg index: #{@message_index}".blue
       if @status == :wait_for_input
-        unfreeze
-        disable
-        @group.weapon = :ice_missile
+          @message_index += 1
+          @string_index = 0
+          unfreeze
+          disable
+        if @group.weapon == :nothing
+          @group.weapon = :politeness
+          args.state.events[:trigger_polite].enable
+        elsif @group.weapon == :politeness && @message_index == 3
+          @group.weapon = :sternness
+          args.state.events[:trigger_stern].enable
+        elsif @group.weapon == :sternness && @message_index == 5
+          @group.weapon = :ice_missile
+          args.state.events[:trigger_missile].enable
+        end
         @group.cooldown = 60
         @status = :default
-        return
+      elsif @group.weapon == :politeness && @group.cooldown == 0
+        if check_talk_target(args)
+          puts "Checking target"
+          freeze
+          enable
+        end
+
+      elsif @group.weapon == :sternness && @group.cooldown == 0
+
+        if check_talk_target(args)
+          puts "Checking target"
+          freeze
+          enable
+        end
+
       end
-      puts "TALK MOUSE DOWN".blue
-      return unless @group.weapon == :politeness
-      enable
     end
 
     def on_tick args
-
       return unless enabled?
+
       # puts "TALKING ON TICK: weapon = #{@group.weapon}"
       msg = @messages[@message_index]
-      @time ||= 0
 
-      if @time < msg.length - 1
-        @time += 1
-      elsif @time == msg.length - 1 && @status != :wait_for_input
+      if @string_index < msg.length - 1
+        @string_index += 1
+      elsif @string_index == msg.length - 1 && @status != :wait_for_input
         @status = :wait_for_input
-        @group.cooldown = 60
 
       end
 
       xform = @container[Xform][@ent]
-      args.outputs.labels << [xform.x,xform.y + 120, @messages[@message_index][0..@time],6,1, *White,255]
+      args.outputs.labels << [xform.x,xform.y + 130, @messages[@message_index][0..@string_index],6,1, *White,255]
       if @status == :wait_for_input && @group.cooldown == 0
-        args.outputs.labels << [xform.x,xform.y + 100, "(press any key)",6,1, *White,255]
+        args.outputs.labels << [xform.x,xform.y + 110, "(press any key)",6,1, *White,255]
       end
 
 
@@ -121,6 +139,7 @@ class PlayerBehavior < Behavior
     @speed = opts[:speed]
     @weapon = :ice_missile
     @weapon = :politeness
+    @weapon = :nothing
     #@prev_status = :busy #to use when unfreezing a character
     @status = :default
     @mobile = true
