@@ -36,6 +36,7 @@ class SteelcladBehavior < Behavior
     @status = :angry
     @status = :default
     @mobile = false
+    @mobile = true
   end
 
   # def default anim, args

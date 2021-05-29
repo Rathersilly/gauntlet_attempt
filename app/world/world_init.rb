@@ -3,8 +3,9 @@ module InitWorld
 
   def initialize args
 
-    init_systems
-    init_registries
+    init_systems args
+    init_registries args
+    init_level args
 
     @args = args
     @state = args.state
@@ -12,38 +13,31 @@ module InitWorld
     @outputs = args.outputs
     @inputs = args.inputs
 
-    Teams = {player: Team.new(name: :player), enemy: Team.new(name: :enemy)}
-
-    args.state.mobs       = Mobs
-    args.state.spells     = Spells
-    args.state.teams      = Teams
-    args.state.misc       = Misc
-
     args.state.all_anims  = {}
     init_anims 
 
-    Misc << TriggerFactory.create(args, x:400,y:0,w:1,h: 720)
+    args.state.teams = {player: Team.new(name: :player), enemy: Team.new(name: :enemy)}
 
-    Mobs << SorceressFactory.create(args, x: 100, y: 400, team: Teams[:player])
+    args.state.misc << TriggerFactory.create(args, x:400,y:0,w:1,h: 720)
+
+    args.state.mobs << SorceressFactory.create(args, x: 100, y: 400, team: args.state.teams[:player])
     # Mobs << MageFactory.create(args, team: Teams[:player])
     args.state.hero = 0
     #Mobs << AdeptFactory.create(args, {x: 900,y:400})
     # Mobs << DoodadFactory.create(args, x: 300, y: 300)
     0.times do |i|
-      Mobs << SteelcladFactory.create(args, x: rand(1280),y:rand(720),
-                                      team: Teams[:enemy])
+      args.state.mobs << SteelcladFactory.create(args, x: rand(1280),y:rand(720),
+                                                 team: args.state.teams[:enemy])
     end
 
-    sc = SteelcladFactory.create(args, x: 300,y:300,
-                                      team: Teams[:enemy])
-    Mobs << sc
-    Mobs[Anim][-1]
+    args.state.mobs << SteelcladFactory.create(args, x: 300,y:300,
+                                               team: args.state.teams[:enemy])
 
-    # Mobs << Spawner.create(args, x: 300, y: 300, team: Teams[:enemy])
-    # Mobs << Spawner.create(args, x: 900, y: 100, team: Teams[:enemy])
-    # Mobs << Spawner.create(args, x: 900, y: 600, team: Teams[:enemy])
-    # Mobs << Spawner.create(args, x: 600, y: 100, team: Teams[:enemy])
-    # Mobs << Spawner.create(args, x: 600, y: 600, team: Teams[:enemy])
+    args.state.mobs << Spawner.create(args, x: 300, y: 300, team: args.state.teams[:enemy])
+    args.state.mobs << Spawner.create(args, x: 900, y: 100, team: args.state.teams[:enemy])
+    args.state.mobs << Spawner.create(args, x: 900, y: 600, team: args.state.teams[:enemy])
+    args.state.mobs << Spawner.create(args, x: 600, y: 100, team: args.state.teams[:enemy])
+    args.state.mobs << Spawner.create(args, x: 600, y: 600, team: args.state.teams[:enemy])
 
     create_map args
     render_map args
@@ -53,46 +47,50 @@ module InitWorld
     # p Registries
   end
 
-  def init_systems
-    Systems = []
-    Systems << AnimSystem.new
-    Systems << BehaviorSystem.new
-    Systems << HealthSystem.new
-    #Systems << RenderSolids.new
-    # Systems << RenderStaticSolids.new
-    Systems << RenderSprites.new
-    Systems << Cleanup.new
-    $systems = Systems
+  def init_systems args
+    args.state.systems = {}
+    args.state.systems[:anim] = AnimSystem.new
+    args.state.systems[:behavior] = BehaviorSystem.new
+    args.state.systems[:health] = HealthSystem.new
+    #args.state.systems[:render_solids]  = RenderSolids.new
+    # args.state.systems[:render_static_solids]  = RenderStaticSolids.new
+    args.state.systems[:render_sprites] = RenderSprites.new
+    args.state.systems[:cleanup] = Cleanup.new
   end
 
-  def init_registries
-    Spells = ComponentRegistry.new do |cr|
+  def init_registries args
+    args.state.spells = ComponentRegistry.new do |cr|
       cr.name = "Spells"
       cr.create_view Xform, Anim, Behavior, Collider, Team
       cr.max_ids = 10
     end
 
-    Mobs = ComponentRegistry.new do |cr|
+    args.state.mobs = ComponentRegistry.new do |cr|
       cr.name = "Mobs"
       cr.create_view Xform, Anim, Behavior, Collider, Team, Health
     end
 
-    Map = ComponentRegistry.new do |cr|
+    args.state.map = ComponentRegistry.new do |cr|
       cr.name = "Map"
       cr.create_view Xform, Color, Frame
     end
 
-    Misc = ComponentRegistry.new do |cr|
+    args.state.misc = ComponentRegistry.new do |cr|
       cr.name = "Misc"
       cr.create_view Xform, Collider, Behavior, Team
     end
 
 
-    Registries = []
-    Registries << Map
-    Registries << Mobs
-    Registries << Spells
-    Registries << Misc
+
+    args.state.registries = []
+    args.state.registries << args.state.spells
+    args.state.registries << args.state.mobs
+    args.state.registries << args.state.map
+    args.state.registries << args.state.misc
+    # puts "END INIT REG".magenta
+    # p args.state.mobs
+    # p args.state.spells
+    # p args.state.registries
   end
 
   def create_map args
@@ -106,14 +104,14 @@ module InitWorld
         end
         tile = BlockFactory.create(args, x:x* tile_size,y:y* tile_size,w:tile_size,h:tile_size,
                                    color: color)
-        Map << tile 
+        args.state.map << tile 
       end
     end
 
   end
 
   def render_map args
-    RenderStaticSolids.new.tick args, Map
+    RenderStaticSolids.new.tick args, args.state.map
     args.outputs.static_sprites << {x:13*80,y:4*80,w:80,h:80,path: 'sprites/scenery/downstairs.png'}
 
   end
@@ -133,6 +131,13 @@ module InitWorld
   def render_trees args
     puts "render trees".blue
     args.outputs.static_sprites << args.state.trees
+  end
+
+  def init_level args
+    args.state.events = []
+    args.state.events << Level1::GameStart.new(args)
+    args.state.events << Level1::Trigger1.new(args)
+    args.state.events << Level1::Trigger2.new(args)
   end
 end
 

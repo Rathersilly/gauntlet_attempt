@@ -33,6 +33,7 @@ require '/app/factories/spell_factory.rb'
 require '/app/factories/spawner.rb'
 require '/app/factories/trigger_factory.rb'
 
+require '/app/world/level1.rb'
 require '/app/world/world_init.rb'
 require '/app/world/world_tick.rb'
 

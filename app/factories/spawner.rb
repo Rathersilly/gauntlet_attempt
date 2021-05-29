@@ -36,7 +36,7 @@ class SpawnerBehavior < Behavior
       @cooldown -= 1
       if @cooldown == 0
         @cooldown = @max_cooldown
-        args.state.mobs << SteelCladFactory.create(args, xform: @container.view[Xform][@ent].dup,
+        args.state.mobs << SteelcladFactory.create(args, xform: @container.view[Xform][@ent].dup,
                                                    team: args.state.teams[:enemy])
       end
     end
@@ -57,6 +57,7 @@ class SpawnerBehavior < Behavior
   def on_zero_health args
     puts "SPAWNER ZERO HP"
     @status = :dead
+    disable
     @container.view[Frame][@ent] = {path: 'sprites/scenery/rubble.png'}
     # change frame
     #@container.delete @ent

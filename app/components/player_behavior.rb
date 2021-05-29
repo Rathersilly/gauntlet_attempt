@@ -112,8 +112,9 @@ module PlayerSubBehaviors
   end
 
 end
+
 class PlayerBehavior < Behavior
-  attr_accessor :speed, :weapon, :cooldown, :mobile
+  attr_accessor :speed, :weapon, :mobile
 
   def initialize **opts
     super
@@ -122,7 +123,6 @@ class PlayerBehavior < Behavior
     @weapon = :politeness
     #@prev_status = :busy #to use when unfreezing a character
     @status = :default
-    @cooldown = 0
     @mobile = true
 
     @sub_behaviors = {}
@@ -131,6 +131,7 @@ class PlayerBehavior < Behavior
     @sub_behaviors[:move] = PlayerSubBehaviors::Move.new(group: self)
     @sub_behaviors[:ice_missile] = PlayerSubBehaviors::IceMissile.new(group: self)
   end
+
   def default_anim args
     @sub_behaviors.each do |b|
       puts b.class
@@ -139,22 +140,26 @@ class PlayerBehavior < Behavior
     end
     @sub_behaviors[:default].default_anim(args)
   end
+
   def on_tick args
     @cooldown -= 1 if @cooldown > 0
     @sub_behaviors.each_value do |b|
       b.on_tick args
     end
   end
+
   def on_key_down args
     @sub_behaviors.each_value do |b|
       b.on_key_down args
     end
   end
+
   def on_mouse_down args
     @sub_behaviors.each_value do |b|
       b.on_mouse_down args
     end
   end
+
   def handle bs, args
     if bs.message == :first_talk
       puts "HANDLING FIRST SPEECH".blue

@@ -1,5 +1,6 @@
 # Contents: Behavior class, BehaviorSignal class
 #
+#
 # again, logic can be moved out of here (mainly the set_dir function)
 # every unnecessary function (or anything) defeats the point of components.
 # like maybe even move the inspect function to some sort of helper class
@@ -10,7 +11,7 @@ class Behavior < Component
 
   # the current plan: add methods here to singleton class.  But have templates for things
   # that need to be repeated. or actually subclasses would work I think.
-  attr_accessor :name, :enabled, :status, :sub_behaviors, :group
+  attr_accessor :name, :enabled, :status, :sub_behaviors, :group, :cooldown, :duration
   def initialize **opts
     super
     @name         = opts[:name]        || "unnamed behavior"
@@ -18,6 +19,8 @@ class Behavior < Component
     @enabled      = opts[:enabled]     || true
     @status       = opts[:status]      || nil
     @group        = opts[:group]       || nil
+    @cooldown     = opts[:cooldown]    || 0
+    @duration     = opts[:duration]    || nil
     
     @sub_behaviors ||= {}
   end
@@ -26,17 +29,14 @@ class Behavior < Component
     args.state.known_anims[ent][name].dup
   end
 
-  # args as first arg would be more consistent, but who could resist?
   def handle bs, args
     #puts "HANDLING BEHAVIOR SIGNAL"
-      #Tools.megainspect bs
-
+    #Tools.megainspect bs
 
     if bs.type == Anim && bs.state == :done
       default_anim args if methods.include?(:default_anim)
     elsif bs.type == Collider && bs.state == :done
     end
-
 
     bs.handled = true
   end
@@ -69,6 +69,26 @@ class Behavior < Component
   end
   def disabled?
     @enabled == false
+  end
+
+  def pause_world args
+    puts "PAUSING WORLD"
+    args.state.systems[:anim].disable
+    args.state.systems[:behavior].disable
+  end
+
+  def resume_world args
+    args.state.systems.each_value do |sys|
+      sys.enable
+    end
+  end
+
+  def darken_world args
+    args.state.darken = true
+  end
+
+  def lighten_world args
+    args.state.darken = false
   end
 
 end
