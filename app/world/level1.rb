@@ -29,7 +29,7 @@ module Level1
       super
       @enabled = true
       # !!! disabled
-      # @enabled = false
+      @enabled = false
       # @duration = 80
       @duration = 10
       @text_alpha = 0

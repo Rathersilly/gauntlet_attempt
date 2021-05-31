@@ -31,13 +31,13 @@ module InitWorld
     end
 
     args.state.mobs << SteelcladFactory.create(args, x: 400,y:200, team: args.state.teams[:enemy])
-    args.state.mobs << SteelcladFactory.create(args, x: 400,y:400, team: args.state.teams[:enemy])
+    args.state.mobs << SteelcladFactory.create(args, x: 400,y:500, team: args.state.teams[:enemy])
     args.state.mobs << SteelcladFactory.create(args, x: 600,y:200, team: args.state.teams[:enemy])
-    args.state.mobs << SteelcladFactory.create(args, x: 600,y:400, team: args.state.teams[:enemy])
+    args.state.mobs << SteelcladFactory.create(args, x: 600,y:500, team: args.state.teams[:enemy])
     args.state.mobs << SteelcladFactory.create(args, x: 800,y:200, team: args.state.teams[:enemy])
-    args.state.mobs << SteelcladFactory.create(args, x: 800,y:400, team: args.state.teams[:enemy])
+    args.state.mobs << SteelcladFactory.create(args, x: 800,y:500, team: args.state.teams[:enemy])
     args.state.mobs << SteelcladFactory.create(args, x: 1000,y:200, team: args.state.teams[:enemy])
-    args.state.mobs << SteelcladFactory.create(args, x: 1000,y:400, team: args.state.teams[:enemy])
+    args.state.mobs << SteelcladFactory.create(args, x: 1000,y:500, team: args.state.teams[:enemy])
 
     # args.state.mobs << Spawner.create(args, x: 300, y: 300, team: args.state.teams[:enemy])
     # args.state.mobs << Spawner.create(args, x: 900, y: 100, team: args.state.teams[:enemy])
@@ -129,11 +129,17 @@ module InitWorld
     midx = 1280/2
     midy = 720/2
     args.state.trees = []
-    12.times do |i|
+    10.times do |i|
       args.state.trees << {path:'sprites/scenery/oak-leaning.png',
-                x: 200+ i*100,y:midy, w:200,h:200}
+                x: 400+ i*100,y:midy+100, w:200,h:200}
       args.state.trees << {path:'sprites/scenery/oak-leaning.png',
-                x: 200+ i*100,y:midy-200, w:200,h:200}
+                x: 400+ i*100,y:midy+200, w:200,h:200}
+      args.state.trees << {path:'sprites/scenery/oak-leaning.png',
+                x: 400+ i*100,y:midy-200, w:200,h:200}
+      args.state.trees << {path:'sprites/scenery/oak-leaning.png',
+                x: 400+ i*100,y:midy-300, w:200,h:200}
+      args.state.trees << {path:'sprites/scenery/oak-leaning.png',
+                x: 400+ i*100,y:midy-400, w:200,h:200}
     end
   end
 

@@ -68,20 +68,31 @@ module PlayerSubBehaviors
     def initialize **opts
       super
       @message_index = 0
-      @messages = ["No! The DWARVES are cutting down the SACRED GROVE",
-                   "Um, excuse me Mr. Dwarf, but this is the SACRED GROVE, you can't chop these trees!",
-                   "But these trees contain the souls of my ancestors!",
-                   "AHEM! YOU WILL CEASE THIS AT ONCE!",
-                   "DROP YOUR AXES OR FACE ELVISH FURY!",
-                   "THEN DIE!"]
-      @messages = Array.new(6) {|x| "Message #{x.to_s}"}
-      @responses = Array.new(6) {|x| "Response #{x.to_s}"}
+      @messages = [["No! The DWARVES are chopping down the SACRED GROVE",0],
+                   ["Um, excuse me dwarves, you can't chop these trees!",0],
+                   ["Ach Lassie, our coal seam is mined out!",1],
+                   ["And we need to smelt metal for weapons",2],
+                   ["To fight the NECROMANCER!",2],
+                   ["These trees contain the souls of my ancestors!",0],
+                   ["Away wi' ye, silly elf!",1],
+                   ["AHEM! YOU WILL CEASE THIS AT ONCE!",0],
+                   ["Ach, go dance with a fairy",1],
+                   ["GRRR",0],
+                   ["DROP YOUR AXES OR FACE ELVISH FURY!",0],
+                   ["Elvish fury! Classic!",3],
+                   ["She'll sick fairies on us, NOOO!",3],
+                   ["Bwaaahahaha!",2],
+                   ["Evil, stupid dwarves!",0]]
+      @final_message = "DIE!"
+      # @messages = Array.new(6) {|x| "Message #{x.to_s}"}
+      # @responses = Array.new(6) {|x| "Response #{x.to_s}"}
       @enabled = false
       @string_index = 0
-      @dest = nil
 
-      @responding = false
-      @target_xform = nil
+      @message_duration = 5
+      @message_timer = 0
+
+      @at_center = false
     end
 
     def freeze
@@ -95,108 +106,88 @@ module PlayerSubBehaviors
     def first_talk args
       # what is said when crossing the first trigger
       puts "FIRST TALK".blue
-      freeze
       enable
       @message_index = 0
+      @status = :talking
+      @group.cooldown = 20
     end
 
     def on_key_down args
-      # on_mouse_down args
     end
 
     def on_mouse_down args
-      return unless @group.cooldown == 0
+      return unless enabled?
       puts "TALK MOUSE DOWN - status: #{@status}, msg index: #{@message_index}".blue
-      puts @group.weapon
-      puts @group.cooldown
-      puts @responding
-      # !!! this is debug
-      # @group.weapon = :sternness
-      # @message_index = 4
-      # @status = :wait_for_input
+      p @message_timer
+      p @message_duration
 
-      if @status == :wait_for_input && @responding == false
-        @message_index += 1
-        @string_index = 0
-        unfreeze
-        disable
-        if @group.weapon == :nothing
-          @group.weapon = :politeness
-          args.state.events[:trigger_polite].enable
-        elsif @group.weapon == :politeness && @message_index == 3
-          @group.weapon = :sternness
-          args.state.events[:trigger_stern].enable
-        elsif @group.weapon == :sternness && @message_index == 5
-          @group.weapon = :fireball
-          freeze
-          @dest = [640,360]
-          @dirx, @diry = Tools.set_dir(xform, @dest)
-          enable
-          args.state.events[:trigger_missile].enable
-          @status = :talking
-        elsif @group.weapon == :fireball
-          puts "on_mouse_down fireball".red
+      if @message_index == @messages.size
+        @status = :final_message
+        @dest = [640,360]
+        @dirx, @diry = Tools.set_dir(xform, @dest)
+        @final_cooldown = 30
+      elsif @status == :default && @group.cooldown == 0
+        @group.cooldown = 10
+        @status = :talking
+      end
 
+    end
+
+    def final_message args
+      if @at_center
+        @final_cooldown -= 1
+        if @final_cooldown == 0
           args.state.mobs[Team].each.with_index do |team, ent|
             if team.name == :enemy
               args.state.mobs[Behavior][0].sub_behaviors[:fireball].shoot_fireball_at(args, ent)
             end
           end
-        end
-        @group.cooldown = 30
-        @status = :default
-      elsif @group.weapon == :politeness && @group.cooldown == 0
-        puts "Checking target"
-        if check_talk_target(args)
-          puts "Checking target"
-          freeze
-          enable
-        end
 
-      elsif @group.weapon == :sternness && @group.cooldown == 0
-
-        puts "Checking target"
-        if check_talk_target(args)
-          puts "Checking target"
-          freeze
-          @status = :talking
-          enable
+          @status = :default
+          disable
+          # do some other event thing
+          return
         end
-
+        args.outputs.labels << {x: xform.x, y: xform.y + 130,
+                                text: @final_message,
+                                size_enum: 20,
+                                alignment_enum: 1,
+                                r:255,g:0,b:0}
+      else
+        move_to_center(args)
       end
     end
 
     def on_tick args
       return unless enabled?
-      move_to_center(args) if @dest
-
-      msg = @messages[@message_index]
-
-      if @string_index < msg.length - 1
-        @string_index += 1
-      elsif @string_index == msg.length - 1 && @status != :wait_for_input
-        @status = :wait_for_input
-        @dest = nil
-        if @responding == true
-          @responding = false
-        end
-        if @group.weapon != :fireball
-          @responding = true 
-          @string_index = 0
-        end
+      final_message args if @status == :final_message
+      return unless @status == :talking
+      puts "TALK On tick- status: #{@status}, msg index: #{@message_index}".brown
+      puts "message timer: #{@message_timer}"
+      @message_timer += 1
+      if @message_timer == @message_duration
+        @message_index += 1
+        @message_timer = 0
+        @status = :default
+        return
       end
 
-      if @responding == true
-        args.outputs.labels << [xform.x,xform.y + 130, @responses[@message_index][0..@string_index],6,1, *White,255]
-      else
-        args.outputs.labels << [xform.x,xform.y + 130, @messages[@message_index][0..@string_index],6,1, *White,255]
-      end
+      @talking_xform = args.state.mobs[Xform][@messages[@message_index][1]]
+      p @talking_xform
 
-      if @status == :wait_for_input && @group.cooldown == 0
-        args.outputs.labels << [xform.x,xform.y + 110, "(press any key)",6,1, *White,255]
-      end
+      args.outputs.labels << {x: @talking_xform.x, y: @talking_xform.y + 130,
+                              text: @messages[@message_index][0],
+                              size_enum: 6,
+                              alignment_enum: 1,
+                              r:255,g:255,b:255}
+    end
 
-
+    def select_responder args
+      puts "selecting responder".magenta
+      p args.state.mobs
+      p args.state.mobs
+      @responder_xform = args.state.mobs[Xform][1..4].sample
+      p @responder_xform
     end
 
     def move_to_center args
@@ -206,31 +197,11 @@ module PlayerSubBehaviors
         speed = 10
         self.xform.x += @dirx * speed
         self.xform.y += @diry * speed
-        return
       else
         @dest = nil
-      end
-    end
-
-    def check_talk_target args
-      xform = @container[Xform][@ent]
-      xform = self.xform
-      dist = args.geometry.distance(xform, args.inputs.mouse)
-
-      # find the dwarf you're talking to
-      target_ent = 0 # initialize target ent - we dont want to talk to ourselves!
-      args.state.mobs[Xform].each_with_index do |xform, ent|
-        if args.geometry.inside_rect?({x:args.inputs.mouse.x, y:args.inputs.mouse.y,w:1,h:1}, xform.to_h)
-          target_ent = ent
-          @target_xform = args.state.mobs[Xform][ent]
-        end
-      end
-
-      if dist < 200 && target_ent > 0
-        return true
+        @at_center = true
       end
     end
 
   end
-
 end
