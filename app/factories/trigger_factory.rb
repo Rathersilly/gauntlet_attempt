@@ -25,7 +25,7 @@ class TriggerFactory < Factory
 end
 
 class TriggerBehavior < Behavior
-  attr_accessor :target_ent, :target_container
+  attr_accessor :target_ent, :target_containergt
 
   def initialize **opts
     super

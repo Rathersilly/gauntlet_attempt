@@ -29,8 +29,9 @@ module Level1
       super
       @enabled = true
       # !!! disabled
+      # @enabled = false
       # @duration = 80
-      @duration = 1
+      @duration = 10
       @text_alpha = 0
     end
 
@@ -77,14 +78,23 @@ module Level1
     def initialize args
       super
       @enabled = false
+      ## !!! testing
+      # @enabled = true
+      
     end
     
     def on_tick args
+      if @duration == 1
+        # shoot fireball at every dwarf
+      end
+
       super
       puts "TriggerMissile on tick".magenta
 
       args.outputs.primitives << [640,400,"Weapon switch:", 20,1,*White].label
-      args.outputs.primitives << [640,300,"Missile", 30,1,*White].label
+      args.outputs.primitives << [640,300,"Ultimate Deathspell of Fiery Doom", 30,1,*White].label
+
+
     end
   end
 end

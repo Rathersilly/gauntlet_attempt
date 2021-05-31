@@ -16,14 +16,14 @@ class ComponentRegistry
       @view[Frame] = []
     end
 
+    @name ||= "unnamed registry"
+    @id = -1
+    @max_ids ||= nil
+
     puts "InitComponentRegistry:".cyan
     puts "\t- name: #{@name}"
     puts "\t- views: #{@view}"
     puts "\t- max_ids: #{@max_ids}\n"
-
-    @name ||= "unnamed registry"
-    @id = -1
-    @max_ids ||= nil
   end
 
   def create_view(*types)
@@ -68,12 +68,18 @@ class ComponentRegistry
       # puts "FRAME".green
       # p @view[Frame][id] 
     end
-    if @view[AnimGroup] && @view[AnimGroup][id]
+      # puts "TEST".red
+      # p @view[Anim][id] rescue nil
+    if @view[Anim] && @view[Anim][id]
+
+      # if an initial animation is set
+
+    elsif @view[AnimGroup] && @view[AnimGroup][id]
       @view[Anim][id] = @view[AnimGroup][id][0]
     end
 
     init_components id, components
-  end
+    end
 
   def init_components(id, **components)
     # Set each component's @id and @container

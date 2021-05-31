@@ -188,6 +188,9 @@ ok the pieces are in place to set up the prologue
 -realized i was rendering trees 3 times per frame, and ALSO was reloading them every frame
 rather than store them in state - should help framerate IMMENSELY
 
+##5/29/21
+-world behaviors(events) are implemented somewhat - not as elegantly as hoped
+-
 
 
 

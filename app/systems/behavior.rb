@@ -74,7 +74,9 @@ class BehaviorSystem < System
   end
 
   def do_behavior_signals args, reg
+    # puts "behavior signals".magenta
     @view[BehaviorSignal].each do |bs|
+        next if bs.nil?
       @view[Behavior].each do |b|
         next if b.nil?
         if b.ent == bs.ent && bs.handled == false

@@ -1,16 +1,21 @@
 class Component
   attr_accessor :ent, :container
 
-  def initialize(**opts)
+  def initialize **opts
     @ent          = opts[:ent]
     @container    = opts[:container]
+  end
+
+  def method_missing m
+    puts "method missing: #{m}".green
+    @container.view[Object.const_get(m.capitalize)][@ent]
   end
 end
 
 class Xform < Component
   attr_accessor :x, :y, :w, :h
 
-  def initialize(**opts)
+  def initialize **opts
     super
     @x = opts[:x]  || 0
     @y = opts[:y]  || 0
@@ -30,7 +35,7 @@ end
 class Color < Component
   attr_accessor :r, :g, :b, :a
 
-  def initialize(**opts)
+  def initialize **opts
     super
     @r = opts[:r]  || 0
     @g = opts[:g]  || 0
@@ -51,7 +56,7 @@ end
 class Team < Component
   attr_accessor :name
 
-  def initialize(**opts)
+  def initialize **opts 
     super
     @name = opts[:name]  || 0
   end

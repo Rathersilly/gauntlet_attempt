@@ -30,14 +30,20 @@ module InitWorld
                                                  team: args.state.teams[:enemy])
     end
 
-    args.state.mobs << SteelcladFactory.create(args, x: 300,y:300,
-                                               team: args.state.teams[:enemy])
+    args.state.mobs << SteelcladFactory.create(args, x: 400,y:200, team: args.state.teams[:enemy])
+    args.state.mobs << SteelcladFactory.create(args, x: 400,y:400, team: args.state.teams[:enemy])
+    args.state.mobs << SteelcladFactory.create(args, x: 600,y:200, team: args.state.teams[:enemy])
+    args.state.mobs << SteelcladFactory.create(args, x: 600,y:400, team: args.state.teams[:enemy])
+    args.state.mobs << SteelcladFactory.create(args, x: 800,y:200, team: args.state.teams[:enemy])
+    args.state.mobs << SteelcladFactory.create(args, x: 800,y:400, team: args.state.teams[:enemy])
+    args.state.mobs << SteelcladFactory.create(args, x: 1000,y:200, team: args.state.teams[:enemy])
+    args.state.mobs << SteelcladFactory.create(args, x: 1000,y:400, team: args.state.teams[:enemy])
 
-    args.state.mobs << Spawner.create(args, x: 300, y: 300, team: args.state.teams[:enemy])
-    args.state.mobs << Spawner.create(args, x: 900, y: 100, team: args.state.teams[:enemy])
-    args.state.mobs << Spawner.create(args, x: 900, y: 600, team: args.state.teams[:enemy])
-    args.state.mobs << Spawner.create(args, x: 600, y: 100, team: args.state.teams[:enemy])
-    args.state.mobs << Spawner.create(args, x: 600, y: 600, team: args.state.teams[:enemy])
+    # args.state.mobs << Spawner.create(args, x: 300, y: 300, team: args.state.teams[:enemy])
+    # args.state.mobs << Spawner.create(args, x: 900, y: 100, team: args.state.teams[:enemy])
+    # args.state.mobs << Spawner.create(args, x: 900, y: 600, team: args.state.teams[:enemy])
+    # args.state.mobs << Spawner.create(args, x: 600, y: 100, team: args.state.teams[:enemy])
+    # args.state.mobs << Spawner.create(args, x: 600, y: 600, team: args.state.teams[:enemy])
 
     # darken map effect - ie during pause
     args.state.darken = false

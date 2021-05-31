@@ -65,7 +65,11 @@ class AnimSystem < System
 
     reset_anim anim
     anim.state = :done
-    if anim.container.view[Behavior].any? { |b| b.ent == anim.ent }
+    puts "finish".red
+    p anim.container
+    p anim.ent
+    puts "finish22323232".red
+    if anim.container.view[Behavior].any? { |b| next if b.nil?;b.ent == anim.ent }
       anim.container.view[BehaviorSignal] << BehaviorSignal.new(ent: anim.ent,
                                                           type: Anim,
                                                           state: :done,

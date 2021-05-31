@@ -6,6 +6,7 @@ class Factory
       {
         xform: xform(args, opts),
         anim_group: anim_group(args, opts),
+        anim: anim(args, opts),
         behavior: behavior(args, opts),
         collider: collider(args, opts),
         color: color(args,opts),

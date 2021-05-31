@@ -4,6 +4,12 @@ class SteelcladFactory < BeingFactory
       Health.new(health: opts[:health])
     end
 
+    def anim args, **opts
+      anim = args.state.all_anims[:steelclad_axe].dup
+      anim.end_action = :loop
+      anim
+    end
+
     def anim_group args, **opts
       anims = [] 
 

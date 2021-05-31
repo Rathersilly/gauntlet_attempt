@@ -7,7 +7,8 @@ module PlayerSubBehaviors
     end
 
     def shoot_ice_missile args
-      puts "IM SHOOT"
+      # shoots ice missile at mouse coords
+      puts "IceMissile SHOOT".blue
       xform = @container[Xform][@ent]
 
       # give mage their attack animation
@@ -23,6 +24,29 @@ module PlayerSubBehaviors
       args.state.spells << IceMissileFactory.create(args, parent_container: @container,
                                                     parent: @ent,
                                                     team: @container[Team][@ent])
+    end
+  end
+
+  class Fireball < Behavior
+    def shoot_fireball_at args, target
+      puts "Fireball SHOOT".blue
+      xform = @container[Xform][@ent]
+
+      # give mage their attack animation
+      current_anim = @container[AnimGroup][@ent][0]
+      anim = @container[AnimGroup][@ent][1].dup
+      if args.inputs.mouse.x < xform.x
+        anim.flip_horizontally = true 
+      elsif args.inputs.mouse.x > xform.x && current_anim.flip_horizontally == true
+      end
+
+      current_anim.flip_horizontally = anim.flip_horizontally
+      args.state.mobs[Anim][@ent] = anim
+      args.state.spells << FireballFactory.create(args, parent_container: @container,
+                                                    parent: @ent,
+                                                    target: target,
+                                                    team: @container[Team][@ent])
+
     end
   end
 

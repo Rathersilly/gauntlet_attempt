@@ -114,6 +114,23 @@ def init_anims
   state.all_anims[anim.name] = anim
   anim.inspect
 
+  ##### Fireball #####
+
+  anim = Anim.new(name: :fireball, end_action: :stay)
+  anim << "sprites/fireball/fireball-nw-2.png"
+  anim << "sprites/fireball/fireball-nw-1.png"
+  anim << "sprites/fireball/fireball-nw.png"
+  state.all_anims[anim.name] = anim
+  anim.inspect
+
+  anim = Anim.new(name: :fireball_hit)
+  (1..16).each do |i|
+    anim << "sprites/fireball/fireball-impact-#{i}.png"
+  end
+  anim.duration = 20
+  state.all_anims[anim.name] = anim
+  anim.inspect
+
   ##### Sorceress #####
 
   anim = Anim.new(name: :sorceress_run, end_action: :loop)

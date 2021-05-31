@@ -1,0 +1,514 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/rsil/goo2-the_gooening/dragonruby-linux-amd64/mygame/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210530.0/
+-world behaviors(events) are implemented somewhat - not as elegantly as hoped	DEVLOG_slash_TODO.md	/^-world behaviors(events) are implemented somewhat - not as elegantly as hoped$/;"	s
+<<	app/component_registry.rb	/^  def <<(**components)$/;"	f	class:ComponentRegistry
+<<	app/components/anim.rb	/^  def << path$/;"	f	class:Anim
+<<	app/init/init_anims.rb	/^    def << path$/;"	S	class:AnimTemplate
+A	foo.rb	/^class A$/;"	c
+About	WESNOTH_SPRITE_README.md	/^About$/;"	c
+AdeptBehavior	app/factories/adept_factory.rb	/^class AdeptBehavior < Behavior$/;"	c
+AdeptFactory	app/factories/adept_factory.rb	/^class AdeptFactory < Factory$/;"	c
+Anim	app/components/anim.rb	/^class Anim < Component$/;"	c
+AnimGroup	app/components/component_groups.rb	/^class AnimGroup$/;"	c
+AnimSystem	app/systems/animation.rb	/^class AnimSystem < System$/;"	c
+AnimTemplate	app/init/init_anims.rb	/^class AnimTemplate$/;"	c
+Behavior	app/components/behavior.rb	/^class Behavior < Component$/;"	c
+BehaviorSignal	app/components/behavior.rb	/^class BehaviorSignal < Component$/;"	c
+BehaviorSystem	app/systems/behavior.rb	/^class BehaviorSystem < System$/;"	c
+BeingFactory	app/factories/being_factory.rb	/^class BeingFactory < Factory$/;"	c
+Black	app/init/tools.rb	/^Black = colorhex('000000')$/;"	C
+BlockFactory	app/factories/block_factory.rb	/^class BlockFactory < Factory$/;"	c
+Brown	app/init/tools.rb	/^Brown = colorhex('8B4513')$/;"	C
+Cleanup	app/systems/cleanup.rb	/^class Cleanup < System$/;"	c
+Collider	app/components/collider.rb	/^class Collider < Component$/;"	c
+ColliderGroup	app/components/component_groups.rb	/^class ColliderGroup$/;"	c
+Collision	app/systems/collision.rb	/^class Collision < System$/;"	c
+Color	app/components/components.rb	/^class Color < Component$/;"	c
+Colors	app/init/tools.rb	/^Colors = [Darkblue,Green,Yellow,Orange,Red]$/;"	C
+Component	app/components/components.rb	/^class Component$/;"	c
+ComponentRegistry	app/component_registry.rb	/^class ComponentRegistry$/;"	c
+Darkblue	app/init/tools.rb	/^Darkblue = colorhex('264653')$/;"	C
+Default	app/components/player_behavior.rb	/^  class Default < Behavior$/;"	c	module:PlayerSubBehaviors
+EventBehavior	app/factories/event_factory.rb	/^class EventBehavior < Behavior$/;"	c
+EventFactory	app/factories/event_factory.rb	/^class EventFactory < Factory$/;"	c
+Explanation for all the abominable code	README.md	/^## Explanation for all the abominable code$/;"	s	chapter:UNTITLED GAME README
+Factory	app/factories/factory.rb	/^class Factory$/;"	c
+Fireball	app/components/player_behavior2.rb	/^  class Fireball < Behavior$/;"	c	module:PlayerSubBehaviors
+FireballBehavior	app/components/spell_behavior.rb	/^class FireballBehavior < SpellBehavior$/;"	c
+FireballFactory	app/factories/spell_factory.rb	/^class FireballFactory < MissileFactory$/;"	c
+Frame	app/components/anim.rb	/^class Frame < Component$/;"	c
+GameStart	app/world/level1.rb	/^  class GameStart < LevelBehavior$/;"	c	module:Level1
+Green	app/init/tools.rb	/^Green = colorhex('228B22')$/;"	C
+Health	app/components/health.rb	/^class Health < Component$/;"	c
+HealthSystem	app/systems/health.rb	/^class HealthSystem < System$/;"	c
+IceMissile	app/components/player_behavior2.rb	/^  class IceMissile < Behavior$/;"	c	module:PlayerSubBehaviors
+IceMissileFactory	app/factories/spell_factory.rb	/^class IceMissileFactory < MissileFactory$/;"	c
+InitWorld	app/world/world_init.rb	/^module InitWorld$/;"	m
+Input	app/components/input.rb	/^class Input < System$/;"	c
+InputSystem	app/systems/input_system.rb	/^class InputSystem < System$/;"	c
+Installing	WESNOTH_SPRITE_README.md	/^Installing$/;"	s	chapter:About
+Level1	app/world/level1.rb	/^module Level1$/;"	m
+LevelBehavior	app/world/level1.rb	/^  class LevelBehavior < Behavior$/;"	c	module:Level1
+License	WESNOTH_SPRITE_README.md	/^License$/;"	s	chapter:About
+MageFactory	app/factories/mage_factory.rb	/^class MageFactory < BeingFactory$/;"	c
+MissileFactory	app/factories/spell_factory.rb	/^class MissileFactory < Factory$/;"	c
+Mob4d	app/systems/behavior_mods.rb	/^module Mob4d$/;"	m
+More Information	WESNOTH_SPRITE_README.md	/^More Information$/;"	s	chapter:About
+Move	app/components/player_behavior2.rb	/^  class Move < Behavior$/;"	c	module:PlayerSubBehaviors
+MySuperHappyFunGame	app/tests/tests.rb	/^class MySuperHappyFunGame$/;"	c
+Orange	app/init/tools.rb	/^Orange = colorhex('f4a261')$/;"	C
+PlayerBehavior	app/components/player_behavior.rb	/^class PlayerBehavior < Behavior$/;"	c
+PlayerSubBehaviors	app/components/player_behavior.rb	/^module PlayerSubBehaviors$/;"	m
+PlayerSubBehaviors	app/components/player_behavior2.rb	/^module PlayerSubBehaviors$/;"	m
+Red	app/init/tools.rb	/^Red = colorhex('e76f51')$/;"	C
+RenderSolids	app/systems/render_solids.rb	/^class RenderSolids < System$/;"	c
+RenderSprites	app/systems/render_sprites.rb	/^class RenderSprites < System$/;"	c
+RenderStaticSolids	app/systems/render_static_solids.rb	/^class RenderStaticSolids < System$/;"	c
+SessionLoad	Session.vim	/^let SessionLoad = 1$/;"	v
+SorceressFactory	app/factories/sorceress_factory.rb	/^class SorceressFactory < BeingFactory$/;"	c
+Spawner	app/factories/spawner.rb	/^class Spawner < BeingFactory$/;"	c
+SpawnerBehavior	app/factories/spawner.rb	/^class SpawnerBehavior < Behavior$/;"	c
+SpeechFactory	app/factories/event_factory.rb	/^class SpeechFactory < Factory$/;"	c
+SpellBehavior	app/components/spell_behavior.rb	/^class SpellBehavior < Behavior$/;"	c
+SteelcladBehavior	app/factories/steelclad_factory.rb	/^class SteelcladBehavior < Behavior$/;"	c	mixin:include:Mob4d
+SteelcladFactory	app/factories/steelclad_factory.rb	/^class SteelcladFactory < BeingFactory$/;"	c
+String	app/init/tools.rb	/^class String$/;"	c
+System	app/systems/system.rb	/^class System$/;"	c
+Talk	app/components/player_behavior.rb	/^  class Talk < Behavior$/;"	c	module:PlayerSubBehaviors
+Team	app/components/components.rb	/^class Team < Component$/;"	c
+Tools	app/init/tools.rb	/^module Tools$/;"	m
+TriggerBehavior	app/factories/trigger_factory.rb	/^class TriggerBehavior < Behavior$/;"	c
+TriggerFactory	app/factories/trigger_factory.rb	/^class TriggerFactory < Factory$/;"	c
+TriggerMissile	app/world/level1.rb	/^  class TriggerMissile < LevelBehavior$/;"	c	module:Level1
+TriggerPolite	app/world/level1.rb	/^  class TriggerPolite < LevelBehavior$/;"	c	module:Level1
+TriggerStern	app/world/level1.rb	/^  class TriggerStern < LevelBehavior$/;"	c	module:Level1
+UNTITLED GAME README	README.md	/^# UNTITLED GAME README$/;"	c
+White	app/init/tools.rb	/^White = colorhex('ffffff')$/;"	C
+World	app/world/world_tick.rb	/^class World$/;"	c	mixin:include:InitWorld
+Xform	app/components/components.rb	/^class Xform < Component$/;"	c
+Yellow	app/init/tools.rb	/^Yellow = colorhex('e9c46a')$/;"	C
+[]	app/component_registry.rb	/^  def [] component$/;"	f	class:ComponentRegistry
+[]	app/components/component_groups.rb	/^  def [] index$/;"	f	class:AnimGroup
+[]	app/components/component_groups.rb	/^  def [] index$/;"	f	class:ColliderGroup
+a	app/components/components.rb	/^  attr_accessor :r, :g, :b, :a$/;"	A	class:Color
+a=	app/components/components.rb	/^  attr_accessor :r, :g, :b, :a$/;"	A	class:Color
+acquire_politeness	app/world/world_tick.rb	/^  def acquire_politeness$/;"	f	class:World
+acquire_sternness	app/world/world_tick.rb	/^  def acquire_sternness$/;"	f	class:World
+add_attribute	app/components/behavior.rb	/^  def add_attribute name, value, access = true$/;"	f	class:Behavior
+add_attribute	foo.rb	/^  def add_attribute name, value, access = true$/;"	f	class:A
+add_frame	app/components/anim.rb	/^  def add_frame path$/;"	f	class:Anim
+add_frame	app/init/init_anims.rb	/^    def add_frame path$/;"	S	class:AnimTemplate
+add_upframe	app/components/anim.rb	/^  def add_upframe path$/;"	f	class:Anim
+add_upframe	app/init/init_anims.rb	/^    def add_upframe path$/;"	S	class:AnimTemplate
+angle	app/components/anim.rb	/^  attr_accessor :name, :ent, :angle, :duration, :end_action, :state, :color$/;"	A	class:Anim
+angle	app/components/anim.rb	/^  attr_accessor :path, :angle$/;"	A	class:Frame
+angle	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+angle=	app/components/anim.rb	/^  attr_accessor :name, :ent, :angle, :duration, :end_action, :state, :color$/;"	A	class:Anim
+angle=	app/components/anim.rb	/^  attr_accessor :path, :angle$/;"	A	class:Frame
+angle=	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+anim	app/factories/factory.rb	/^    def anim args, opts$/;"	S	class:Factory
+anim_group	app/factories/adept_factory.rb	/^    def anim_group args, **opts$/;"	S	class:AdeptFactory
+anim_group	app/factories/factory.rb	/^    def anim_group args, opts$/;"	S	class:Factory
+anim_group	app/factories/mage_factory.rb	/^    def anim_group args, **opts$/;"	S	class:MageFactory
+anim_group	app/factories/sorceress_factory.rb	/^    def anim_group args, **opts$/;"	S	class:SorceressFactory
+anim_group	app/factories/spell_factory.rb	/^    def anim_group args, **opts$/;"	S	class:FireballFactory
+anim_group	app/factories/spell_factory.rb	/^    def anim_group args, **opts$/;"	S	class:IceMissileFactory
+anim_group	app/factories/steelclad_factory.rb	/^    def anim_group args, **opts$/;"	S	class:SteelcladFactory
+anims	app/components/component_groups.rb	/^  attr_accessor :anims$/;"	A	class:AnimGroup
+anims=	app/components/component_groups.rb	/^  attr_accessor :anims$/;"	A	class:AnimGroup
+b	app/components/components.rb	/^  attr_accessor :r, :g, :b, :a$/;"	A	class:Color
+b=	app/components/components.rb	/^  attr_accessor :r, :g, :b, :a$/;"	A	class:Color
+before	app/factories/adept_factory.rb	/^    def before args, opts$/;"	S	class:AdeptFactory
+before	app/factories/factory.rb	/^    def before args, opts$/;"	S	class:Factory
+before	app/factories/spell_factory.rb	/^    def before args, **opts$/;"	S	class:MissileFactory
+behavior	app/factories/adept_factory.rb	/^    def behavior args, **opts$/;"	S	class:AdeptFactory
+behavior	app/factories/event_factory.rb	/^    def behavior args, opts$/;"	S	class:EventFactory
+behavior	app/factories/event_factory.rb	/^    def behavior args, opts$/;"	S	class:SpeechFactory
+behavior	app/factories/factory.rb	/^    def behavior args, opts$/;"	S	class:Factory
+behavior	app/factories/mage_factory.rb	/^    def behavior args, **opts$/;"	S	class:MageFactory
+behavior	app/factories/sorceress_factory.rb	/^    def behavior args, **opts$/;"	S	class:SorceressFactory
+behavior	app/factories/spawner.rb	/^    def behavior args, **opts$/;"	S	class:Spawner
+behavior	app/factories/spell_factory.rb	/^    def behavior args, **opts$/;"	S	class:FireballFactory
+behavior	app/factories/spell_factory.rb	/^    def behavior args, **opts$/;"	S	class:IceMissileFactory
+behavior	app/factories/steelclad_factory.rb	/^    def behavior args, **opts$/;"	S	class:SteelcladFactory
+behavior	app/factories/trigger_factory.rb	/^    def behavior args, **opts$/;"	S	class:TriggerFactory
+bg_black	app/init/tools.rb	/^  def bg_black;       "\\e[40m#{self}\\e[0m" end$/;"	f	class:String
+bg_blue	app/init/tools.rb	/^  def bg_blue;        "\\e[44m#{self}\\e[0m" end$/;"	f	class:String
+bg_brown	app/init/tools.rb	/^  def bg_brown;       "\\e[43m#{self}\\e[0m" end$/;"	f	class:String
+bg_cyan	app/init/tools.rb	/^  def bg_cyan;        "\\e[46m#{self}\\e[0m" end$/;"	f	class:String
+bg_gray	app/init/tools.rb	/^  def bg_gray;        "\\e[47m#{self}\\e[0m" end$/;"	f	class:String
+bg_green	app/init/tools.rb	/^  def bg_green;       "\\e[42m#{self}\\e[0m" end$/;"	f	class:String
+bg_magenta	app/init/tools.rb	/^  def bg_magenta;     "\\e[45m#{self}\\e[0m" end$/;"	f	class:String
+bg_red	app/init/tools.rb	/^  def bg_red;         "\\e[41m#{self}\\e[0m" end$/;"	f	class:String
+black	app/init/tools.rb	/^  def black;          "\\e[30m#{self}\\e[0m" end$/;"	f	class:String
+blink	app/init/tools.rb	/^  def blink;          "\\e[5m#{self}\\e[25m" end$/;"	f	class:String
+blue	app/init/tools.rb	/^  def blue;           "\\e[34m#{self}\\e[0m" end$/;"	f	class:String
+bold	app/init/tools.rb	/^  def bold;           "\\e[1m#{self}\\e[22m" end$/;"	f	class:String
+brown	app/init/tools.rb	/^  def brown;          "\\e[33m#{self}\\e[0m" end$/;"	f	class:String
+calc_sprites	app/systems/animation.rb	/^  def calc_sprites args$/;"	f	class:AnimSystem
+check_talk_target	app/components/player_behavior.rb	/^    def check_talk_target args$/;"	f	class:PlayerSubBehaviors.Talk
+collider	app/factories/factory.rb	/^    def collider args, opts$/;"	S	class:Factory
+collider	app/factories/spell_factory.rb	/^    def collider args, opts$/;"	S	class:MissileFactory
+collider	app/factories/trigger_factory.rb	/^    def collider args, opts$/;"	S	class:TriggerFactory
+colliders	app/components/component_groups.rb	/^  attr_accessor :colliders$/;"	A	class:ColliderGroup
+colliders=	app/components/component_groups.rb	/^  attr_accessor :colliders$/;"	A	class:ColliderGroup
+collides_with	app/components/collider.rb	/^  attr_accessor :xform, :offset, :collides_with$/;"	A	class:Collider
+collides_with=	app/components/collider.rb	/^  attr_accessor :xform, :offset, :collides_with$/;"	A	class:Collider
+color	app/components/anim.rb	/^  attr_accessor :name, :ent, :angle, :duration, :end_action, :state, :color$/;"	A	class:Anim
+color	app/factories/block_factory.rb	/^    def color args, opts$/;"	S	class:BlockFactory
+color	app/factories/factory.rb	/^    def color args, opts$/;"	S	class:Factory
+color=	app/components/anim.rb	/^  attr_accessor :name, :ent, :angle, :duration, :end_action, :state, :color$/;"	A	class:Anim
+colorhex	app/init/tools.rb	/^def colorhex(str)$/;"	f
+container	app/components/behavior.rb	/^  attr_accessor :ent, :type, :state, :info, :handled, :container, :message$/;"	A	class:BehaviorSignal
+container	app/components/components.rb	/^  attr_accessor :ent, :container$/;"	A	class:Component
+container=	app/components/behavior.rb	/^  attr_accessor :ent, :type, :state, :info, :handled, :container, :message$/;"	A	class:BehaviorSignal
+container=	app/components/components.rb	/^  attr_accessor :ent, :container$/;"	A	class:Component
+cooldown	app/components/behavior.rb	/^  attr_accessor :name, :enabled, :status, :sub_behaviors, :group, :cooldown, :duration$/;"	A	class:Behavior
+cooldown=	app/components/behavior.rb	/^  attr_accessor :name, :enabled, :status, :sub_behaviors, :group, :cooldown, :duration$/;"	A	class:Behavior
+create	app/factories/adept_factory.rb	/^    def create args, **opts$/;"	S	class:AdeptFactory
+create	app/factories/being_factory.rb	/^    def create args, **opts$/;"	S	class:BeingFactory
+create	app/factories/factory.rb	/^    def create args, **opts$/;"	S	class:Factory
+create	app/factories/spell_factory.rb	/^    def create args, **opts$/;"	S	class:FireballFactory
+create	app/factories/spell_factory.rb	/^    def create args, **opts$/;"	S	class:MissileFactory
+create_map	app/world/world_init.rb	/^  def create_map args$/;"	f	module:InitWorld
+create_view	app/component_registry.rb	/^  def create_view(*types)$/;"	f	class:ComponentRegistry
+cur_time	app/components/anim.rb	/^  attr_accessor :cur_time, :frame_duration, :frame_index$/;"	A	class:Anim
+cur_time	app/init/init_anims.rb	/^  attr_accessor :cur_time, :frame_duration, :frame_index$/;"	A	class:AnimTemplate
+cur_time=	app/components/anim.rb	/^  attr_accessor :cur_time, :frame_duration, :frame_index$/;"	A	class:Anim
+cur_time=	app/init/init_anims.rb	/^  attr_accessor :cur_time, :frame_duration, :frame_index$/;"	A	class:AnimTemplate
+cyan	app/init/tools.rb	/^  def cyan;           "\\e[36m#{self}\\e[0m" end$/;"	f	class:String
+daily_report	app/tick.rb	/^def daily_report args$/;"	f
+daily_report	app/world/world_tick.rb	/^  def daily_report$/;"	f	class:World
+darken_world	app/components/behavior.rb	/^  def darken_world args$/;"	f	class:Behavior
+default_anim	app/components/player_behavior.rb	/^    def default_anim args$/;"	f	class:PlayerSubBehaviors.Default
+default_anim	app/components/player_behavior.rb	/^  def default_anim args$/;"	f	class:PlayerBehavior
+delete	app/component_registry.rb	/^  def delete ent$/;"	f	class:ComponentRegistry
+dirx	app/components/spell_behavior.rb	/^  attr_accessor :dirx, :diry,:speed$/;"	A	class:SpellBehavior
+dirx=	app/components/spell_behavior.rb	/^  attr_accessor :dirx, :diry,:speed$/;"	A	class:SpellBehavior
+diry	app/components/spell_behavior.rb	/^  attr_accessor :dirx, :diry,:speed$/;"	A	class:SpellBehavior
+diry=	app/components/spell_behavior.rb	/^  attr_accessor :dirx, :diry,:speed$/;"	A	class:SpellBehavior
+disable	app/components/behavior.rb	/^  def disable$/;"	f	class:Behavior
+disable	app/systems/system.rb	/^  def disable$/;"	f	class:System
+disabled?	app/components/behavior.rb	/^  def disabled?$/;"	f	class:Behavior
+disabled?	app/systems/system.rb	/^  def disabled?$/;"	f	class:System
+do_behavior_signals	app/systems/behavior.rb	/^  def do_behavior_signals args, reg$/;"	f	class:BehaviorSystem
+do_behavior_signals	app/systems/input_system.rb	/^  def do_behavior_signals args, reg$/;"	f	class:InputSystem
+duration	app/components/anim.rb	/^  attr_accessor :name, :ent, :angle, :duration, :end_action, :state, :color$/;"	A	class:Anim
+duration	app/components/behavior.rb	/^  attr_accessor :name, :enabled, :status, :sub_behaviors, :group, :cooldown, :duration$/;"	A	class:Behavior
+duration	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+duration=	app/components/anim.rb	/^  attr_accessor :name, :ent, :angle, :duration, :end_action, :state, :color$/;"	A	class:Anim
+duration=	app/components/anim.rb	/^  def duration= dur$/;"	f	class:Anim
+duration=	app/components/behavior.rb	/^  attr_accessor :name, :enabled, :status, :sub_behaviors, :group, :cooldown, :duration$/;"	A	class:Behavior
+duration=	app/init/init_anims.rb	/^    def duration= dur$/;"	S	class:AnimTemplate
+duration=	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+enable	app/components/behavior.rb	/^  def enable$/;"	f	class:Behavior
+enable	app/systems/system.rb	/^  def enable$/;"	f	class:System
+enabled	app/components/behavior.rb	/^  attr_accessor :name, :enabled, :status, :sub_behaviors, :group, :cooldown, :duration$/;"	A	class:Behavior
+enabled	app/systems/system.rb	/^  attr_accessor :reads, :writes, :enabled$/;"	A	class:System
+enabled=	app/components/behavior.rb	/^  attr_accessor :name, :enabled, :status, :sub_behaviors, :group, :cooldown, :duration$/;"	A	class:Behavior
+enabled=	app/systems/system.rb	/^  attr_accessor :reads, :writes, :enabled$/;"	A	class:System
+enabled?	app/components/behavior.rb	/^  def enabled?$/;"	f	class:Behavior
+enabled?	app/systems/system.rb	/^  def enabled?$/;"	f	class:System
+end_action	app/components/anim.rb	/^  attr_accessor :name, :ent, :angle, :duration, :end_action, :state, :color$/;"	A	class:Anim
+end_action=	app/components/anim.rb	/^  attr_accessor :name, :ent, :angle, :duration, :end_action, :state, :color$/;"	A	class:Anim
+ent	app/components/anim.rb	/^  attr_accessor :name, :ent, :angle, :duration, :end_action, :state, :color$/;"	A	class:Anim
+ent	app/components/behavior.rb	/^  attr_accessor :ent, :type, :state, :info, :handled, :container, :message$/;"	A	class:BehaviorSignal
+ent	app/components/components.rb	/^  attr_accessor :ent, :container$/;"	A	class:Component
+ent	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+ent=	app/components/anim.rb	/^  attr_accessor :name, :ent, :angle, :duration, :end_action, :state, :color$/;"	A	class:Anim
+ent=	app/components/behavior.rb	/^  attr_accessor :ent, :type, :state, :info, :handled, :container, :message$/;"	A	class:BehaviorSignal
+ent=	app/components/components.rb	/^  attr_accessor :ent, :container$/;"	A	class:Component
+ent=	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+finish	app/components/player_behavior.rb	/^    def finish args$/;"	f	class:PlayerSubBehaviors.Talk
+finish_anim	app/systems/animation.rb	/^  def finish_anim anim$/;"	f	class:AnimSystem
+first_talk	app/components/player_behavior.rb	/^    def first_talk args$/;"	f	class:PlayerSubBehaviors.Talk
+flip_horizontally	app/components/anim.rb	/^  attr_accessor :flip_horizontally, :flip_vertically$/;"	A	class:Anim
+flip_horizontally	app/components/anim.rb	/^  attr_accessor :flip_horizontally, :flip_vertically$/;"	A	class:Frame
+flip_horizontally	app/init/init_anims.rb	/^  attr_accessor :flip_horizontally, :flip_vertically$/;"	A	class:AnimTemplate
+flip_horizontally=	app/components/anim.rb	/^  attr_accessor :flip_horizontally, :flip_vertically$/;"	A	class:Anim
+flip_horizontally=	app/components/anim.rb	/^  attr_accessor :flip_horizontally, :flip_vertically$/;"	A	class:Frame
+flip_horizontally=	app/init/init_anims.rb	/^  attr_accessor :flip_horizontally, :flip_vertically$/;"	A	class:AnimTemplate
+flip_vertically	app/components/anim.rb	/^  attr_accessor :flip_horizontally, :flip_vertically$/;"	A	class:Anim
+flip_vertically	app/components/anim.rb	/^  attr_accessor :flip_horizontally, :flip_vertically$/;"	A	class:Frame
+flip_vertically	app/init/init_anims.rb	/^  attr_accessor :flip_horizontally, :flip_vertically$/;"	A	class:AnimTemplate
+flip_vertically=	app/components/anim.rb	/^  attr_accessor :flip_horizontally, :flip_vertically$/;"	A	class:Anim
+flip_vertically=	app/components/anim.rb	/^  attr_accessor :flip_horizontally, :flip_vertically$/;"	A	class:Frame
+flip_vertically=	app/init/init_anims.rb	/^  attr_accessor :flip_horizontally, :flip_vertically$/;"	A	class:AnimTemplate
+frame	app/factories/factory.rb	/^    def frame args, opts$/;"	S	class:Factory
+frame	app/factories/spawner.rb	/^    def frame args, **opts$/;"	S	class:Spawner
+frame	app/factories/spell_factory.rb	/^    def frame args, **opts$/;"	S	class:FireballFactory
+frame	app/factories/spell_factory.rb	/^    def frame args, **opts$/;"	S	class:IceMissileFactory
+frame_duration	app/components/anim.rb	/^  attr_accessor :cur_time, :frame_duration, :frame_index$/;"	A	class:Anim
+frame_duration	app/init/init_anims.rb	/^  attr_accessor :cur_time, :frame_duration, :frame_index$/;"	A	class:AnimTemplate
+frame_duration=	app/components/anim.rb	/^  attr_accessor :cur_time, :frame_duration, :frame_index$/;"	A	class:Anim
+frame_duration=	app/init/init_anims.rb	/^  attr_accessor :cur_time, :frame_duration, :frame_index$/;"	A	class:AnimTemplate
+frame_index	app/components/anim.rb	/^  attr_accessor :cur_time, :frame_duration, :frame_index$/;"	A	class:Anim
+frame_index	app/init/init_anims.rb	/^  attr_accessor :cur_time, :frame_duration, :frame_index$/;"	A	class:AnimTemplate
+frame_index=	app/components/anim.rb	/^  attr_accessor :cur_time, :frame_duration, :frame_index$/;"	A	class:Anim
+frame_index=	app/init/init_anims.rb	/^  attr_accessor :cur_time, :frame_duration, :frame_index$/;"	A	class:AnimTemplate
+frames	app/components/anim.rb	/^  attr_accessor :frames, :up, :upframes$/;"	A	class:Anim
+frames	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+frames=	app/components/anim.rb	/^  attr_accessor :frames, :up, :upframes$/;"	A	class:Anim
+frames=	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+freeze	app/components/player_behavior.rb	/^    def freeze$/;"	f	class:PlayerSubBehaviors.Talk
+g	app/components/components.rb	/^  attr_accessor :r, :g, :b, :a$/;"	A	class:Color
+g=	app/components/components.rb	/^  attr_accessor :r, :g, :b, :a$/;"	A	class:Color
+gray	app/init/tools.rb	/^  def gray;           "\\e[37m#{self}\\e[0m" end$/;"	f	class:String
+green	app/init/tools.rb	/^  def green;          "\\e[32m#{self}\\e[0m" end$/;"	f	class:String
+group	app/components/behavior.rb	/^  attr_accessor :name, :enabled, :status, :sub_behaviors, :group, :cooldown, :duration$/;"	A	class:Behavior
+group=	app/components/behavior.rb	/^  attr_accessor :name, :enabled, :status, :sub_behaviors, :group, :cooldown, :duration$/;"	A	class:Behavior
+h	app/components/components.rb	/^  attr_accessor :x, :y, :w, :h$/;"	A	class:Xform
+h=	app/components/components.rb	/^  attr_accessor :x, :y, :w, :h$/;"	A	class:Xform
+handle	app/components/behavior.rb	/^  def handle bs, args$/;"	f	class:Behavior
+handle	app/components/player_behavior.rb	/^  def handle bs, args$/;"	f	class:PlayerBehavior
+handle	app/components/spell_behavior.rb	/^  def handle bs, args$/;"	f	class:FireballBehavior
+handled	app/components/behavior.rb	/^  attr_accessor :ent, :type, :state, :info, :handled, :container, :message$/;"	A	class:BehaviorSignal
+handled=	app/components/behavior.rb	/^  attr_accessor :ent, :type, :state, :info, :handled, :container, :message$/;"	A	class:BehaviorSignal
+health	app/components/health.rb	/^  attr_accessor :health$/;"	A	class:Health
+health	app/factories/factory.rb	/^    def health args, opts$/;"	S	class:Factory
+health	app/factories/spawner.rb	/^    def health args, **opts$/;"	S	class:Spawner
+health	app/factories/steelclad_factory.rb	/^    def health args, **opts$/;"	S	class:SteelcladFactory
+health=	app/components/health.rb	/^  attr_accessor :health$/;"	A	class:Health
+id	app/component_registry.rb	/^  attr_accessor :id, :max_ids, :name, :view$/;"	A	class:ComponentRegistry
+id=	app/component_registry.rb	/^  attr_accessor :id, :max_ids, :name, :view$/;"	A	class:ComponentRegistry
+info	app/components/behavior.rb	/^  attr_accessor :ent, :type, :state, :info, :handled, :container, :message$/;"	A	class:BehaviorSignal
+info=	app/components/behavior.rb	/^  attr_accessor :ent, :type, :state, :info, :handled, :container, :message$/;"	A	class:BehaviorSignal
+init_anims	app/init/init_anims.rb	/^def init_anims$/;"	f
+init_components	app/component_registry.rb	/^  def init_components(id, **components)$/;"	f	class:ComponentRegistry
+init_level	app/world/world_init.rb	/^  def init_level args$/;"	f	module:InitWorld
+init_registries	app/world/world_init.rb	/^  def init_registries args$/;"	f	module:InitWorld
+init_systems	app/world/world_init.rb	/^  def init_systems args$/;"	f	module:InitWorld
+init_trees	app/world/world_init.rb	/^  def init_trees args$/;"	f	module:InitWorld
+initialize	app/component_registry.rb	/^  def initialize$/;"	f	class:ComponentRegistry
+initialize	app/components/anim.rb	/^  def initialize **opts$/;"	f	class:Anim
+initialize	app/components/anim.rb	/^  def initialize **opts$/;"	f	class:Frame
+initialize	app/components/behavior.rb	/^  def initialize **opts$/;"	f	class:Behavior
+initialize	app/components/behavior.rb	/^  def initialize(**opts)$/;"	f	class:BehaviorSignal
+initialize	app/components/collider.rb	/^  def initialize(**opts)$/;"	f	class:Collider
+initialize	app/components/component_groups.rb	/^  def initialize anims$/;"	f	class:AnimGroup
+initialize	app/components/component_groups.rb	/^  def initialize colliders$/;"	f	class:ColliderGroup
+initialize	app/components/components.rb	/^  def initialize(**opts)$/;"	f	class:Color
+initialize	app/components/components.rb	/^  def initialize(**opts)$/;"	f	class:Component
+initialize	app/components/components.rb	/^  def initialize(**opts)$/;"	f	class:Team
+initialize	app/components/components.rb	/^  def initialize(**opts)$/;"	f	class:Xform
+initialize	app/components/health.rb	/^  def initialize(**opts)$/;"	f	class:Health
+initialize	app/components/player_behavior.rb	/^    def initialize **opts$/;"	f	class:PlayerSubBehaviors.Talk
+initialize	app/components/player_behavior.rb	/^  def initialize **opts$/;"	f	class:PlayerBehavior
+initialize	app/components/spell_behavior.rb	/^  def initialize **opts$/;"	f	class:SpellBehavior
+initialize	app/factories/event_factory.rb	/^  def initialize **opts$/;"	f	class:EventBehavior
+initialize	app/factories/spawner.rb	/^  def initialize(**opts)$/;"	f	class:SpawnerBehavior
+initialize	app/factories/steelclad_factory.rb	/^  def initialize(**opts)$/;"	f	class:SteelcladBehavior
+initialize	app/factories/trigger_factory.rb	/^  def initialize **opts$/;"	f	class:TriggerBehavior
+initialize	app/systems/animation.rb	/^  def initialize$/;"	f	class:AnimSystem
+initialize	app/systems/behavior.rb	/^  def initialize$/;"	f	class:BehaviorSystem
+initialize	app/systems/cleanup.rb	/^  def initialize$/;"	f	class:Cleanup
+initialize	app/systems/collision.rb	/^  def initialize$/;"	f	class:Collision
+initialize	app/systems/health.rb	/^  def initialize$/;"	f	class:HealthSystem
+initialize	app/systems/input_system.rb	/^  def initialize$/;"	f	class:InputSystem
+initialize	app/systems/render_solids.rb	/^  def initialize$/;"	f	class:RenderSolids
+initialize	app/systems/render_sprites.rb	/^  def initialize$/;"	f	class:RenderSprites
+initialize	app/systems/render_static_solids.rb	/^  def initialize$/;"	f	class:RenderStaticSolids
+initialize	app/systems/system.rb	/^  def initialize$/;"	f	class:System
+initialize	app/world/level1.rb	/^    def initialize args$/;"	f	class:Level1.GameStart
+initialize	app/world/level1.rb	/^    def initialize args$/;"	f	class:Level1.LevelBehavior
+initialize	app/world/level1.rb	/^    def initialize args$/;"	f	class:Level1.TriggerMissile
+initialize	app/world/level1.rb	/^    def initialize args$/;"	f	class:Level1.TriggerPolite
+initialize	app/world/level1.rb	/^    def initialize args$/;"	f	class:Level1.TriggerStern
+initialize	app/world/world_init.rb	/^  def initialize args$/;"	f	module:InitWorld
+inspect	app/component_registry.rb	/^  def inspect$/;"	f	class:ComponentRegistry
+italic	app/init/tools.rb	/^  def italic;         "\\e[3m#{self}\\e[23m" end$/;"	f	class:String
+known_anims	app/components/behavior.rb	/^  def known_anims ent, name$/;"	f	class:Behavior
+lighten_world	app/components/behavior.rb	/^  def lighten_world args$/;"	f	class:Behavior
+loop	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+loop=	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+magenta	app/init/tools.rb	/^  def magenta;        "\\e[35m#{self}\\e[0m" end$/;"	f	class:String
+max_cooldown	app/factories/spawner.rb	/^  attr_accessor :max_cooldown$/;"	A	class:SpawnerBehavior
+max_cooldown=	app/factories/spawner.rb	/^  attr_accessor :max_cooldown$/;"	A	class:SpawnerBehavior
+max_ids	app/component_registry.rb	/^  attr_accessor :id, :max_ids, :name, :view$/;"	A	class:ComponentRegistry
+max_ids=	app/component_registry.rb	/^  attr_accessor :id, :max_ids, :name, :view$/;"	A	class:ComponentRegistry
+megainspect	app/init/tools.rb	/^  def self.megainspect obj$/;"	S	module:Tools
+megainspect	foo.rb	/^def megainspect obj$/;"	f
+message	app/components/behavior.rb	/^  attr_accessor :ent, :type, :state, :info, :handled, :container, :message$/;"	A	class:BehaviorSignal
+message=	app/components/behavior.rb	/^  attr_accessor :ent, :type, :state, :info, :handled, :container, :message$/;"	A	class:BehaviorSignal
+mobile	app/components/player_behavior.rb	/^  attr_accessor :speed, :weapon, :mobile$/;"	A	class:PlayerBehavior
+mobile	app/factories/steelclad_factory.rb	/^  attr_accessor :speed, :mobile$/;"	A	class:SteelcladBehavior
+mobile=	app/components/player_behavior.rb	/^  attr_accessor :speed, :weapon, :mobile$/;"	A	class:PlayerBehavior
+mobile=	app/factories/steelclad_factory.rb	/^  attr_accessor :speed, :mobile$/;"	A	class:SteelcladBehavior
+move	app/components/player_behavior2.rb	/^    def move args $/;"	f	class:PlayerSubBehaviors.Move
+move_to_hero	app/systems/behavior_mods.rb	/^  def move_to_hero args$/;"	f	module:Mob4d
+msg	app/world/world_tick.rb	/^  def msg$/;"	f	class:World
+name	app/component_registry.rb	/^  attr_accessor :id, :max_ids, :name, :view$/;"	A	class:ComponentRegistry
+name	app/components/anim.rb	/^  attr_accessor :name, :ent, :angle, :duration, :end_action, :state, :color$/;"	A	class:Anim
+name	app/components/behavior.rb	/^  attr_accessor :name, :enabled, :status, :sub_behaviors, :group, :cooldown, :duration$/;"	A	class:Behavior
+name	app/components/components.rb	/^  attr_accessor :name$/;"	A	class:Team
+name	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+name=	app/component_registry.rb	/^  attr_accessor :id, :max_ids, :name, :view$/;"	A	class:ComponentRegistry
+name=	app/components/anim.rb	/^  attr_accessor :name, :ent, :angle, :duration, :end_action, :state, :color$/;"	A	class:Anim
+name=	app/components/behavior.rb	/^  attr_accessor :name, :enabled, :status, :sub_behaviors, :group, :cooldown, :duration$/;"	A	class:Behavior
+name=	app/components/components.rb	/^  attr_accessor :name$/;"	A	class:Team
+name=	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+new_entity_id	app/component_registry.rb	/^  def new_entity_id$/;"	f	class:ComponentRegistry
+normalize	app/init/tools.rb	/^  def self.normalize vector$/;"	S	module:Tools
+offset	app/components/collider.rb	/^  attr_accessor :xform, :offset, :collides_with$/;"	A	class:Collider
+offset=	app/components/collider.rb	/^  attr_accessor :xform, :offset, :collides_with$/;"	A	class:Collider
+on_collision	app/components/behavior.rb	/^  def on_collision args, info;end$/;"	f	class:Behavior
+on_collision	app/components/player_behavior2.rb	/^    def on_collision args, **info$/;"	f	class:PlayerSubBehaviors.Move
+on_collision	app/components/spell_behavior.rb	/^  def on_collision args, **info$/;"	f	class:FireballBehavior
+on_collision	app/components/spell_behavior.rb	/^  def on_collision args, **info$/;"	f	class:SpellBehavior
+on_collision	app/factories/spawner.rb	/^  def on_collision args, **info$/;"	f	class:SpawnerBehavior
+on_collision	app/factories/steelclad_factory.rb	/^  def on_collision args, **info$/;"	f	class:SteelcladBehavior
+on_collision	app/factories/trigger_factory.rb	/^  def on_collision args, **info$/;"	f	class:TriggerBehavior
+on_key_down	app/components/behavior.rb	/^  def on_key_down args;end$/;"	f	class:Behavior
+on_key_down	app/components/player_behavior.rb	/^    def on_key_down args$/;"	f	class:PlayerSubBehaviors.Talk
+on_key_down	app/components/player_behavior.rb	/^  def on_key_down args$/;"	f	class:PlayerBehavior
+on_key_down	app/components/player_behavior2.rb	/^    def on_key_down args$/;"	f	class:PlayerSubBehaviors.Move
+on_mouse_down	app/components/behavior.rb	/^  def on_mouse_down args;end$/;"	f	class:Behavior
+on_mouse_down	app/components/player_behavior.rb	/^    def on_mouse_down args$/;"	f	class:PlayerSubBehaviors.Talk
+on_mouse_down	app/components/player_behavior.rb	/^  def on_mouse_down args$/;"	f	class:PlayerBehavior
+on_mouse_down	app/components/player_behavior2.rb	/^    def on_mouse_down args$/;"	f	class:PlayerSubBehaviors.IceMissile
+on_tick	app/components/behavior.rb	/^  def on_tick args;end$/;"	f	class:Behavior
+on_tick	app/components/player_behavior.rb	/^    def on_tick args$/;"	f	class:PlayerSubBehaviors.Default
+on_tick	app/components/player_behavior.rb	/^    def on_tick args$/;"	f	class:PlayerSubBehaviors.Talk
+on_tick	app/components/player_behavior.rb	/^  def on_tick args$/;"	f	class:PlayerBehavior
+on_tick	app/components/spell_behavior.rb	/^  def on_tick args$/;"	f	class:SpellBehavior
+on_tick	app/factories/event_factory.rb	/^  def on_tick args$/;"	f	class:EventBehavior
+on_tick	app/factories/spawner.rb	/^  def on_tick args$/;"	f	class:SpawnerBehavior
+on_tick	app/systems/behavior_mods.rb	/^  def on_tick args$/;"	f	module:Mob4d
+on_tick	app/world/level1.rb	/^    def on_tick args$/;"	f	class:Level1.GameStart
+on_tick	app/world/level1.rb	/^    def on_tick args$/;"	f	class:Level1.LevelBehavior
+on_tick	app/world/level1.rb	/^    def on_tick args$/;"	f	class:Level1.TriggerMissile
+on_tick	app/world/level1.rb	/^    def on_tick args$/;"	f	class:Level1.TriggerPolite
+on_tick	app/world/level1.rb	/^    def on_tick args$/;"	f	class:Level1.TriggerStern
+on_zero_health	app/factories/spawner.rb	/^  def on_zero_health args$/;"	f	class:SpawnerBehavior
+on_zero_health	app/factories/steelclad_factory.rb	/^  def on_zero_health args$/;"	f	class:SteelcladBehavior
+only_animation	app/world/world_tick.rb	/^  def only_animation$/;"	f	class:World
+only_animation_render	app/world/world_tick.rb	/^  def only_animation_render$/;"	f	class:World
+only_render	app/world/world_tick.rb	/^  def only_render$/;"	f	class:World
+path	app/components/anim.rb	/^  attr_accessor :path, :angle$/;"	A	class:Frame
+path	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+path=	app/components/anim.rb	/^  attr_accessor :path, :angle$/;"	A	class:Frame
+path=	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+pause	app/systems/animation.rb	/^  def pause anim$/;"	f	class:AnimSystem
+pause_world	app/components/behavior.rb	/^  def pause_world args$/;"	f	class:Behavior
+play	app/systems/animation.rb	/^  def play anim$/;"	f	class:AnimSystem
+r	app/components/components.rb	/^  attr_accessor :r, :g, :b, :a$/;"	A	class:Color
+r=	app/components/components.rb	/^  attr_accessor :r, :g, :b, :a$/;"	A	class:Color
+reads	app/systems/system.rb	/^  attr_accessor :reads, :writes, :enabled$/;"	A	class:System
+reads=	app/systems/system.rb	/^  attr_accessor :reads, :writes, :enabled$/;"	A	class:System
+rect	app/components/collider.rb	/^  def rect$/;"	f	class:Collider
+rect	app/components/components.rb	/^  def rect$/;"	f	class:Xform
+red	app/init/tools.rb	/^  def red;            "\\e[31m#{self}\\e[0m" end$/;"	f	class:String
+render_background	app/systems/render_solids.rb	/^  def render_background args$/;"	f	class:RenderSolids
+render_background	app/systems/render_static_solids.rb	/^  def render_background args$/;"	f	class:RenderStaticSolids
+render_labels	app/systems/render_solids.rb	/^  def render_labels args$/;"	f	class:RenderSolids
+render_labels	app/systems/render_sprites.rb	/^  def render_labels args$/;"	f	class:RenderSprites
+render_labels	app/systems/render_static_solids.rb	/^  def render_labels args$/;"	f	class:RenderStaticSolids
+render_map	app/world/world_init.rb	/^  def render_map args$/;"	f	module:InitWorld
+render_solids	app/systems/render_solids.rb	/^  def render_solids args$/;"	f	class:RenderSolids
+render_solids	app/systems/render_static_solids.rb	/^  def render_solids args$/;"	f	class:RenderStaticSolids
+render_sprites	app/systems/render_sprites.rb	/^  def render_sprites args$/;"	f	class:RenderSprites
+render_trees	app/world/world_init.rb	/^  def render_trees args$/;"	f	module:InitWorld
+report2	app/tick.rb	/^def report2 args$/;"	f
+requirements	app/systems/system.rb	/^  def requirements$/;"	f	class:System
+reset_anim	app/systems/animation.rb	/^  def reset_anim anim$/;"	f	class:AnimSystem
+resume_world	app/components/behavior.rb	/^  def resume_world args$/;"	f	class:Behavior
+reverse_color	app/init/tools.rb	/^  def reverse_color;  "\\e[7m#{self}\\e[27m" end$/;"	f	class:String
+s:l	Session.vim	/^let s:l = 33 - ((32 * winheight(0) + 27) \/ 55)$/;"	v
+s:l	Session.vim	/^let s:l = 6 - ((5 * winheight(0) + 27) \/ 55)$/;"	v
+s:l	Session.vim	/^let s:l = 61 - ((27 * winheight(0) + 27) \/ 55)$/;"	v
+s:l	Session.vim	/^let s:l = 71 - ((30 * winheight(0) + 27) \/ 55)$/;"	v
+s:so_save	Session.vim	/^let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0$/;"	v
+s:sx	Session.vim	/^let s:sx = expand("<sfile>:p:r")."x.vim"$/;"	v
+s:wipebuf	Session.vim	/^  let s:wipebuf = bufnr('%')$/;"	v
+set_dest	app/components/behavior.rb	/^  def set_dest args, dest_vector$/;"	f	class:Behavior
+set_dir	app/init/tools.rb	/^  def self.set_dir xform, dest_vector$/;"	S	module:Tools
+set_missile_angle	app/factories/spell_factory.rb	/^    def set_missile_angle vec1, vec2$/;"	S	class:MissileFactory
+shoot_fireball_at	app/components/player_behavior2.rb	/^    def shoot_fireball_at args, target$/;"	f	class:PlayerSubBehaviors.Fireball
+shoot_ice_missile	app/components/player_behavior2.rb	/^    def shoot_ice_missile args$/;"	f	class:PlayerSubBehaviors.IceMissile
+speed	app/components/player_behavior.rb	/^  attr_accessor :speed, :weapon, :mobile$/;"	A	class:PlayerBehavior
+speed	app/components/spell_behavior.rb	/^  attr_accessor :dirx, :diry,:speed$/;"	A	class:SpellBehavior
+speed	app/factories/steelclad_factory.rb	/^  attr_accessor :speed, :mobile$/;"	A	class:SteelcladBehavior
+speed=	app/components/player_behavior.rb	/^  attr_accessor :speed, :weapon, :mobile$/;"	A	class:PlayerBehavior
+speed=	app/components/spell_behavior.rb	/^  attr_accessor :dirx, :diry,:speed$/;"	A	class:SpellBehavior
+speed=	app/factories/steelclad_factory.rb	/^  attr_accessor :speed, :mobile$/;"	A	class:SteelcladBehavior
+state	app/components/anim.rb	/^  attr_accessor :name, :ent, :angle, :duration, :end_action, :state, :color$/;"	A	class:Anim
+state	app/components/behavior.rb	/^  attr_accessor :ent, :type, :state, :info, :handled, :container, :message$/;"	A	class:BehaviorSignal
+state	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+state=	app/components/anim.rb	/^  attr_accessor :name, :ent, :angle, :duration, :end_action, :state, :color$/;"	A	class:Anim
+state=	app/components/behavior.rb	/^  attr_accessor :ent, :type, :state, :info, :handled, :container, :message$/;"	A	class:BehaviorSignal
+state=	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+status	app/components/behavior.rb	/^  attr_accessor :name, :enabled, :status, :sub_behaviors, :group, :cooldown, :duration$/;"	A	class:Behavior
+status=	app/components/behavior.rb	/^  attr_accessor :name, :enabled, :status, :sub_behaviors, :group, :cooldown, :duration$/;"	A	class:Behavior
+stop	app/systems/animation.rb	/^  def stop anim$/;"	f	class:AnimSystem
+sub_behaviors	app/components/behavior.rb	/^  attr_accessor :name, :enabled, :status, :sub_behaviors, :group, :cooldown, :duration$/;"	A	class:Behavior
+sub_behaviors=	app/components/behavior.rb	/^  attr_accessor :name, :enabled, :status, :sub_behaviors, :group, :cooldown, :duration$/;"	A	class:Behavior
+subset?	app/init/tools.rb	/^  def self.subset? $/;"	S	module:Tools
+system_check	app/world/world_tick.rb	/^  def system_check$/;"	f	class:World
+take_damage	app/factories/spawner.rb	/^  def take_damage$/;"	f	class:SpawnerBehavior
+take_damage	app/factories/steelclad_factory.rb	/^  def take_damage$/;"	f	class:SteelcladBehavior
+target_containergt	app/factories/trigger_factory.rb	/^  attr_accessor :target_ent, :target_containergt$/;"	A	class:TriggerBehavior
+target_containergt=	app/factories/trigger_factory.rb	/^  attr_accessor :target_ent, :target_containergt$/;"	A	class:TriggerBehavior
+target_ent	app/factories/trigger_factory.rb	/^  attr_accessor :target_ent, :target_containergt$/;"	A	class:TriggerBehavior
+target_ent=	app/factories/trigger_factory.rb	/^  attr_accessor :target_ent, :target_containergt$/;"	A	class:TriggerBehavior
+test_universe	app/tests/tests.rb	/^def test_universe args, assert$/;"	f
+tick	app/systems/animation.rb	/^  def tick args, reg$/;"	f	class:AnimSystem
+tick	app/systems/behavior.rb	/^  def tick args, reg$/;"	f	class:BehaviorSystem
+tick	app/systems/cleanup.rb	/^  def tick args, reg$/;"	f	class:Cleanup
+tick	app/systems/collision.rb	/^  def tick args, reg$/;"	f	class:Collision
+tick	app/systems/health.rb	/^  def tick args, reg$/;"	f	class:HealthSystem
+tick	app/systems/input_system.rb	/^  def tick args, reg$/;"	f	class:InputSystem
+tick	app/systems/render_solids.rb	/^  def tick args, reg$/;"	f	class:RenderSolids
+tick	app/systems/render_sprites.rb	/^  def tick args, reg$/;"	f	class:RenderSprites
+tick	app/systems/render_static_solids.rb	/^  def tick args, reg$/;"	f	class:RenderStaticSolids
+tick	app/systems/system.rb	/^  def tick args, reg$/;"	f	class:System
+tick	app/tests/tests.rb	/^  def tick$/;"	f	class:MySuperHappyFunGame
+tick	app/tick.rb	/^def tick args$/;"	f
+tick	app/world/world_tick.rb	/^  def tick$/;"	f	class:World
+to_h	app/components/anim.rb	/^  def to_h$/;"	f	class:Anim
+to_h	app/components/anim.rb	/^  def to_h$/;"	f	class:Frame
+to_h	app/components/components.rb	/^  def to_h$/;"	f	class:Color
+to_h	app/components/components.rb	/^  def to_h$/;"	f	class:Team
+to_h	app/components/components.rb	/^  def to_h$/;"	f	class:Xform
+type	app/components/behavior.rb	/^  attr_accessor :ent, :type, :state, :info, :handled, :container, :message$/;"	A	class:BehaviorSignal
+type=	app/components/behavior.rb	/^  attr_accessor :ent, :type, :state, :info, :handled, :container, :message$/;"	A	class:BehaviorSignal
+underline	app/init/tools.rb	/^  def underline;      "\\e[4m#{self}\\e[24m" end$/;"	f	class:String
+unfreeze	app/components/player_behavior.rb	/^    def unfreeze$/;"	f	class:PlayerSubBehaviors.Talk
+up	app/components/anim.rb	/^  attr_accessor :frames, :up, :upframes$/;"	A	class:Anim
+up	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+up=	app/components/anim.rb	/^  attr_accessor :frames, :up, :upframes$/;"	A	class:Anim
+up=	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+upframes	app/components/anim.rb	/^  attr_accessor :frames, :up, :upframes$/;"	A	class:Anim
+upframes	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+upframes=	app/components/anim.rb	/^  attr_accessor :frames, :up, :upframes$/;"	A	class:Anim
+upframes=	app/init/init_anims.rb	/^  attr_accessor :name, :ent, :angle, :path, :frames, :up,  :upframes, :duration, :loop, :state$/;"	A	class:AnimTemplate
+view	app/component_registry.rb	/^  attr_accessor :id, :max_ids, :name, :view$/;"	A	class:ComponentRegistry
+view=	app/component_registry.rb	/^  attr_accessor :id, :max_ids, :name, :view$/;"	A	class:ComponentRegistry
+views?	app/component_registry.rb	/^  def views? requirements$/;"	f	class:ComponentRegistry
+w	app/components/components.rb	/^  attr_accessor :x, :y, :w, :h$/;"	A	class:Xform
+w=	app/components/components.rb	/^  attr_accessor :x, :y, :w, :h$/;"	A	class:Xform
+wait_for_key	app/world/world_tick.rb	/^  def wait_for_key$/;"	f	class:World
+weapon	app/components/player_behavior.rb	/^  attr_accessor :speed, :weapon, :mobile$/;"	A	class:PlayerBehavior
+weapon=	app/components/player_behavior.rb	/^  attr_accessor :speed, :weapon, :mobile$/;"	A	class:PlayerBehavior
+writes	app/systems/system.rb	/^  attr_accessor :reads, :writes, :enabled$/;"	A	class:System
+writes=	app/systems/system.rb	/^  attr_accessor :reads, :writes, :enabled$/;"	A	class:System
+x	app/components/components.rb	/^  attr_accessor :x, :y, :w, :h$/;"	A	class:Xform
+x=	app/components/components.rb	/^  attr_accessor :x, :y, :w, :h$/;"	A	class:Xform
+xform	app/components/collider.rb	/^  attr_accessor :xform, :offset, :collides_with$/;"	A	class:Collider
+xform	app/factories/adept_factory.rb	/^    def xform args, **opts$/;"	S	class:AdeptFactory
+xform	app/factories/being_factory.rb	/^    def xform args, **opts$/;"	S	class:BeingFactory
+xform	app/factories/block_factory.rb	/^    def xform args, **opts$/;"	S	class:BlockFactory
+xform	app/factories/factory.rb	/^    def xform args, opts$/;"	S	class:Factory
+xform	app/factories/spell_factory.rb	/^    def xform args, **opts$/;"	S	class:MissileFactory
+xform	app/factories/trigger_factory.rb	/^    def xform args, **opts$/;"	S	class:TriggerFactory
+xform=	app/components/collider.rb	/^  attr_accessor :xform, :offset, :collides_with$/;"	A	class:Collider
+y	app/components/components.rb	/^  attr_accessor :x, :y, :w, :h$/;"	A	class:Xform
+y=	app/components/components.rb	/^  attr_accessor :x, :y, :w, :h$/;"	A	class:Xform

@@ -7,6 +7,7 @@ class BeingFactory < Factory
         xform: @xform,
         collider: Collider.new(xform: @xform, collides_with: []),
 
+        anim: anim(args, opts),
         anim_group: anim_group(args, opts),
         behavior: behavior(args, opts),
         color: color(args,opts),
